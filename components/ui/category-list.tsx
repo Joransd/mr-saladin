@@ -55,14 +55,17 @@ export const CategoryList = ({
               className="relative group"
               onMouseEnter={() => setHoveredItem(category.id)}
               onMouseLeave={() => setHoveredItem(null)}
-              onClick={category.onClick}
+              onClick={() => {
+                setHoveredItem((prev) => (prev === category.id ? null : category.id));
+                category.onClick?.();
+              }}
             >
               <div
                 className={cn(
                   "relative overflow-hidden border bg-[rgba(255,255,255,0.02)] transition-all duration-300 ease-in-out cursor-pointer",
                   hoveredItem === category.id
-                    ? "h-32 border-[#DA7757] shadow-lg shadow-[rgba(218,119,87,0.2)] bg-[rgba(218,119,87,0.05)]"
-                    : "h-24 border-[rgba(255,255,255,0.1)] hover:border-[rgba(218,119,87,0.4)]"
+                    ? "min-h-[7rem] py-5 border-[#DA7757] shadow-lg shadow-[rgba(218,119,87,0.2)] bg-[rgba(218,119,87,0.05)]"
+                    : "min-h-[5rem] py-4 border-[rgba(255,255,255,0.1)] hover:border-[rgba(218,119,87,0.4)]"
                 )}
               >
                 {hoveredItem === category.id && (
@@ -78,7 +81,7 @@ export const CategoryList = ({
                   </>
                 )}
 
-                <div className="flex items-center justify-between h-full px-6 md:px-8">
+                <div className="flex items-center justify-between px-6 md:px-8 gap-4">
                   <div className="flex-1">
                     <h3
                       className={cn(

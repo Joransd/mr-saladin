@@ -75,12 +75,23 @@ function SplitText({ text }: { text: string }) {
   )
 }
 
+const AUTOPLAY_DELAY = 6000
+
 export function Testimonial() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   usePreloadImages(testimonials.map((t) => t.avatar))
+
+  // Auto-advance : pause si hover desktop, repart à chaque changement de slide
+  useEffect(() => {
+    if (isHovered) return
+    const timer = setTimeout(() => {
+      setActiveIndex((prev) => (prev + 1) % testimonials.length)
+    }, AUTOPLAY_DELAY)
+    return () => clearTimeout(timer)
+  }, [activeIndex, isHovered])
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -113,6 +124,7 @@ export function Testimonial() {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(false)}
       onClick={handleNext}
     >
       {/* Custom magnetic cursor */}
@@ -264,26 +276,30 @@ export function Testimonial() {
           </div>
         </motion.div>
 
-        {/* Progress bar */}
+        {/* Progress bar — timer linéaire, repart à 0 à chaque slide */}
         <div className="mt-16 h-px bg-border relative overflow-hidden">
           <motion.div
+            key={activeIndex}
             className="absolute inset-y-0 left-0 bg-accent"
             initial={{ width: "0%" }}
-            animate={{ width: `${((activeIndex + 1) / testimonials.length) * 100}%` }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            animate={{ width: "100%" }}
+            transition={{ duration: AUTOPLAY_DELAY / 1000, ease: "linear" }}
           />
         </div>
       </div>
 
-      {/* Keyboard hint */}
+      {/* Hint navigation */}
       <motion.div
         className="absolute bottom-4 left-8 flex items-center gap-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: isHovered ? 0.4 : 0.2 }}
         transition={{ duration: 0.3 }}
       >
-        <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-mono">
+        <span className="hidden md:block text-[10px] text-muted-foreground uppercase tracking-widest font-mono">
           Cliquer pour naviguer
+        </span>
+        <span className="block md:hidden text-[10px] text-muted-foreground uppercase tracking-widest font-mono">
+          Toucher pour naviguer
         </span>
       </motion.div>
     </div>

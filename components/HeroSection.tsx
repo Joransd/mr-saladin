@@ -42,16 +42,16 @@ export function HeroSection() {
       {/* Subtle radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_50%,rgba(218,119,87,0.07),transparent)]" />
 
-      {/* Logo — centré en haut */}
+      {/* Logo — haut gauche, aligné avec le burger */}
       <div
         data-animate
-        className="absolute top-8 right-8 z-20"
+        className="absolute top-4 left-4 z-20 flex items-center h-12"
       >
         <Image
           src="/logo.svg"
           alt="Joran Saladin"
-          width={56}
-          height={28}
+          width={44}
+          height={22}
           className="brightness-0 invert opacity-70"
           priority
         />
@@ -60,7 +60,7 @@ export function HeroSection() {
       {/* Content — aligné à gauche */}
       <div
         ref={heroRef}
-        className="relative z-10 flex flex-col items-start text-left pl-12 md:pl-20 max-w-5xl"
+        className="relative z-10 flex flex-col items-start text-left pl-12 pr-6 md:pl-20 md:pr-0 max-w-5xl"
       >
         {/* Eyebrow */}
         <div data-animate className="flex items-center gap-3 mb-8">
