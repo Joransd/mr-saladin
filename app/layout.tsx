@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Oswald, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/components/LenisProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -78,6 +79,7 @@ export default function RootLayout({
     >
       <body className="bg-[#020202] text-white antialiased">
         <LenisProvider>{children}</LenisProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
