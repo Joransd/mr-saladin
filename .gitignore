@@ -5,8 +5,8 @@ out/
 # Dependencies
 node_modules/
 
-# Source assets (images originales non optimisées, non servies)
-assets/
+# Source assets (images originales non optimisées, non servies — dossier racine uniquement)
+/assets/
 
 # Environment variables
 .env
