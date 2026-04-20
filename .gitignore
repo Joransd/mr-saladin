@@ -1,0 +1,27 @@
+# Next.js
+.next/
+out/
+
+# Dependencies
+node_modules/
+
+# Source assets (images originales non optimisées, non servies)
+assets/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

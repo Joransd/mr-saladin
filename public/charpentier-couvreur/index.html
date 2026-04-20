@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moreau Charpente & Couverture — Artisan depuis 2004</title>
+  <meta name="description"
+    content="Artisan charpentier-couvreur en Loire-Atlantique. Charpente traditionnelle, couverture ardoise & zinc, maison ossature bois. Devis gratuit." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Josefin+Sans:wght@300;400;600&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            cormorant: ['"Cormorant Garamond"', 'serif'],
+            josefin: ['"Josefin Sans"', 'sans-serif'],
+            courier: ['"Courier Prime"', 'monospace'],
+            lora: ['Lora', 'serif'],
+          },
+          colors: {
+            'bp-dark': '#0a1628',
+            'bp-mid': '#132a4a',
+            'bp-line': '#1e5f8c',
+            'bp-cyan': '#4db8e8',
+            'wood': '#c9873a',
+            'wood-light': '#e8b46a',
+            'cream': '#f5f0e6',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* =========================================================
+       BASE
+    ========================================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0a1628;
+      color: #e8f4f8;
+      font-family: 'Lora', serif;
+      overflow-x: hidden;
+    }
+
+    /* =========================================================
+       SCROLLBAR
+    ========================================================= */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #060e1a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #1e5f8c;
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4db8e8;
+    }
+
+    ::selection {
+      background: rgba(77, 184, 232, 0.25);
+      color: #e8f4f8;
+    }
+
+    /* =========================================================
+       BLUEPRINT GRIDS
+    ========================================================= */
+    .blueprint-grid {
+      background-image:
+        linear-gradient(rgba(30, 95, 140, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 95, 140, 0.18) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .blueprint-grid-fine {
+      background-image:
+        linear-gradient(rgba(30, 95, 140, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 95, 140, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(30, 95, 140, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 95, 140, 0.2) 1px, transparent 1px);
+      background-size: 8px 8px, 8px 8px, 40px 40px, 40px 40px;
+    }
+
+    .blueprint-grid-cream {
+      background-image:
+        linear-gradient(rgba(30, 95, 140, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 95, 140, 0.06) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+    .nav-base {
+      transition: background-color 0.45s ease, border-color 0.45s ease, backdrop-filter 0.45s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav-scrolled {
+      background-color: rgba(6, 14, 26, 0.93) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom-color: rgba(30, 95, 140, 0.35) !important;
+    }
+
+    .nav-link {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(232, 244, 248, 0.65);
+      transition: color 0.3s ease;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #4db8e8;
+      transition: width 0.35s ease;
+    }
+
+    .nav-link:hover {
+      color: #4db8e8;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link.active {
+      color: #c9873a;
+    }
+
+    .nav-link.active::after {
+      width: 100%;
+      background: #c9873a;
+    }
+
+    /* =========================================================
+       MOBILE OVERLAY
+    ========================================================= */
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 14, 26, 0.97);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: translateX(100%);
+      transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .mobile-overlay.open {
+      transform: translateX(0);
+    }
+
+    .mobile-nav-link {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      color: rgba(232, 244, 248, 0.75);
+      padding: 0.4rem 0;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav-link:hover {
+      color: #4db8e8;
+    }
+
+    /* =========================================================
+       SVG DRAW ANIMATION
+    ========================================================= */
+    .draw-path {
+      stroke-dasharray: 3000;
+      stroke-dashoffset: 3000;
+      animation: drawLine 2.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    }
+
+    .draw-d1 {
+      animation-delay: 0.2s;
+    }
+
+    .draw-d2 {
+      animation-delay: 0.7s;
+    }
+
+    .draw-d3 {
+      animation-delay: 1.1s;
+    }
+
+    .draw-d4 {
+      animation-delay: 1.5s;
+    }
+
+    .draw-d5 {
+      animation-delay: 1.9s;
+    }
+
+    @keyframes drawLine {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+    .hero-section {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 9vw, 7.5rem);
+      font-weight: 700;
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #4db8e8;
+    }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+    .btn-primary {
+      display: inline-block;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      background: #c9873a;
+      color: #0a1628;
+      padding: 0.95rem 2.4rem;
+      border: 1px solid #c9873a;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.12);
+      transition: left 0.45s ease;
+    }
+
+    .btn-primary:hover {
+      background: #e8b46a;
+      border-color: #e8b46a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(201, 135, 58, 0.3);
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-outline {
+      display: inline-block;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      background: transparent;
+      color: #e8f4f8;
+      padding: 0.95rem 2.4rem;
+      border: 1px solid rgba(232, 244, 248, 0.3);
+      cursor: pointer;
+      transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: #4db8e8;
+      color: #4db8e8;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-dark {
+      display: inline-block;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: transparent;
+      color: rgba(26, 18, 8, 0.55);
+      padding: 0.9rem 2rem;
+      border: 1px solid rgba(30, 95, 140, 0.3);
+      cursor: pointer;
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-outline-dark:hover {
+      border-color: #1e5f8c;
+      color: #1e5f8c;
+    }
+
+    /* =========================================================
+       SECTION LABELS & TITLES
+    ========================================================= */
+    .section-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(77, 184, 232, 0.55);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 2rem;
+      height: 1px;
+      background: rgba(77, 184, 232, 0.35);
+      flex-shrink: 0;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(77, 184, 232, 0.12);
+    }
+
+    .section-label-dark {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(30, 95, 140, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label-dark::before {
+      content: '';
+      width: 2rem;
+      height: 1px;
+      background: rgba(30, 95, 140, 0.35);
+      flex-shrink: 0;
+    }
+
+    .section-label-dark::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(30, 95, 140, 0.12);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 600;
+      line-height: 1.08;
+    }
+
+    /* =========================================================
+       SERVICE CARDS
+    ========================================================= */
+    .service-card {
+      position: relative;
+      background: #132a4a;
+      border: 1px solid rgba(30, 95, 140, 0.35);
+      padding: 2.5rem;
+      overflow: hidden;
+      transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(30, 95, 140, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 95, 140, 0.08) 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .service-card:hover {
+      border-color: rgba(77, 184, 232, 0.7);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 60px rgba(6, 14, 26, 0.6), 0 0 40px rgba(77, 184, 232, 0.08);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-number {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      color: rgba(77, 184, 232, 0.4);
+    }
+
+    .service-icon {
+      width: 3rem;
+      height: 3rem;
+      color: #4db8e8;
+      margin-bottom: 1.5rem;
+      transition: color 0.35s ease;
+    }
+
+    .service-card:hover .service-icon {
+      color: #c9873a;
+    }
+
+    .service-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: #e8f4f8;
+      margin-bottom: 0.8rem;
+    }
+
+    .service-card-desc {
+      font-family: 'Lora', serif;
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: rgba(232, 244, 248, 0.6);
+    }
+
+    .service-card-footer {
+      margin-top: 1.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(30, 95, 140, 0.25);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: rgba(77, 184, 232, 0.45);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* =========================================================
+       PORTFOLIO
+    ========================================================= */
+    .pf-filter-btn {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid rgba(30, 95, 140, 0.35);
+      color: rgba(232, 244, 248, 0.5);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pf-filter-btn:hover {
+      border-color: #4db8e8;
+      color: #4db8e8;
+    }
+
+    .pf-filter-btn.active {
+      border-color: #c9873a;
+      color: #c9873a;
+      background: rgba(201, 135, 58, 0.08);
+    }
+
+    .pf-item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      cursor: pointer;
+    }
+
+    .pf-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.65s ease;
+      display: block;
+    }
+
+    .pf-item:hover img {
+      transform: scale(1.09);
+    }
+
+    .pf-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6, 14, 26, 0.96) 0%, rgba(6, 14, 26, 0.4) 50%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+    }
+
+    .pf-item:hover .pf-overlay {
+      opacity: 1;
+    }
+
+    /* Blueprint corners on hover */
+    .pf-item::before,
+    .pf-item::after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      width: 18px;
+      height: 18px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .pf-item::before {
+      top: 10px;
+      left: 10px;
+      border-top: 1px solid #4db8e8;
+      border-left: 1px solid #4db8e8;
+    }
+
+    .pf-item::after {
+      bottom: 10px;
+      right: 10px;
+      border-bottom: 1px solid #4db8e8;
+      border-right: 1px solid #4db8e8;
+    }
+
+    .pf-item:hover::before,
+    .pf-item:hover::after {
+      opacity: 1;
+    }
+
+    .pf-tag {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      color: #4db8e8;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+
+    .pf-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #e8f4f8;
+    }
+
+    .pf-meta {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: rgba(201, 135, 58, 0.9);
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    /* =========================================================
+       DEVIS FORM
+    ========================================================= */
+    .devis-wrap {
+      background: #f5f0e6;
+      color: #1a1208;
+    }
+
+    .devis-progress-track {
+      height: 2px;
+      background: rgba(30, 95, 140, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .devis-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1e5f8c, #4db8e8);
+      transition: width 0.55s ease;
+    }
+
+    .step-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(30, 95, 140, 0.55);
+    }
+
+    .field-label {
+      display: block;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(26, 18, 8, 0.55);
+      margin-bottom: 0.4rem;
+    }
+
+    .field-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(30, 95, 140, 0.22);
+      padding: 0.75rem 1rem;
+      font-family: 'Lora', serif;
+      font-size: 0.88rem;
+      color: #1a1208;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .field-input:focus {
+      border-color: #1e5f8c;
+      box-shadow: 0 0 0 3px rgba(30, 95, 140, 0.1);
+    }
+
+    .field-select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(30, 95, 140, 0.22);
+      padding: 0.75rem 1rem;
+      font-family: 'Lora', serif;
+      font-size: 0.88rem;
+      color: #1a1208;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='%231e5f8c' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 12px;
+    }
+
+    .field-select:focus {
+      border-color: #1e5f8c;
+    }
+
+    .type-btn {
+      border: 1px solid rgba(30, 95, 140, 0.22);
+      padding: 1.25rem 1rem;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .type-btn:hover {
+      border-color: #1e5f8c;
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .type-btn.selected {
+      border-color: #c9873a;
+      background: rgba(201, 135, 58, 0.07);
+    }
+
+    .type-btn-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1a1208;
+      margin-top: 0.5rem;
+    }
+
+    .type-btn-desc {
+      font-family: 'Lora', serif;
+      font-size: 0.72rem;
+      color: rgba(26, 18, 8, 0.45);
+      margin-top: 0.2rem;
+    }
+
+    .recap-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(30, 95, 140, 0.12);
+    }
+
+    .recap-key {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(26, 18, 8, 0.45);
+    }
+
+    .recap-val {
+      font-family: 'Lora', serif;
+      font-size: 0.85rem;
+      color: #1a1208;
+    }
+
+    /* =========================================================
+       ABOUT
+    ========================================================= */
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.8rem;
+      font-weight: 700;
+      color: #4db8e8;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(232, 244, 248, 0.4);
+      margin-top: 0.3rem;
+    }
+
+    /* =========================================================
+       CONTACT
+    ========================================================= */
+    .contact-row {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(30, 95, 140, 0.18);
+    }
+
+    .contact-key {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(77, 184, 232, 0.5);
+      min-width: 80px;
+      padding-top: 2px;
+    }
+
+    .contact-val {
+      font-family: 'Lora', serif;
+      font-size: 0.88rem;
+      color: rgba(232, 244, 248, 0.78);
+      line-height: 1.6;
+    }
+
+    /* =========================================================
+       BLUEPRINT ANNOTATION
+    ========================================================= */
+    .bp-note {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      color: rgba(77, 184, 232, 0.45);
+      border-left: 2px solid rgba(77, 184, 232, 0.2);
+      padding-left: 0.85rem;
+      line-height: 1.7;
+    }
+
+    .bp-badge {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(77, 184, 232, 0.35);
+      padding: 0.22rem 0.6rem;
+      color: rgba(77, 184, 232, 0.75);
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    /* =========================================================
+       CORNER MARKS
+    ========================================================= */
+    .cm {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+    }
+
+    .cm-tl {
+      top: 1rem;
+      left: 1rem;
+      border-top: 1px solid rgba(77, 184, 232, 0.35);
+      border-left: 1px solid rgba(77, 184, 232, 0.35);
+    }
+
+    .cm-br {
+      bottom: 1rem;
+      right: 1rem;
+      border-bottom: 1px solid rgba(77, 184, 232, 0.35);
+      border-right: 1px solid rgba(77, 184, 232, 0.35);
+    }
+
+    .cm-tr {
+      top: 1rem;
+      right: 1rem;
+      border-top: 1px solid rgba(77, 184, 232, 0.35);
+      border-right: 1px solid rgba(77, 184, 232, 0.35);
+    }
+
+    .cm-bl {
+      bottom: 1rem;
+      left: 1rem;
+      border-bottom: 1px solid rgba(77, 184, 232, 0.35);
+      border-left: 1px solid rgba(77, 184, 232, 0.35);
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    .footer-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(30, 95, 140, 0.4), transparent);
+    }
+
+    /* =========================================================
+       SCROLL REVEAL
+    ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(38px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-l {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal-l.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-r {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal-r.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* =========================================================
+       HERO SVG — HOUSE ASSEMBLY ANIMATION
+       Each layer appears in sequence, bottom to top like
+       real construction (fondation → murs → fermette → couverture)
+    ========================================================= */
+    @keyframes asmFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes asmFade {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .asm {
+      opacity: 0;
+    }
+
+    .asm-1 {
+      animation: asmFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both 0.1s;
+    }
+
+    .asm-2 {
+      animation: asmFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both 0.55s;
+    }
+
+    .asm-3 {
+      animation: asmFade 0.6s ease both 1.0s;
+    }
+
+    .asm-4 {
+      animation: asmFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both 1.4s;
+    }
+
+    .asm-5 {
+      animation: asmFade 0.5s ease both 1.85s;
+    }
+
+    .asm-6 {
+      animation: asmFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both 2.15s;
+    }
+
+    .asm-7 {
+      animation: asmFade 0.8s ease both 2.7s;
+    }
+
+    .asm-8 {
+      animation: asmFade 0.9s ease both 3.1s;
+    }
+
+    .asm-9 {
+      animation: asmFade 0.7s ease both 3.6s;
+    }
+
+    /* =========================================================
+       VUE TRANSITIONS
+    ========================================================= */
+    .slide-enter-active,
+    .slide-leave-active {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .slide-enter-from {
+      opacity: 0;
+      transform: translateX(28px);
+    }
+
+    .slide-leave-to {
+      opacity: 0;
+      transform: translateX(-28px);
+    }
+
+    /* =========================================================
+       VUE TRANSITIONS — Portfolio filter
+    ========================================================= */
+    .pf-enter-active {
+      transition: opacity 0.45s ease;
+    }
+
+    .pf-leave-active {
+      transition: opacity 0.25s ease;
+    }
+
+    .pf-enter-from {
+      opacity: 0;
+    }
+
+    .pf-leave-to {
+      opacity: 0;
+    }
+
+    /* =========================================================
+       MISC UTILS
+    ========================================================= */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: clamp(2.8rem, 14vw, 4.5rem);
+      }
+
+      .service-card {
+        padding: 1.75rem;
+      }
+    }
+
+    /* Fade-in hero content */
+    .hero-fade-1 {
+      animation: fadeUp 0.9s ease forwards;
+      animation-delay: 0.1s;
+      opacity: 0;
+    }
+
+    .hero-fade-2 {
+      animation: fadeUp 0.9s ease forwards;
+      animation-delay: 0.3s;
+      opacity: 0;
+    }
+
+    .hero-fade-3 {
+      animation: fadeUp 0.9s ease forwards;
+      animation-delay: 0.55s;
+      opacity: 0;
+    }
+
+    .hero-fade-4 {
+      animation: fadeUp 0.9s ease forwards;
+      animation-delay: 0.75s;
+      opacity: 0;
+    }
+
+    .hero-fade-5 {
+      animation: fadeUp 0.9s ease forwards;
+      animation-delay: 0.95s;
+      opacity: 0;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Grid animation for hero bg */
+    .hero-grid-anim {
+      animation: gridAppear 1.5s ease forwards;
+    }
+
+    @keyframes gridAppear {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- =====================================================
+       NAVIGATION
+  ===================================================== -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-base" :class="{ 'nav-scrolled': scrolled }">
+      <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+        <!-- Logo -->
+        <a href="#hero" class="flex items-center gap-3 group" @click.prevent="scrollTo('hero')">
+          <svg viewBox="0 0 40 36" class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" style="color: #4db8e8; transition: color 0.3s ease;"
+            @mouseenter="$event.currentTarget.style.color='#c9873a'"
+            @mouseleave="$event.currentTarget.style.color='#4db8e8'">
+            <path d="M20 2 L38 18 L38 34 L2 34 L2 18 Z" />
+            <path d="M14 34 L14 23 L26 23 L26 34" />
+            <line x1="20" y1="2" x2="20" y2="10" stroke-width="0.8" opacity="0.5" />
+            <line x1="8" y1="27" x2="8" y2="34" stroke-width="0.8" opacity="0.4" />
+            <line x1="32" y1="27" x2="32" y2="34" stroke-width="0.8" opacity="0.4" />
+          </svg>
+          <div>
+            <div class="font-cormorant text-sm font-semibold leading-none tracking-wide" style="color: #f5f0e6;">Moreau
+              Père & Fils</div>
+            <div class="font-josefin text-[0.52rem] tracking-[0.2em] uppercase"
+              style="color: rgba(77, 184, 232, 0.65);">Charpente &amp; Couverture</div>
+          </div>
+        </a>
+
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#services" class="nav-link" :class="{ active: activeSection === 'services'  }"
+            @click.prevent="scrollTo('services')">Services</a>
+          <a href="#portfolio" class="nav-link" :class="{ active: activeSection === 'portfolio' }"
+            @click.prevent="scrollTo('portfolio')">Réalisations</a>
+          <a href="#about" class="nav-link" :class="{ active: activeSection === 'about'     }"
+            @click.prevent="scrollTo('about')">À Propos</a>
+          <a href="#contact" class="nav-link" :class="{ active: activeSection === 'contact'   }"
+            @click.prevent="scrollTo('contact')">Contact</a>
+          <a href="#devis" class="btn-primary py-2.5 px-5 text-xs" @click.prevent="scrollTo('devis')">Devis Gratuit</a>
+        </div>
+
+        <!-- Hamburger -->
+        <button class="md:hidden flex flex-col gap-1.5 p-2 cursor-pointer" @click="navOpen = !navOpen"
+          aria-label="Menu">
+          <span class="block w-6 h-px bg-cream transition-all duration-300"
+            :style="navOpen ? 'transform: rotate(45deg) translate(0, 6px)' : ''"></span>
+          <span class="block w-6 h-px bg-cream transition-all duration-300" :style="navOpen ? 'opacity: 0' : ''"></span>
+          <span class="block w-6 h-px bg-cream transition-all duration-300"
+            :style="navOpen ? 'transform: rotate(-45deg) translate(0, -6px)' : ''"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile overlay -->
+    <div class="mobile-overlay" :class="{ open: navOpen }">
+      <div class="cm cm-tl"></div>
+      <div class="cm cm-br"></div>
+      <div class="flex flex-col items-center gap-1 text-center">
+        <a href="#services" class="mobile-nav-link" @click.prevent="scrollTo('services');  navOpen = false">Services</a>
+        <a href="#portfolio" class="mobile-nav-link"
+          @click.prevent="scrollTo('portfolio'); navOpen = false">Réalisations</a>
+        <a href="#about" class="mobile-nav-link" @click.prevent="scrollTo('about');     navOpen = false">À Propos</a>
+        <a href="#contact" class="mobile-nav-link" @click.prevent="scrollTo('contact');   navOpen = false">Contact</a>
+        <a href="#devis" class="mt-5 btn-primary" @click.prevent="scrollTo('devis');    navOpen = false">Devis
+          Gratuit</a>
+      </div>
+      <div class="absolute bottom-8 font-courier text-[0.58rem] tracking-widest"
+        style="color: rgba(77, 184, 232, 0.25);">
+        REF.MOREAU-CC-2024 // SAINT-HERBLAIN
+      </div>
+    </div>
+
+
+    <!-- =====================================================
+       HERO
+  ===================================================== -->
+    <section id="hero" class="hero-section blueprint-grid hero-grid-anim flex items-center">
+
+      <!-- Blueprint House Assembly (parallax) -->
+      <div id="hero-parallax" class="absolute inset-0 flex items-center justify-end pr-4 md:pr-10 pointer-events-none">
+        <!--
+        ÉLÉVATION PRINCIPALE — CHARPENTE BOIS
+        Coupe transversale — Échelle 1:50
+        Assemblage animé couche par couche : fondation → murs → fermette → couverture → cotes
+        ─────────────────────────────────────────────────────────────
+        Coord système (viewBox 0 0 580 510) :
+          Ridge          : (290, 52)
+          Left eave      : (66, 164)   — rafter slope: Δy/Δx = -0.5
+          Right eave     : (514, 164)  — rafter slope: Δy/Δx = +0.5
+          Floor beam     : y = 278
+          Ground beam    : y = 444
+      -->
+        <svg viewBox="0 0 580 510" class="w-full max-w-xl md:max-w-2xl lg:max-w-3xl" style="opacity:0.17;" fill="none"
+          stroke="#4db8e8" stroke-linecap="round" stroke-linejoin="round">
+
+          <defs>
+            <!-- Clip: right rafter face triangle (for tile cladding) -->
+            <clipPath id="rightRoofFace">
+              <polygon points="290,52 514,52 514,164" />
+            </clipPath>
+          </defs>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 8 — TUILES (roof tile cladding, right slope)
+             Staggered horizontal courses clipped to rafter triangle
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-8" clip-path="url(#rightRoofFace)" stroke-width="0.65" opacity="0.6">
+            <!-- Course 1 y=55 -->
+            <rect x="292" y="55" width="20" height="11" />
+            <rect x="314" y="55" width="20" height="11" />
+            <rect x="336" y="55" width="20" height="11" />
+            <rect x="358" y="55" width="20" height="11" />
+            <rect x="380" y="55" width="20" height="11" />
+            <rect x="402" y="55" width="20" height="11" />
+            <rect x="424" y="55" width="20" height="11" />
+            <rect x="446" y="55" width="20" height="11" />
+            <rect x="468" y="55" width="20" height="11" />
+            <rect x="490" y="55" width="20" height="11" />
+            <!-- Course 2 y=68 offset +11 -->
+            <rect x="303" y="68" width="20" height="11" />
+            <rect x="325" y="68" width="20" height="11" />
+            <rect x="347" y="68" width="20" height="11" />
+            <rect x="369" y="68" width="20" height="11" />
+            <rect x="391" y="68" width="20" height="11" />
+            <rect x="413" y="68" width="20" height="11" />
+            <rect x="435" y="68" width="20" height="11" />
+            <rect x="457" y="68" width="20" height="11" />
+            <rect x="479" y="68" width="20" height="11" />
+            <rect x="501" y="68" width="20" height="11" />
+            <!-- Course 3 y=81 -->
+            <rect x="292" y="81" width="20" height="11" />
+            <rect x="314" y="81" width="20" height="11" />
+            <rect x="336" y="81" width="20" height="11" />
+            <rect x="358" y="81" width="20" height="11" />
+            <rect x="380" y="81" width="20" height="11" />
+            <rect x="402" y="81" width="20" height="11" />
+            <rect x="424" y="81" width="20" height="11" />
+            <rect x="446" y="81" width="20" height="11" />
+            <rect x="468" y="81" width="20" height="11" />
+            <rect x="490" y="81" width="20" height="11" />
+            <!-- Course 4 y=94 offset -->
+            <rect x="303" y="94" width="20" height="11" />
+            <rect x="325" y="94" width="20" height="11" />
+            <rect x="347" y="94" width="20" height="11" />
+            <rect x="369" y="94" width="20" height="11" />
+            <rect x="391" y="94" width="20" height="11" />
+            <rect x="413" y="94" width="20" height="11" />
+            <rect x="435" y="94" width="20" height="11" />
+            <rect x="457" y="94" width="20" height="11" />
+            <rect x="479" y="94" width="20" height="11" />
+            <!-- Course 5 y=107 -->
+            <rect x="292" y="107" width="20" height="11" />
+            <rect x="314" y="107" width="20" height="11" />
+            <rect x="336" y="107" width="20" height="11" />
+            <rect x="358" y="107" width="20" height="11" />
+            <rect x="380" y="107" width="20" height="11" />
+            <rect x="402" y="107" width="20" height="11" />
+            <rect x="424" y="107" width="20" height="11" />
+            <rect x="446" y="107" width="20" height="11" />
+            <rect x="468" y="107" width="20" height="11" />
+            <!-- Course 6 y=120 offset -->
+            <rect x="303" y="120" width="20" height="11" />
+            <rect x="325" y="120" width="20" height="11" />
+            <rect x="347" y="120" width="20" height="11" />
+            <rect x="369" y="120" width="20" height="11" />
+            <rect x="391" y="120" width="20" height="11" />
+            <rect x="413" y="120" width="20" height="11" />
+            <rect x="435" y="120" width="20" height="11" />
+            <rect x="457" y="120" width="20" height="11" />
+            <!-- Course 7 y=133 -->
+            <rect x="336" y="133" width="20" height="11" />
+            <rect x="358" y="133" width="20" height="11" />
+            <rect x="380" y="133" width="20" height="11" />
+            <rect x="402" y="133" width="20" height="11" />
+            <rect x="424" y="133" width="20" height="11" />
+            <rect x="446" y="133" width="20" height="11" />
+            <rect x="468" y="133" width="20" height="11" />
+            <rect x="490" y="133" width="20" height="11" />
+            <!-- Course 8 y=146 offset -->
+            <rect x="347" y="146" width="20" height="11" />
+            <rect x="369" y="146" width="20" height="11" />
+            <rect x="391" y="146" width="20" height="11" />
+            <rect x="413" y="146" width="20" height="11" />
+            <rect x="435" y="146" width="20" height="11" />
+            <rect x="457" y="146" width="20" height="11" />
+            <rect x="479" y="146" width="20" height="11" />
+            <!-- Course 9 y=159 -->
+            <rect x="368" y="159" width="20" height="11" />
+            <rect x="390" y="159" width="20" height="11" />
+            <rect x="412" y="159" width="20" height="11" />
+            <rect x="434" y="159" width="20" height="11" />
+            <rect x="456" y="159" width="20" height="11" />
+            <rect x="478" y="159" width="20" height="11" />
+            <rect x="500" y="159" width="20" height="11" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 1 — FONDATION (foundation slab + ground beam)
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-1" stroke-width="2">
+            <!-- Foundation block -->
+            <rect x="54" y="444" width="472" height="15" stroke-width="2.2" />
+            <!-- Ground beam (sill plate) -->
+            <line x1="66" y1="444" x2="514" y2="444" stroke-width="3.5" />
+            <!-- Foundation hatching -->
+            <line x1="66" y1="448" x2="80" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="88" y1="448" x2="102" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="110" y1="448" x2="124" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="132" y1="448" x2="146" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="154" y1="448" x2="168" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="176" y1="448" x2="190" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="198" y1="448" x2="212" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="220" y1="448" x2="234" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="242" y1="448" x2="256" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="264" y1="448" x2="278" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="286" y1="448" x2="300" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="308" y1="448" x2="322" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="330" y1="448" x2="344" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="352" y1="448" x2="366" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="374" y1="448" x2="388" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="396" y1="448" x2="410" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="418" y1="448" x2="432" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="440" y1="448" x2="454" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="462" y1="448" x2="476" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="484" y1="448" x2="498" y2="459" stroke-width="0.6" opacity="0.5" />
+            <line x1="506" y1="448" x2="514" y2="455" stroke-width="0.6" opacity="0.5" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 2 — LOWER WALLS
+             Corner posts + interior posts (lower half) + diagonal braces
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-2">
+            <!-- Corner posts (full height, drawn bottom half here) -->
+            <line x1="66" y1="278" x2="66" y2="444" stroke-width="3.2" />
+            <line x1="514" y1="278" x2="514" y2="444" stroke-width="3.2" />
+            <!-- Interior posts — lower half -->
+            <line x1="180" y1="278" x2="180" y2="444" stroke-width="2.6" />
+            <line x1="290" y1="278" x2="290" y2="444" stroke-width="2.6" />
+            <line x1="400" y1="278" x2="400" y2="444" stroke-width="2.6" />
+            <!-- Post base blocks (mortise connection at sill) -->
+            <rect x="62" y="440" width="8" height="8" stroke-width="0.9" opacity="0.8" />
+            <rect x="176" y="440" width="8" height="8" stroke-width="0.9" opacity="0.8" />
+            <rect x="286" y="440" width="8" height="8" stroke-width="0.9" opacity="0.8" />
+            <rect x="396" y="440" width="8" height="8" stroke-width="0.9" opacity="0.8" />
+            <rect x="510" y="440" width="8" height="8" stroke-width="0.9" opacity="0.8" />
+            <!-- Diagonal wall braces (lower bays, outside) -->
+            <line x1="66" y1="278" x2="180" y2="444" stroke-width="1.3" opacity="0.65" />
+            <line x1="514" y1="278" x2="400" y2="444" stroke-width="1.3" opacity="0.65" />
+            <!-- Door opening lower center -->
+            <line x1="236" y1="444" x2="236" y2="324" stroke-width="1.3" />
+            <line x1="308" y1="444" x2="308" y2="324" stroke-width="1.3" />
+            <path d="M 236 324 Q 272 302 308 324" stroke-width="1.2" />
+            <!-- Lower windows right -->
+            <rect x="336" y="306" width="52" height="112" stroke-width="1.2" />
+            <line x1="362" y1="306" x2="362" y2="418" stroke-width="0.7" opacity="0.6" />
+            <line x1="336" y1="358" x2="388" y2="358" stroke-width="0.7" opacity="0.6" />
+            <rect x="416" y="306" width="82" height="112" stroke-width="1.2" />
+            <line x1="457" y1="306" x2="457" y2="418" stroke-width="0.7" opacity="0.6" />
+            <line x1="416" y1="358" x2="498" y2="358" stroke-width="0.7" opacity="0.6" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 3 — FLOOR BEAM (mid-height structural beam)
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-3">
+            <line x1="66" y1="278" x2="514" y2="278" stroke-width="3" />
+            <!-- Beam-post joint blocks (mortise & tenon indicators) -->
+            <rect x="62" y="274" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="176" y="274" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="286" y="274" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="396" y="274" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="510" y="274" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 4 — UPPER WALLS
+             Posts (upper half) + knee braces + upper floor windows
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-4">
+            <!-- Corner posts upper half -->
+            <line x1="66" y1="164" x2="66" y2="278" stroke-width="3.2" />
+            <line x1="514" y1="164" x2="514" y2="278" stroke-width="3.2" />
+            <!-- Interior posts upper half -->
+            <line x1="180" y1="164" x2="180" y2="278" stroke-width="2.6" />
+            <line x1="290" y1="164" x2="290" y2="278" stroke-width="2.6" />
+            <line x1="400" y1="164" x2="400" y2="278" stroke-width="2.6" />
+            <!-- Diagonal braces (upper bays) -->
+            <line x1="66" y1="164" x2="180" y2="278" stroke-width="1.1" opacity="0.55" />
+            <line x1="514" y1="164" x2="400" y2="278" stroke-width="1.1" opacity="0.55" />
+            <!-- Knee braces from posts up toward plate -->
+            <line x1="66" y1="208" x2="104" y2="170" stroke-width="1.6" />
+            <line x1="180" y1="208" x2="144" y2="170" stroke-width="1.6" />
+            <line x1="180" y1="208" x2="220" y2="170" stroke-width="1.6" />
+            <line x1="290" y1="214" x2="252" y2="172" stroke-width="1.6" />
+            <line x1="290" y1="214" x2="330" y2="172" stroke-width="1.6" />
+            <line x1="400" y1="208" x2="362" y2="170" stroke-width="1.6" />
+            <line x1="400" y1="208" x2="438" y2="170" stroke-width="1.6" />
+            <line x1="514" y1="208" x2="476" y2="170" stroke-width="1.6" />
+            <!-- Upper floor windows (between floor beam and plate) -->
+            <rect x="82" y="186" width="82" height="70" stroke-width="1.3" />
+            <line x1="123" y1="186" x2="123" y2="256" stroke-width="0.7" opacity="0.65" />
+            <line x1="82" y1="222" x2="164" y2="222" stroke-width="0.7" opacity="0.65" />
+            <rect x="196" y="186" width="82" height="70" stroke-width="1.3" />
+            <line x1="237" y1="186" x2="237" y2="256" stroke-width="0.7" opacity="0.55" />
+            <line x1="196" y1="200" x2="278" y2="200" stroke-width="0.5" opacity="0.45" />
+            <line x1="196" y1="212" x2="278" y2="212" stroke-width="0.5" opacity="0.45" />
+            <line x1="196" y1="224" x2="278" y2="224" stroke-width="0.5" opacity="0.45" />
+            <line x1="196" y1="236" x2="278" y2="236" stroke-width="0.5" opacity="0.45" />
+            <line x1="196" y1="248" x2="278" y2="248" stroke-width="0.5" opacity="0.45" />
+            <rect x="416" y="186" width="82" height="70" stroke-width="1.3" />
+            <line x1="457" y1="186" x2="457" y2="256" stroke-width="0.7" opacity="0.65" />
+            <line x1="416" y1="222" x2="498" y2="222" stroke-width="0.7" opacity="0.65" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 5 — TOP PLATE (wall head beam)
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-5">
+            <line x1="66" y1="164" x2="514" y2="164" stroke-width="3" />
+            <!-- Post-cap blocks (mortise at plate) -->
+            <rect x="62" y="160" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="176" y="160" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="286" y="160" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="396" y="160" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+            <rect x="510" y="160" width="8" height="8" stroke-width="0.9" opacity="0.85" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 6 — MAIN RAFTERS + RIDGE BEAM
+             The two principal rafters appear, sliding upward into place
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-6">
+            <!-- Ridge beam (faîtage) -->
+            <line x1="264" y1="52" x2="316" y2="52" stroke-width="4" stroke-linecap="square" />
+            <!-- Ridge cap detail -->
+            <line x1="264" y1="48" x2="316" y2="48" stroke-width="0.8" opacity="0.6" />
+            <line x1="264" y1="56" x2="316" y2="56" stroke-width="0.8" opacity="0.6" />
+            <!-- Left main rafter: (290,52) → (66,164) -->
+            <line x1="290" y1="52" x2="66" y2="164" stroke-width="2.8" />
+            <!-- Right main rafter: (290,52) → (514,164) -->
+            <line x1="290" y1="52" x2="514" y2="164" stroke-width="2.8" />
+            <!-- Ridge node marker -->
+            <rect x="285" y="47" width="10" height="10" stroke-width="1" opacity="0.9" />
+            <!-- Eave connection blocks -->
+            <rect x="62" y="160" width="8" height="8" stroke-width="1" opacity="0.9" />
+            <rect x="510" y="160" width="8" height="8" stroke-width="1" opacity="0.9" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 7 — FERMETTE DETAILS
+             Sub-rafters (common rafters), purlins, collar tie
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-7">
+            <!-- SUB-RAFTERS left slope (fan from ridge to plate) -->
+            <line x1="290" y1="52" x2="110" y2="164" stroke-width="1.1" opacity="0.65" />
+            <line x1="290" y1="52" x2="154" y2="164" stroke-width="1.0" opacity="0.58" />
+            <line x1="290" y1="52" x2="198" y2="164" stroke-width="0.9" opacity="0.5" />
+            <line x1="290" y1="52" x2="242" y2="164" stroke-width="0.8" opacity="0.44" />
+            <!-- SUB-RAFTERS right slope -->
+            <line x1="290" y1="52" x2="470" y2="164" stroke-width="1.1" opacity="0.65" />
+            <line x1="290" y1="52" x2="426" y2="164" stroke-width="1.0" opacity="0.58" />
+            <line x1="290" y1="52" x2="382" y2="164" stroke-width="0.9" opacity="0.5" />
+            <line x1="290" y1="52" x2="338" y2="164" stroke-width="0.8" opacity="0.44" />
+            <!-- PURLINS (horizontal cross-members on rafter planes)
+               Left rafter eqn: y = 197 - 0.5x  →  x = (197-y)/0.5
+               Right rafter eqn: y = -93 + 0.5x →  x = (y+93)/0.5
+          -->
+            <!-- Purlin at y=82: left x=(197-82)/0.5=230, right x=(82+93)/0.5=350 -->
+            <line x1="230" y1="82" x2="350" y2="82" stroke-width="1.8" opacity="0.75" />
+            <!-- Collar tie at y=112: left x=(197-112)/0.5=170, right x=(112+93)/0.5=410 -->
+            <line x1="170" y1="112" x2="410" y2="112" stroke-width="2.2" opacity="0.9" />
+            <!-- Purlin at y=138: left x=(197-138)/0.5=118, right x=(138+93)/0.5=462 -->
+            <line x1="118" y1="138" x2="462" y2="138" stroke-width="1.8" opacity="0.75" />
+            <!-- Purlin-rafter connection blocks -->
+            <rect x="226" y="78" width="8" height="7" stroke-width="0.8" opacity="0.8" />
+            <rect x="346" y="78" width="8" height="7" stroke-width="0.8" opacity="0.8" />
+            <rect x="166" y="108" width="8" height="8" stroke-width="0.9" opacity="0.9" />
+            <rect x="406" y="108" width="8" height="8" stroke-width="0.9" opacity="0.9" />
+            <rect x="114" y="134" width="8" height="7" stroke-width="0.8" opacity="0.8" />
+            <rect x="458" y="134" width="8" height="7" stroke-width="0.8" opacity="0.8" />
+          </g>
+
+          <!-- ══════════════════════════════════════════════
+             LAYER 9 — DIMENSION LINES + ANNOTATIONS
+             Appear last, once the structure is complete
+        ══════════════════════════════════════════════ -->
+          <g class="asm asm-9" opacity="0.75">
+            <!-- ─── TOP HORIZONTAL DIMENSION: total width 66→514 ─── -->
+            <line x1="66" y1="30" x2="514" y2="30" stroke-width="0.8" />
+            <line x1="66" y1="24" x2="66" y2="36" stroke-width="0.8" />
+            <line x1="514" y1="24" x2="514" y2="36" stroke-width="0.8" />
+            <polygon points="74,30 66,27 66,33" fill="#4db8e8" />
+            <polygon points="506,30 514,27 514,33" fill="#4db8e8" />
+            <!-- Sub-dimension top left bay 66→180 -->
+            <line x1="66" y1="19" x2="180" y2="19" stroke-width="0.65" opacity="0.7" />
+            <line x1="66" y1="14" x2="66" y2="24" stroke-width="0.65" opacity="0.7" />
+            <line x1="180" y1="14" x2="180" y2="24" stroke-width="0.65" opacity="0.7" />
+            <!-- Sub-dimension top right 290→514 -->
+            <line x1="290" y1="19" x2="514" y2="19" stroke-width="0.65" opacity="0.7" />
+            <line x1="290" y1="14" x2="290" y2="24" stroke-width="0.65" opacity="0.7" />
+
+            <!-- ─── LEFT SIDE DIMENSIONS ─── -->
+            <!-- Ridge to eave: 52→164 -->
+            <line x1="38" y1="52" x2="38" y2="164" stroke-width="0.8" />
+            <line x1="32" y1="52" x2="44" y2="52" stroke-width="0.8" />
+            <line x1="32" y1="164" x2="44" y2="164" stroke-width="0.8" />
+            <polygon points="38,60 35,52 41,52" fill="#4db8e8" />
+            <polygon points="38,156 35,164 41,164" fill="#4db8e8" />
+            <!-- Upper floor 164→278 -->
+            <line x1="44" y1="164" x2="44" y2="278" stroke-width="0.65" opacity="0.7" />
+            <line x1="38" y1="278" x2="50" y2="278" stroke-width="0.65" opacity="0.7" />
+            <!-- Lower floor 278→444 -->
+            <line x1="44" y1="278" x2="44" y2="444" stroke-width="0.65" opacity="0.7" />
+
+            <!-- ─── RIGHT SIDE DIMENSION: full height 52→444 ─── -->
+            <line x1="536" y1="52" x2="536" y2="444" stroke-width="0.8" />
+            <line x1="530" y1="52" x2="542" y2="52" stroke-width="0.8" />
+            <line x1="530" y1="444" x2="542" y2="444" stroke-width="0.8" />
+            <polygon points="536,60 533,52 539,52" fill="#4db8e8" />
+            <polygon points="536,436 533,444 539,444" fill="#4db8e8" />
+            <!-- Eave sub-division 164→278 -->
+            <line x1="530" y1="164" x2="530" y2="278" stroke-width="0.65" opacity="0.7" />
+            <line x1="524" y1="164" x2="536" y2="164" stroke-width="0.65" opacity="0.7" />
+            <line x1="524" y1="278" x2="536" y2="278" stroke-width="0.65" opacity="0.7" />
+
+            <!-- ─── BOTTOM DIMENSION ─── -->
+            <line x1="66" y1="464" x2="514" y2="464" stroke-width="0.8" />
+            <line x1="66" y1="458" x2="66" y2="470" stroke-width="0.8" />
+            <line x1="514" y1="458" x2="514" y2="470" stroke-width="0.8" />
+            <polygon points="74,464 66,461 66,467" fill="#4db8e8" />
+            <polygon points="506,464 514,461 514,467" fill="#4db8e8" />
+            <!-- Bottom sub-dimension 66→180 -->
+            <line x1="66" y1="474" x2="180" y2="474" stroke-width="0.65" opacity="0.7" />
+            <line x1="66" y1="470" x2="66" y2="478" stroke-width="0.65" opacity="0.7" />
+            <line x1="180" y1="470" x2="180" y2="478" stroke-width="0.65" opacity="0.7" />
+            <!-- Bottom sub-dimension 180→290 -->
+            <line x1="180" y1="474" x2="290" y2="474" stroke-width="0.65" opacity="0.7" />
+            <line x1="290" y1="470" x2="290" y2="478" stroke-width="0.65" opacity="0.7" />
+
+            <!-- ─── DIMENSION TEXTS ─── -->
+            <text x="290" y="26" font-family="'Courier Prime',monospace" font-size="10" fill="#4db8e8"
+              text-anchor="middle" letter-spacing="0.5">39'–0"</text>
+            <text x="123" y="15" font-family="'Courier Prime',monospace" font-size="7.5" fill="#4db8e8"
+              text-anchor="middle" opacity="0.8">16'</text>
+            <text x="402" y="15" font-family="'Courier Prime',monospace" font-size="7.5" fill="#4db8e8"
+              text-anchor="middle" opacity="0.8">29'0"</text>
+            <text x="31" y="108" font-family="'Courier Prime',monospace" font-size="7.5" fill="#4db8e8"
+              text-anchor="middle" transform="rotate(-90,31,108)">3'8"</text>
+            <text x="36" y="222" font-family="'Courier Prime',monospace" font-size="7.5" fill="#4db8e8"
+              text-anchor="middle" transform="rotate(-90,36,222)" opacity="0.8">1'5"</text>
+            <text x="36" y="362" font-family="'Courier Prime',monospace" font-size="7.5" fill="#4db8e8"
+              text-anchor="middle" transform="rotate(-90,36,362)" opacity="0.8">1'5"</text>
+            <text x="545" y="248" font-family="'Courier Prime',monospace" font-size="8" fill="#4db8e8"
+              text-anchor="middle" transform="rotate(-90,545,248)">16'</text>
+            <text x="537" y="216" font-family="'Courier Prime',monospace" font-size="7" fill="#4db8e8"
+              text-anchor="middle" transform="rotate(-90,537,216)" opacity="0.8">1'5"</text>
+            <text x="290" y="478" font-family="'Courier Prime',monospace" font-size="10" fill="#4db8e8"
+              text-anchor="middle" letter-spacing="0.5">39'–0"</text>
+            <text x="123" y="490" font-family="'Courier Prime',monospace" font-size="7.5" fill="#4db8e8"
+              text-anchor="middle" opacity="0.8">16'</text>
+            <text x="235" y="490" font-family="'Courier Prime',monospace" font-size="7.5" fill="#4db8e8"
+              text-anchor="middle" opacity="0.8">3'7"</text>
+            <!-- Section reference -->
+            <text x="290" y="503" font-family="'Courier Prime',monospace" font-size="6.5" fill="#4db8e8"
+              text-anchor="middle" letter-spacing="2" opacity="0.5">ÉL. PRINCIPALE — ÉCH. 1:50</text>
+          </g>
+
+        </svg>
+      </div>
+
+      <!-- Hero content -->
+      <div class="relative z-10 max-w-7xl mx-auto px-6 py-32 w-full">
+        <div class="max-w-2xl">
+
+          <div class="hero-fade-1">
+            <span class="bp-badge mb-6">Artisan RGE Qualibat — Depuis 2004</span>
+          </div>
+
+          <p class="hero-subtitle mb-5 hero-fade-2">L'art de bâtir, la rigueur du plan</p>
+
+          <h1 class="hero-title text-cream mb-8 hero-fade-3">
+            <span class="block">Charpente</span>
+            <span class="block italic" style="color: #4db8e8;">&amp; Couverture</span>
+            <span class="block" style="color: #e8b46a;">d'excellence.</span>
+          </h1>
+
+          <p class="font-lora text-sm leading-relaxed mb-10 hero-fade-4"
+            style="color: rgba(232, 244, 248, 0.58); max-width: 420px;">
+            Spécialiste de la charpente traditionnelle, de la couverture et des maisons à ossature bois,
+            nous réalisons vos projets avec le soin et la précision de l'artisanat authentique.
+          </p>
+
+          <div class="flex flex-wrap gap-4 mb-14 hero-fade-5">
+            <a href="#devis" class="btn-primary" @click.prevent="scrollTo('devis')">Demander un devis</a>
+            <a href="#portfolio" class="btn-outline" @click.prevent="scrollTo('portfolio')">Voir nos chantiers</a>
+          </div>
+
+          <!-- Key stats -->
+          <div class="flex flex-wrap gap-6 pt-8 hero-fade-5" style="border-top: 1px solid rgba(30, 95, 140, 0.2);">
+            <div>
+              <div class="font-cormorant text-2xl font-bold" style="color: #4db8e8;">20+</div>
+              <div class="font-josefin text-[0.58rem] tracking-widest uppercase mt-0.5"
+                style="color: rgba(232, 244, 248, 0.35);">Années d'expérience</div>
+            </div>
+            <div class="w-px h-10 self-center" style="background: rgba(30, 95, 140, 0.2);"></div>
+            <div>
+              <div class="font-cormorant text-2xl font-bold" style="color: #4db8e8;">340+</div>
+              <div class="font-josefin text-[0.58rem] tracking-widest uppercase mt-0.5"
+                style="color: rgba(232, 244, 248, 0.35);">Chantiers réalisés</div>
+            </div>
+            <div class="w-px h-10 self-center" style="background: rgba(30, 95, 140, 0.2);"></div>
+            <div>
+              <div class="font-cormorant text-2xl font-bold" style="color: #4db8e8;">12</div>
+              <div class="font-josefin text-[0.58rem] tracking-widest uppercase mt-0.5"
+                style="color: rgba(232, 244, 248, 0.35);">Départements couverts</div>
+            </div>
+            <div class="w-px h-10 self-center hidden sm:block" style="background: rgba(30, 95, 140, 0.2);"></div>
+            <div class="hidden sm:block">
+              <div class="font-cormorant text-2xl font-bold" style="color: #c9873a;">RGE</div>
+              <div class="font-josefin text-[0.58rem] tracking-widest uppercase mt-0.5"
+                style="color: rgba(232, 244, 248, 0.35);">Certifié Qualibat</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Scroll cue -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none">
+        <div class="font-courier text-[0.58rem] tracking-widest" style="color: rgba(77, 184, 232, 0.35);">DÉFILER</div>
+        <div class="w-px h-12 animate-pulse"
+          style="background: linear-gradient(to bottom, rgba(77, 184, 232, 0.4), transparent);"></div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+       SERVICES
+  ===================================================== -->
+    <section id="services" class="py-28 relative" style="background-color: #0d1f36;">
+      <div class="cm cm-tl"></div>
+      <div class="cm cm-br"></div>
+
+      <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Header -->
+        <div class="mb-16 reveal">
+          <div class="section-label mb-4">Services / Prestations</div>
+          <h2 class="section-title text-cream mb-4">Notre savoir-faire</h2>
+          <p class="font-lora text-sm leading-relaxed" style="color: rgba(232, 244, 248, 0.52); max-width: 480px;">
+            De la conception à la livraison, nous maîtrisons chaque étape de votre projet de construction ou de
+            rénovation.
+          </p>
+        </div>
+
+        <!-- Cards grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <!-- Charpente -->
+          <div class="service-card reveal" style="transition-delay: 0.1s">
+            <span class="service-number">01 / 04</span>
+            <svg viewBox="0 0 48 48" class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M24 4 L44 20 L44 44 L4 44 L4 20 Z" />
+              <path d="M16 44 L16 30 L32 30 L32 44" />
+              <line x1="24" y1="4" x2="24" y2="14" stroke-width="1" opacity="0.5" />
+            </svg>
+            <h3 class="service-card-title">Charpente</h3>
+            <p class="service-card-desc">
+              Conception et réalisation de charpentes traditionnelles en bois massif ou industrielles,
+              pour constructions neuves et rénovations. Fermettes, combles perdus, charpentes apparentes,
+              extensions et surélévations.
+            </p>
+            <div class="service-card-footer">
+              <span>Traditionnelle · Industrielle · Lamellé-collé</span>
+              <svg viewBox="0 0 20 20" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" style="color: rgba(77, 184, 232, 0.45)">
+                <path d="M4 10 H16 M12 6 L16 10 L12 14" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Couverture -->
+          <div class="service-card reveal" style="transition-delay: 0.2s">
+            <span class="service-number">02 / 04</span>
+            <svg viewBox="0 0 48 48" class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M24 6 L44 22 L4 22 Z" />
+              <path d="M6 22 L6 42 L42 42 L42 22" />
+              <line x1="8" y1="30" x2="40" y2="30" opacity="0.5" />
+            </svg>
+            <h3 class="service-card-title">Couverture</h3>
+            <p class="service-card-desc">
+              Pose et réfection de toiture en ardoise naturelle d'Angers, zinc, tuile terre cuite
+              ou bac acier. Entretien, réparation et traitement hydrofuge. Tous types de pentes
+              et de matériaux, chéneaux, noues et faîtages.
+            </p>
+            <div class="service-card-footer">
+              <span>Ardoise · Zinc · Tuile · Bac acier</span>
+              <svg viewBox="0 0 20 20" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" style="color: rgba(77, 184, 232, 0.45)">
+                <path d="M4 10 H16 M12 6 L16 10 L12 14" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- MOB -->
+          <div class="service-card reveal" style="transition-delay: 0.3s">
+            <span class="service-number">03 / 04</span>
+            <svg viewBox="0 0 48 48" class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="20" width="36" height="24" />
+              <path d="M24 4 L42 20 L6 20 Z" />
+              <line x1="18" y1="20" x2="18" y2="44" opacity="0.5" />
+              <line x1="30" y1="20" x2="30" y2="44" opacity="0.5" />
+            </svg>
+            <h3 class="service-card-title">Maison Ossature Bois</h3>
+            <p class="service-card-desc">
+              Construction complète de maisons à ossature bois (MOB) : structure porteuse Douglas,
+              isolation haute performance, bardage extérieur. Un habitat durable, sain et à
+              faible empreinte carbone, aux performances thermiques remarquables.
+            </p>
+            <div class="service-card-footer">
+              <span>Construction neuve · RT2020 · BBC</span>
+              <svg viewBox="0 0 20 20" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" style="color: rgba(77, 184, 232, 0.45)">
+                <path d="M4 10 H16 M12 6 L16 10 L12 14" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Plans & Études -->
+          <div class="service-card reveal" style="transition-delay: 0.4s">
+            <span class="service-number">04 / 04</span>
+            <svg viewBox="0 0 48 48" class="service-icon" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="6" width="36" height="36" />
+              <line x1="6" y1="16" x2="42" y2="16" />
+              <line x1="16" y1="6" x2="16" y2="42" />
+            </svg>
+            <h3 class="service-card-title">Plans &amp; Études</h3>
+            <p class="service-card-desc">
+              Réalisation de plans techniques de charpente, couverture et structure bois.
+              Accompagnement pour le dossier de permis de construire et déclaration préalable.
+              Métré, devis détaillé, note de calcul et CCTP.
+            </p>
+            <div class="service-card-footer">
+              <span>Plans · Permis · Métrés · Note de calcul</span>
+              <svg viewBox="0 0 20 20" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" style="color: rgba(77, 184, 232, 0.45)">
+                <path d="M4 10 H16 M12 6 L16 10 L12 14" />
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Annotation -->
+        <div class="mt-12 flex flex-col sm:flex-row gap-6 items-start reveal" style="transition-delay: 0.5s">
+          <div class="bp-note">
+            Garantie décennale · Responsabilité civile professionnelle<br>
+            Certification RGE Qualibat n°4641 — Éco-artisan certifié
+          </div>
+          <a href="#devis" class="btn-primary flex-shrink-0" @click.prevent="scrollTo('devis')">
+            Demander un devis
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+       PORTFOLIO
+  ===================================================== -->
+    <section id="portfolio" class="py-28 blueprint-grid" style="background-color: #0a1628;">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <!-- Header + filters -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div class="reveal">
+            <div class="section-label mb-4">Portfolio / Réalisations</div>
+            <h2 class="section-title text-cream">Nos derniers chantiers</h2>
+          </div>
+          <div class="flex flex-wrap gap-2 reveal" style="transition-delay: 0.15s">
+            <button v-for="f in portfolioFilters" :key="f.key" class="pf-filter-btn"
+              :class="{ active: portfolioFilter === f.key }" @click="portfolioFilter = f.key">{{ f.label }}</button>
+          </div>
+        </div>
+
+        <!-- Grid -->
+        <transition-group name="pf" tag="div" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div v-for="item in filteredPortfolio" :key="item.id" class="pf-item">
+            <img :src="item.img" :alt="item.title" loading="lazy" />
+            <div class="pf-overlay">
+              <div class="pf-tag">{{ item.tag }}</div>
+              <div class="pf-title">{{ item.title }}</div>
+              <div class="pf-meta">{{ item.location }} &mdash; {{ item.year }}</div>
+            </div>
+          </div>
+        </transition-group>
+
+        <div v-if="filteredPortfolio.length === 0" class="text-center py-16 font-courier text-sm tracking-wider"
+          style="color: rgba(232, 244, 248, 0.25);">
+          AUCUN RÉSULTAT POUR CE FILTRE
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+       DEVIS EN LIGNE
+  ===================================================== -->
+    <section id="devis" class="devis-wrap py-28 relative blueprint-grid-cream">
+      <div class="max-w-2xl mx-auto px-6 relative z-10">
+
+        <!-- Header -->
+        <div class="text-center mb-10 reveal">
+          <div class="section-label-dark justify-center mb-4">Devis / Estimation gratuite</div>
+          <h2 class="section-title mb-3" style="color: #1a1208;">Demandez votre devis gratuit</h2>
+          <p class="font-lora text-sm leading-relaxed mx-auto" style="color: rgba(26, 18, 8, 0.5); max-width: 380px;">
+            Remplissez ce formulaire en quelques minutes. Nous vous répondons sous 48h ouvrées.
+          </p>
+        </div>
+
+        <!-- Form card -->
+        <div class="relative bg-white/65 p-8 md:p-10 reveal" style="border: 1px solid rgba(30, 95, 140, 0.18);">
+          <!-- Corners -->
+          <div class="absolute top-3 left-3 w-5 h-5 border-t border-l" style="border-color: rgba(30, 95, 140, 0.28)">
+          </div>
+          <div class="absolute bottom-3 right-3 w-5 h-5 border-b border-r"
+            style="border-color: rgba(30, 95, 140, 0.28)"></div>
+
+          <!-- Progress bar -->
+          <div v-if="!devisSubmitted" class="mb-8">
+            <div class="flex justify-between mb-2">
+              <span class="step-label">Étape {{ devisStep }} / 4</span>
+              <span class="step-label">{{ stepLabels[devisStep - 1] }}</span>
+            </div>
+            <div class="devis-progress-track">
+              <div class="devis-progress-fill" :style="{ width: (devisStep / 4 * 100) + '%' }"></div>
+            </div>
+          </div>
+
+          <!-- SUCCESS -->
+          <div v-if="devisSubmitted" class="text-center py-10">
+            <svg viewBox="0 0 64 64" class="w-16 h-16 mx-auto mb-5" fill="none" stroke="#1e5f8c" stroke-width="1.5">
+              <circle cx="32" cy="32" r="30" />
+              <path d="M20 32 L28 40 L44 24" />
+            </svg>
+            <h3 class="font-cormorant text-2xl font-semibold mb-2" style="color: #1a1208;">Demande envoyée !</h3>
+            <p class="font-lora text-sm mb-6" style="color: rgba(26,18,8,0.55);">
+              Nous vous contacterons sous 48h pour confirmer votre devis.
+            </p>
+            <button class="btn-primary" @click="resetDevis">Nouvelle demande</button>
+          </div>
+
+          <!-- STEPS -->
+          <transition name="slide" mode="out-in">
+
+            <!-- Step 1: Type de projet -->
+            <div v-if="devisStep === 1 && !devisSubmitted" key="s1">
+              <h3 class="font-cormorant text-xl font-semibold mb-6" style="color: #1a1208;">Quel type de projet ?</h3>
+              <div class="grid grid-cols-2 gap-3 mb-6">
+                <button v-for="t in projectTypes" :key="t.key" class="type-btn"
+                  :class="{ selected: devisData.type === t.key }" @click="devisData.type = t.key">
+                  <svg :viewBox="t.viewBox" class="w-8 h-8 mx-auto" fill="none" stroke="#1e5f8c" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round" v-html="t.icon"></svg>
+                  <div class="type-btn-title">{{ t.label }}</div>
+                  <div class="type-btn-desc">{{ t.desc }}</div>
+                </button>
+              </div>
+              <div class="flex justify-end">
+                <button class="btn-primary" @click="nextStep" :disabled="!devisData.type">Étape suivante →</button>
+              </div>
+            </div>
+
+            <!-- Step 2: Infos chantier -->
+            <div v-if="devisStep === 2 && !devisSubmitted" key="s2">
+              <h3 class="font-cormorant text-xl font-semibold mb-6" style="color: #1a1208;">Informations du chantier
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                  <label class="field-label">Surface approximative (m²)</label>
+                  <input v-model="devisData.surface" type="number" class="field-input" placeholder="ex : 120" min="1" />
+                </div>
+                <div>
+                  <label class="field-label">Type de bâtiment</label>
+                  <select v-model="devisData.batiment" class="field-select">
+                    <option value="">Sélectionner…</option>
+                    <option value="Maison individuelle">Maison individuelle</option>
+                    <option value="Extension / agrandissement">Extension / agrandissement</option>
+                    <option value="Grange / dépendance">Grange / dépendance</option>
+                    <option value="Bâtiment agricole">Bâtiment agricole</option>
+                    <option value="Autre">Autre</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Délai souhaité</label>
+                  <select v-model="devisData.delai" class="field-select">
+                    <option value="">Sélectionner…</option>
+                    <option value="Urgent (< 1 mois)">Urgent (&lt; 1 mois)</option>
+                    <option value="Dans les 3 mois">Dans les 3 mois</option>
+                    <option value="Dans les 6 mois">Dans les 6 mois</option>
+                    <option value="D'ici 1 an">D'ici 1 an</option>
+                    <option value="Flexible">Flexible</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label">Code postal du chantier</label>
+                  <input v-model="devisData.codePostal" type="text" class="field-input" placeholder="ex : 44000"
+                    maxlength="5" />
+                </div>
+                <div class="md:col-span-2">
+                  <label class="field-label">Description du projet (optionnel)</label>
+                  <textarea v-model="devisData.message" class="field-input" rows="3"
+                    placeholder="Précisez vos besoins, matériaux souhaités, contraintes…"
+                    style="resize: vertical;"></textarea>
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <button class="btn-outline-dark" @click="devisStep--">← Retour</button>
+                <button class="btn-primary" @click="nextStep">Étape suivante →</button>
+              </div>
+            </div>
+
+            <!-- Step 3: Coordonnées -->
+            <div v-if="devisStep === 3 && !devisSubmitted" key="s3">
+              <h3 class="font-cormorant text-xl font-semibold mb-6" style="color: #1a1208;">Vos coordonnées</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="md:col-span-2">
+                  <label class="field-label">Nom complet *</label>
+                  <input v-model="devisData.nom" type="text" class="field-input" placeholder="Jean Dupont" />
+                </div>
+                <div>
+                  <label class="field-label">Adresse email *</label>
+                  <input v-model="devisData.email" type="email" class="field-input" placeholder="jean@exemple.fr" />
+                </div>
+                <div>
+                  <label class="field-label">Téléphone *</label>
+                  <input v-model="devisData.tel" type="tel" class="field-input" placeholder="06 12 34 56 78" />
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <button class="btn-outline-dark" @click="devisStep--">← Retour</button>
+                <button class="btn-primary" @click="nextStep"
+                  :disabled="!devisData.nom || !devisData.email || !devisData.tel">
+                  Récapitulatif →
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 4: Récap -->
+            <div v-if="devisStep === 4 && !devisSubmitted" key="s4">
+              <h3 class="font-cormorant text-xl font-semibold mb-6" style="color: #1a1208;">Récapitulatif de votre
+                demande</h3>
+
+              <div class="mb-5">
+                <div class="font-josefin text-[0.62rem] tracking-widest uppercase mb-3"
+                  style="color: rgba(30, 95, 140, 0.55);">Votre projet</div>
+                <div class="recap-row">
+                  <span class="recap-key">Type</span>
+                  <span class="recap-val font-semibold"
+                    style="font-family: 'Cormorant Garamond', serif; font-size: 1rem;">{{ getTypeLabel(devisData.type)
+                    }}</span>
+                </div>
+                <div class="recap-row" v-if="devisData.surface">
+                  <span class="recap-key">Surface</span>
+                  <span class="recap-val">{{ devisData.surface }} m²</span>
+                </div>
+                <div class="recap-row" v-if="devisData.batiment">
+                  <span class="recap-key">Bâtiment</span>
+                  <span class="recap-val">{{ devisData.batiment }}</span>
+                </div>
+                <div class="recap-row" v-if="devisData.delai">
+                  <span class="recap-key">Délai</span>
+                  <span class="recap-val">{{ devisData.delai }}</span>
+                </div>
+                <div class="recap-row" v-if="devisData.codePostal">
+                  <span class="recap-key">CP chantier</span>
+                  <span class="recap-val">{{ devisData.codePostal }}</span>
+                </div>
+              </div>
+
+              <div class="mb-8">
+                <div class="font-josefin text-[0.62rem] tracking-widest uppercase mb-3"
+                  style="color: rgba(30, 95, 140, 0.55);">Vos coordonnées</div>
+                <div class="recap-row">
+                  <span class="recap-key">Nom</span>
+                  <span class="recap-val">{{ devisData.nom }}</span>
+                </div>
+                <div class="recap-row">
+                  <span class="recap-key">Email</span>
+                  <span class="recap-val">{{ devisData.email }}</span>
+                </div>
+                <div class="recap-row">
+                  <span class="recap-key">Téléphone</span>
+                  <span class="recap-val">{{ devisData.tel }}</span>
+                </div>
+              </div>
+
+              <div class="flex justify-between">
+                <button class="btn-outline-dark" @click="devisStep--">← Modifier</button>
+                <button class="btn-primary" @click="submitDevis">Envoyer ma demande</button>
+              </div>
+            </div>
+
+          </transition>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+       À PROPOS
+  ===================================================== -->
+    <section id="about" class="py-28" style="background-color: #0d1f36;">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+          <!-- Image block -->
+          <div class="relative reveal-l">
+            <div class="relative overflow-hidden">
+              <img src="assets/a-charpentier.jpg" alt="Artisan charpentier au travail" class="w-full object-cover"
+                style="height: 420px;" />
+              <div class="absolute inset-0"
+                style="background: linear-gradient(to top, rgba(10, 22, 40, 0.55) 0%, transparent 60%);"></div>
+              <!-- Blueprint frame -->
+              <div class="absolute top-4 left-4 w-9 h-9 border-t-2 border-l-2"
+                style="border-color: rgba(77, 184, 232, 0.5);"></div>
+              <div class="absolute bottom-4 right-4 w-9 h-9 border-b-2 border-r-2"
+                style="border-color: rgba(77, 184, 232, 0.5);"></div>
+              <!-- Image label -->
+              <div class="absolute bottom-0 left-0 right-0 px-5 pb-4">
+                <div class="font-courier text-[0.6rem] tracking-wider" style="color: rgba(77, 184, 232, 0.55);">
+                  PHOTO.CHANTIER — SAINT-NAZAIRE 2023</div>
+              </div>
+            </div>
+            <!-- Floating certification tag -->
+            <div class="absolute -bottom-5 -right-5 p-4 hidden md:block"
+              style="background: #0a1628; border: 1px solid rgba(30, 95, 140, 0.35);">
+              <div class="font-courier text-[0.58rem] tracking-wider mb-1" style="color: rgba(77, 184, 232, 0.5);">
+                CERTIFICATIONS</div>
+              <div class="font-josefin text-xs tracking-wide" style="color: rgba(232, 244, 248, 0.75);">RGE Qualibat
+                4641</div>
+              <div class="font-josefin text-xs tracking-wide" style="color: rgba(232, 244, 248, 0.75);">Compagnon du
+                Devoir</div>
+            </div>
+          </div>
+
+          <!-- Text block -->
+          <div class="reveal-r">
+            <div class="section-label mb-4">À propos / Notre histoire</div>
+            <h2 class="section-title text-cream mb-6">
+              Un artisan,<br>
+              <em style="color: #e8b46a;">une passion du bâti</em>
+            </h2>
+
+            <div class="font-lora text-sm leading-relaxed space-y-4 mb-10" style="color: rgba(232, 244, 248, 0.58);">
+              <p>
+                Depuis 2004, Moreau Charpente &amp; Couverture met son expertise au service des particuliers
+                et des professionnels du Grand Ouest. Fondée par Thomas Moreau, Compagnon du Devoir,
+                l'entreprise perpétue les traditions du bâtiment tout en intégrant les techniques modernes.
+              </p>
+              <p>
+                Chaque projet est traité avec la même exigence : écoute du client, précision dans les plans,
+                qualité des matériaux sélectionnés et soin du détail jusqu'à la livraison finale.
+              </p>
+            </div>
+
+            <!-- Animated counters -->
+            <div class="grid grid-cols-3 gap-4 pt-8" style="border-top: 1px solid rgba(30, 95, 140, 0.2);">
+              <div class="text-center" v-for="s in stats" :key="s.id">
+                <div class="stat-number" :data-target="s.val" :id="'ctr-' + s.id">0</div>
+                <div class="stat-label">{{ s.lbl }}</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+       CONTACT
+  ===================================================== -->
+    <section id="contact" class="py-28 blueprint-grid" style="background-color: #0a1628;">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+          <!-- Info -->
+          <div class="reveal">
+            <div class="section-label mb-4">Contact / Nous joindre</div>
+            <h2 class="section-title text-cream mb-8">
+              Parlons de<br>
+              <em style="color: #4db8e8;">votre projet</em>
+            </h2>
+            <div class="space-y-0 mb-10">
+              <div class="contact-row">
+                <span class="contact-key">Adresse</span>
+                <span class="contact-val">12 rue des Artisans, ZA des Genêts<br>44800 Saint-Herblain</span>
+              </div>
+              <div class="contact-row">
+                <span class="contact-key">Téléphone</span>
+                <span class="contact-val">02 40 12 34 56</span>
+              </div>
+              <div class="contact-row">
+                <span class="contact-key">Email</span>
+                <span class="contact-val">contact@moreau-charpente.fr</span>
+              </div>
+              <div class="contact-row">
+                <span class="contact-key">Horaires</span>
+                <span class="contact-val">Lun – Ven : 8h00 – 18h00<br>Sam : 9h00 – 12h00</span>
+              </div>
+            </div>
+            <div class="bp-note">
+              Zone d'intervention principale :<br>
+              Loire-Atlantique, Vendée, Maine-et-Loire, Ille-et-Vilaine<br>
+              et départements limitrophes.
+            </div>
+          </div>
+
+          <!-- Google Map -->
+          <div class="reveal" style="transition-delay: 0.2s">
+            <div class="relative overflow-hidden" style="height: 380px; border: 1px solid rgba(30, 95, 140, 0.35);">
+              <iframe
+                src="https://maps.google.com/maps?q=12+rue+des+Artisans,+44800+Saint-Herblain,+France&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                width="100%" height="100%" style="border: 0; display: block;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade" title="Localisation Moreau Charpente — Saint-Herblain">
+              </iframe>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-6">
+              <a href="#devis" class="btn-primary w-full text-center block" @click.prevent="scrollTo('devis')">Demander
+                un devis</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =====================================================
+       FOOTER
+  ===================================================== -->
+    <footer class="pt-14 pb-8" style="background-color: #060e1a;">
+      <div class="max-w-7xl mx-auto px-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+
+          <!-- Brand -->
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <svg viewBox="0 0 40 36" class="w-7 h-7 flex-shrink-0" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" style="color: rgba(77, 184, 232, 0.6);">
+                <path d="M20 2 L38 18 L38 34 L2 34 L2 18 Z" />
+                <path d="M14 34 L14 23 L26 23 L26 34" />
+              </svg>
+              <div class="font-cormorant text-sm font-semibold" style="color: rgba(245, 240, 230, 0.65);">
+                Moreau Charpente &amp; Couverture
+              </div>
+            </div>
+            <p class="font-lora text-xs leading-relaxed" style="color: rgba(232, 244, 248, 0.3); max-width: 240px;">
+              Artisan charpentier-couvreur, Compagnon du Devoir.<br>
+              Certifié RGE Qualibat.<br>
+              SIRET 123 456 789 00012
+            </p>
+          </div>
+
+          <!-- Prestations -->
+          <div>
+            <div class="font-josefin text-[0.58rem] tracking-widest uppercase mb-4"
+              style="color: rgba(77, 184, 232, 0.35);">Prestations</div>
+            <div class="space-y-2">
+              <a href="#services" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('services')">Charpente traditionnelle
+                &amp; industrielle</a>
+              <a href="#services" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('services')">Couverture ardoise,
+                zinc, tuile</a>
+              <a href="#services" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('services')">Maison ossature bois
+                (MOB)</a>
+              <a href="#services" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('services')">Plans &amp; études
+                techniques</a>
+            </div>
+          </div>
+
+          <!-- Navigation -->
+          <div>
+            <div class="font-josefin text-[0.58rem] tracking-widest uppercase mb-4"
+              style="color: rgba(77, 184, 232, 0.35);">Navigation</div>
+            <div class="space-y-2">
+              <a href="#portfolio" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('portfolio')">Nos réalisations</a>
+              <a href="#devis" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('devis')">Devis gratuit en ligne</a>
+              <a href="#about" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('about')">À propos</a>
+              <a href="#contact" class="block font-lora text-xs hover:opacity-80 transition-opacity"
+                style="color: rgba(232, 244, 248, 0.38);" @click.prevent="scrollTo('contact')">Contact</a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-divider mb-6"></div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+          <div class="font-courier text-[0.58rem] tracking-wider" style="color: rgba(232, 244, 248, 0.18);">
+            © 2024 MOREAU CHARPENTE &amp; COUVERTURE — TOUS DROITS RÉSERVÉS
+          </div>
+          <div class="font-courier text-[0.58rem] tracking-wider" style="color: rgba(232, 244, 248, 0.12);">
+            REF. MCC-WEB-2024 // v1.0
+          </div>
+        </div>
+
+      </div>
+    </footer>
+
+
+  </div><!-- /#app -->
+
+
+  <!-- Vue.js 3 CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+  <script>
+    const { createApp, ref, computed, onMounted, watch } = Vue;
+
+    createApp({
+      setup() {
+
+        // ── State ──────────────────────────────────────────────────────────
+        const navOpen = ref(false);
+        const scrolled = ref(false);
+        const activeSection = ref('hero');
+        const portfolioFilter = ref('all');
+
+        const devisStep = ref(1);
+        const devisSubmitted = ref(false);
+        const devisData = ref({
+          type: '', surface: '', batiment: '', delai: '',
+          codePostal: '', message: '', nom: '', email: '', tel: ''
+        });
+
+        // ── Static Data ────────────────────────────────────────────────────
+        const portfolioFilters = [
+          { key: 'all', label: 'Tout' },
+          { key: 'charpente', label: 'Charpente' },
+          { key: 'couverture', label: 'Couverture' },
+          { key: 'mob', label: 'Ossature Bois' },
+        ];
+
+        const portfolio = [
+          { id: 1, title: 'Charpente traditionnelle fermette', location: 'Nantes', year: '2024', tag: 'Charpente', category: 'charpente', img: 'assets/charpente-fermette.jpg' },
+          { id: 3, title: 'MOB plain-pied 140 m²', location: 'Saint-Nazaire', year: '2023', tag: 'Ossature Bois', category: 'mob', img: 'assets/mob-plein-pied-140m2.jpg' },
+          { id: 4, title: 'Extension bois sur villa existante', location: 'Pornic', year: '2023', tag: 'Charpente', category: 'charpente', img: 'assets/extension-bois-sur-villa-existante.jpg' },
+          { id: 6, title: 'MOB 80 m² étage combles aménagés', location: 'Clisson', year: '2022', tag: 'Ossature Bois', category: 'mob', img: 'assets/mob-80m2-etage.jpeg' },
+          { id: 7, title: 'Rénovation charpente grange XVIIe', location: 'Châteaubriant', year: '2022', tag: 'Charpente', category: 'charpente', img: 'assets/renovation-charpente-grange.jpg' },
+          { id: 8, title: 'Toiture tuile mécanique neuve', location: 'Machecoul', year: '2022', tag: 'Couverture', category: 'couverture', img: 'assets/toiture-mecanique-neuve.jpg' },
+        ];
+
+        const projectTypes = [
+          {
+            key: 'charpente', label: 'Charpente', desc: 'Structure bois, combles',
+            viewBox: '0 0 48 48',
+            icon: '<path d="M24 4 L44 20 L44 44 L4 44 L4 20 Z"/><path d="M16 44 L16 30 L32 30 L32 44"/><line x1="24" y1="4" x2="24" y2="14" stroke-width="1" opacity="0.5"/>'
+          },
+          {
+            key: 'couverture', label: 'Couverture', desc: 'Toiture, étanchéité',
+            viewBox: '0 0 48 48',
+            icon: '<path d="M24 6 L44 22 L4 22 Z"/><path d="M6 22 L6 42 L42 42 L42 22"/><line x1="8" y1="30" x2="40" y2="30" opacity="0.5"/>'
+          },
+          {
+            key: 'mob', label: 'Ossature Bois', desc: 'Construction neuve MOB',
+            viewBox: '0 0 48 48',
+            icon: '<rect x="6" y="20" width="36" height="24"/><path d="M24 4 L42 20 L6 20 Z"/><line x1="18" y1="20" x2="18" y2="44" opacity="0.5"/><line x1="30" y1="20" x2="30" y2="44" opacity="0.5"/>'
+          },
+          {
+            key: 'plans', label: 'Plans & Études', desc: 'Technique, permis de construire',
+            viewBox: '0 0 48 48',
+            icon: '<rect x="6" y="6" width="36" height="36"/><line x1="6" y1="16" x2="42" y2="16"/><line x1="16" y1="6" x2="16" y2="42"/>'
+          },
+        ];
+
+        const stepLabels = ['Type de projet', 'Informations', 'Coordonnées', 'Récapitulatif'];
+
+        const stats = [
+          { id: 'exp', val: 20, lbl: 'Ans d\'exp.' },
+          { id: 'chantier', val: 340, lbl: 'Chantiers' },
+          { id: 'depts', val: 12, lbl: 'Départements' },
+        ];
+
+        // ── Computed ───────────────────────────────────────────────────────
+        const filteredPortfolio = computed(() =>
+          portfolioFilter.value === 'all'
+            ? portfolio
+            : portfolio.filter(p => p.category === portfolioFilter.value)
+        );
+
+        // ── Methods ────────────────────────────────────────────────────────
+        const scrollTo = (id) => {
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        const nextStep = () => { if (devisStep.value < 4) devisStep.value++; };
+
+        const submitDevis = () => {
+          localStorage.setItem('moreau_devis', JSON.stringify(devisData.value));
+          devisSubmitted.value = true;
+        };
+
+        const resetDevis = () => {
+          devisData.value = { type: '', surface: '', batiment: '', delai: '', codePostal: '', message: '', nom: '', email: '', tel: '' };
+          devisStep.value = 1;
+          devisSubmitted.value = false;
+        };
+
+        const getTypeLabel = (key) => {
+          const t = projectTypes.find(t => t.key === key);
+          return t ? t.label : key;
+        };
+
+        // ── Scroll handler ─────────────────────────────────────────────────
+        const sectionIds = ['hero', 'services', 'portfolio', 'devis', 'about', 'contact'];
+
+        const onScroll = () => {
+          scrolled.value = window.scrollY > 50;
+
+          for (const id of sectionIds) {
+            const el = document.getElementById(id);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              if (rect.top <= 80 && rect.bottom >= 80) { activeSection.value = id; break; }
+            }
+          }
+
+          // Parallax hero
+          const px = document.getElementById('hero-parallax');
+          if (px) px.style.transform = `translateY(${window.scrollY * 0.14}px)`;
+        };
+
+        // ── Scroll reveal ──────────────────────────────────────────────────
+        const initReveal = () => {
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+          }, { threshold: 0.1 });
+          document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => io.observe(el));
+        };
+
+        // ── Counter animation ──────────────────────────────────────────────
+        const animateCount = (el, target, dur = 1800) => {
+          const t0 = performance.now();
+          const tick = (t) => {
+            const p = Math.min((t - t0) / dur, 1);
+            const e = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.floor(e * target) + (p >= 1 && target > 50 ? '+' : '');
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        };
+
+        const initCounters = () => {
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+              if (e.isIntersecting) {
+                animateCount(e.target, parseInt(e.target.dataset.target, 10));
+                io.unobserve(e.target);
+              }
+            });
+          }, { threshold: 0.5 });
+          document.querySelectorAll('[data-target]').forEach(el => io.observe(el));
+        };
+
+        // ── Lifecycle ──────────────────────────────────────────────────────
+        onMounted(() => {
+          window.addEventListener('scroll', onScroll, { passive: true });
+          setTimeout(() => { initReveal(); initCounters(); }, 120);
+
+          // Restore saved progress
+          const saved = localStorage.getItem('moreau_devis_progress');
+          if (saved) { try { devisData.value = JSON.parse(saved); } catch (_) { } }
+        });
+
+        // Auto-save form progress
+        watch(devisData, val => {
+          localStorage.setItem('moreau_devis_progress', JSON.stringify(val));
+        }, { deep: true });
+
+        // ── Expose ─────────────────────────────────────────────────────────
+        return {
+          navOpen, scrolled, activeSection,
+          portfolioFilter, portfolioFilters, filteredPortfolio,
+          devisStep, devisSubmitted, devisData, stepLabels,
+          projectTypes, stats,
+          scrollTo, nextStep, submitDevis, resetDevis, getTypeLabel,
+        };
+      }
+    }).mount('#app');
+  </script>
+
+</body>
+
+</html>

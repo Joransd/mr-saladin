@@ -1,0 +1,2366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Jardin des Saveurs — Cuisine Moderne & Raffinée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,700&family=Outfit:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root {
+  --noir: #0a0a0a;
+  --noir-soft: #111111;
+  --blanc: #f5f0e8;
+  --blanc-dim: rgba(245,240,232,0.6);
+  --sauge: #8a9e7b;
+  --sauge-dim: rgba(138,158,123,0.15);
+  --or: #c9a84c;
+  --or-dim: rgba(201,168,76,0.12);
+  --grid: rgba(245,240,232,0.04);
+  --grid-size: 80px;
+  --border: rgba(245,240,232,0.08);
+  --transition: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--noir);
+  color: var(--blanc);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--or);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.3s var(--transition), height 0.3s var(--transition), background 0.3s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed;
+  width: 40px; height: 40px;
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s var(--transition), width 0.4s var(--transition), height 0.4s var(--transition), border-color 0.3s;
+}
+.cursor.hover { width: 20px; height: 20px; }
+.cursor-ring.hover { width: 60px; height: 60px; border-color: var(--or); }
+
+/* GRID BACKGROUND */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+}
+.grid-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(245,240,232,0.06) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: padding 0.4s var(--transition), background 0.4s, border-color 0.4s;
+  border-bottom: 1px solid transparent;
+  background: rgba(10,10,10,0.5);
+  backdrop-filter: blur(8px);
+}
+nav.scrolled {
+  padding: 16px 48px;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(20px);
+  border-color: var(--border);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--blanc);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.nav-logo span { font-size: 0.55rem; font-family: 'Outfit', sans-serif; font-weight: 300; letter-spacing: 0.3em; color: var(--or); text-transform: uppercase; margin-top: 3px; }
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-links a {
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--blanc-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--or);
+  transition: width 0.3s var(--transition);
+}
+.nav-links a:hover { color: var(--blanc); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  padding: 10px 24px;
+  border: 1px solid var(--or);
+  color: var(--or) !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.15em;
+  transition: background 0.3s, color 0.3s !important;
+}
+.nav-cta:hover { background: var(--or); color: var(--noir) !important; }
+.nav-cta::after { display: none !important; }
+
+.nav-burger { display: none; flex-direction: column; gap: 5px; cursor: none; background: none; border: none; }
+.nav-burger span { display: block; width: 24px; height: 1px; background: var(--blanc); transition: 0.3s; }
+
+/* HERO */
+#hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 48px 80px;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80') center/cover no-repeat;
+  transform-origin: center;
+  will-change: transform;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.35) 40%, rgba(10,10,10,0.92) 100%);
+}
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+.hero-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+}
+.hero-label::before { content: ''; display: block; width: 40px; height: 1px; background: var(--or); }
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+  overflow: hidden;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+}
+.hero-title .line { display: block; overflow: hidden; }
+.hero-title .line span { display: block; transform: translateY(110%); }
+.hero-title em { font-style: italic; color: var(--or); }
+.hero-sub {
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--blanc-dim);
+  max-width: 420px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  opacity: 0;
+}
+.hero-actions { display: flex; gap: 16px; align-items: center; opacity: 0; }
+.btn-primary {
+  padding: 16px 40px;
+  background: var(--or);
+  color: var(--noir);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.3s var(--transition), box-shadow 0.3s;
+  cursor: none;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 60px rgba(201,168,76,0.3); }
+.btn-secondary {
+  padding: 16px 40px;
+  border: 1px solid var(--border);
+  color: var(--blanc);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.3s, background 0.3s;
+  cursor: none;
+}
+.btn-secondary:hover { border-color: var(--blanc-dim); background: rgba(245,240,232,0.05); }
+
+.hero-scroll {
+  position: absolute;
+  right: 48px;
+  bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+}
+.hero-scroll span { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blanc-dim); writing-mode: vertical-rl; }
+.hero-scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--or), transparent); animation: scrollLine 2s ease infinite; }
+@keyframes scrollLine { 0%,100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.5); opacity: 0.4; } }
+
+/* SECTION COMMONS */
+section { position: relative; z-index: 1; }
+.section-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--or);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-number::after { content: ''; display: block; width: 40px; height: 1px; background: var(--or); }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+.section-title em { font-style: italic; color: var(--or); }
+
+/* ABOUT */
+#about {
+  padding: 90px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+.about-text { max-width: 520px; }
+.about-text p {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--blanc-dim);
+  margin-bottom: 20px;
+}
+.about-text p strong { color: var(--blanc); font-weight: 500; }
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 48px;
+  border: 1px solid var(--border);
+}
+.stat {
+  padding: 28px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat:nth-child(2n) { border-right: none; }
+.stat:nth-last-child(-n+2) { border-bottom: none; }
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--or);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blanc-dim); }
+.about-visual {
+  position: relative;
+  height: 600px;
+}
+.about-img-main {
+  position: absolute;
+  top: 0; left: 40px; right: 0; bottom: 40px;
+  object-fit: cover;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+}
+.about-img-accent {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 200px; height: 260px;
+  object-fit: cover;
+  border: 4px solid var(--noir);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.about-badge {
+  position: absolute;
+  top: 32px; right: -20px;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: var(--or);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--noir);
+  z-index: 3;
+}
+.about-badge strong { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; line-height: 1; }
+.about-badge span { font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* MENU */
+#menus {
+  padding: 90px 48px;
+  border-top: 1px solid var(--border);
+}
+.menus-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.menu-filters {
+  display: flex;
+  gap: 4px;
+}
+.filter-btn {
+  padding: 10px 24px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--blanc-dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--or-dim);
+  border-color: var(--or);
+  color: var(--or);
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+.menu-card {
+  background: var(--noir);
+  overflow: hidden;
+  position: relative;
+  cursor: none;
+  transition: background 0.3s;
+}
+.menu-card:hover { background: var(--noir-soft); }
+.menu-card-img {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+.menu-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--transition);
+}
+.menu-card:hover .menu-card-img img { transform: scale(1.05); }
+.menu-card-category {
+  position: absolute;
+  top: 16px; left: 16px;
+  padding: 6px 14px;
+  background: var(--noir);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--or);
+  border: 1px solid var(--or-dim);
+}
+.menu-card-body { padding: 28px; }
+.menu-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.menu-card-desc {
+  font-size: 0.85rem;
+  color: var(--blanc-dim);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.menu-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+.menu-card-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--or);
+  font-weight: 700;
+}
+.menu-card-price span { font-size: 0.75rem; font-family: 'Outfit', sans-serif; color: var(--blanc-dim); font-weight: 300; }
+.menu-empty {
+  padding: 80px;
+  text-align: center;
+  color: var(--blanc-dim);
+  font-size: 0.9rem;
+  grid-column: 1/-1;
+  border: 1px dashed var(--border);
+}
+
+/* RESERVATION */
+#reservation {
+  padding: 90px 48px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+.reservation-info h2 { margin-bottom: 20px; }
+.reservation-info p {
+  font-size: 0.95rem;
+  color: var(--blanc-dim);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+.reservation-features { display: flex; flex-direction: column; gap: 20px; }
+.res-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.res-feature-icon {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--or);
+  font-size: 1rem;
+}
+.res-feature-text strong { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 4px; }
+.res-feature-text span { font-size: 0.78rem; color: var(--blanc-dim); }
+
+.reservation-form { position: sticky; top: 100px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+.form-group.full { grid-column: 1/-1; }
+.form-group label {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blanc-dim);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  color: var(--blanc);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+  width: 100%;
+  -webkit-appearance: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--or); }
+.form-group select option { background: #1a1a1a; }
+.form-group textarea { resize: vertical; min-height: 100px; }
+.form-submit {
+  margin-top: 24px;
+  width: 100%;
+  padding: 18px;
+  background: var(--or);
+  color: var(--noir);
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: transform 0.3s var(--transition), box-shadow 0.3s;
+}
+.form-submit:hover { transform: translateY(-2px); box-shadow: 0 20px 60px rgba(201,168,76,0.25); }
+.form-success {
+  display: none;
+  padding: 20px;
+  border: 1px solid var(--sauge);
+  background: var(--sauge-dim);
+  color: var(--sauge);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* HOURS */
+#horaires {
+  padding: 90px 48px;
+  border-top: 1px solid var(--border);
+}
+.horaires-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 60px;
+}
+.hours-grid {
+  border: 1px solid var(--border);
+}
+.hours-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.hours-row:last-child { border-bottom: none; }
+.hours-row:hover { background: rgba(245,240,232,0.02); }
+.hours-day {
+  padding: 20px 24px;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-right: 1px solid var(--border);
+}
+.hours-cell {
+  padding: 20px 24px;
+  font-size: 0.85rem;
+  color: var(--blanc-dim);
+  border-right: 1px solid var(--border);
+}
+.hours-cell:last-child { border-right: none; }
+.hours-cell.closed { color: rgba(245,240,232,0.25); font-style: italic; }
+.hours-cell.open { color: var(--sauge); }
+.hours-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or); margin-bottom: 6px; }
+.hours-today { padding: 20px 24px; background: var(--sauge-dim); border: 1px solid rgba(138,158,123,0.2); }
+.hours-right { }
+.hours-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+.hours-tagline em { font-style: italic; color: var(--or); }
+.hours-right p { font-size: 0.9rem; color: var(--blanc-dim); line-height: 1.8; margin-bottom: 32px; }
+.hours-address {
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+.hours-address p { font-size: 0.85rem; line-height: 1.8; color: var(--blanc-dim); }
+.hours-address strong { color: var(--blanc); display: block; margin-bottom: 8px; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+/* FOOTER */
+footer {
+  padding: 60px 48px 40px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+}
+.footer-brand .nav-logo { font-size: 1.4rem; display: inline-flex; margin-bottom: 16px; }
+.footer-brand p { font-size: 0.8rem; color: var(--blanc-dim); line-height: 1.7; max-width: 260px; }
+.footer-col h4 {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul li a {
+  font-size: 0.85rem;
+  color: var(--blanc-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-col ul li a:hover { color: var(--blanc); }
+.footer-col ul li { font-size: 0.85rem; color: var(--blanc-dim); line-height: 1.6; }
+.footer-bottom {
+  padding: 20px 48px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.footer-bottom p { font-size: 0.72rem; color: rgba(245,240,232,0.3); letter-spacing: 0.05em; }
+.admin-trigger {
+  background: none;
+  border: none;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(245,240,232,0.2);
+  text-transform: uppercase;
+  cursor: none;
+  transition: color 0.3s;
+  font-family: 'Outfit', sans-serif;
+}
+.admin-trigger:hover { color: var(--or); }
+
+/* ADMIN OVERLAY */
+.admin-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(10px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.admin-overlay.active { display: flex; }
+.admin-login {
+  background: var(--noir-soft);
+  border: 1px solid var(--border);
+  padding: 48px;
+  width: 420px;
+  text-align: center;
+}
+.admin-login h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+.admin-login p { font-size: 0.8rem; color: var(--blanc-dim); margin-bottom: 32px; }
+.admin-login input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  color: var(--blanc);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  margin-bottom: 16px;
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+.admin-login input:focus { border-color: var(--or); }
+.admin-login-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--or);
+  color: var(--noir);
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: none;
+  margin-bottom: 12px;
+}
+.admin-close-login {
+  background: none;
+  border: none;
+  color: var(--blanc-dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  cursor: none;
+  letter-spacing: 0.1em;
+  margin-top: 8px;
+  transition: color 0.3s;
+}
+.admin-close-login:hover { color: var(--blanc); }
+.admin-error { color: #e57373; font-size: 0.78rem; margin-top: 8px; min-height: 20px; }
+
+.admin-panel {
+  background: var(--noir-soft);
+  border: 1px solid var(--border);
+  width: 90vw;
+  max-width: 1100px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.admin-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+.admin-header h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+.admin-header p { font-size: 0.75rem; color: var(--blanc-dim); }
+.admin-close {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--blanc-dim);
+  width: 36px; height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+.admin-close:hover { border-color: var(--blanc); color: var(--blanc); }
+.admin-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.admin-tab {
+  padding: 16px 32px;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border);
+  color: var(--blanc-dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s;
+  border-bottom: 2px solid transparent;
+}
+.admin-tab.active { color: var(--or); border-bottom-color: var(--or); }
+.admin-tab:hover:not(.active) { color: var(--blanc); }
+.admin-body { overflow-y: auto; flex: 1; padding: 32px; }
+.admin-section { display: none; }
+.admin-section.active { display: block; }
+
+/* Admin Menus */
+.admin-add-btn {
+  padding: 12px 28px;
+  background: var(--or);
+  color: var(--noir);
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: none;
+  margin-bottom: 24px;
+  transition: opacity 0.3s;
+}
+.admin-add-btn:hover { opacity: 0.85; }
+.admin-dish-form {
+  display: none;
+  border: 1px solid var(--or-dim);
+  padding: 24px;
+  margin-bottom: 24px;
+  background: rgba(201,168,76,0.04);
+}
+.admin-dish-form.active { display: block; }
+.admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.admin-form-group { display: flex; flex-direction: column; gap: 6px; }
+.admin-form-group.full { grid-column: 1/-1; }
+.admin-form-group label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blanc-dim); }
+.admin-form-group input,
+.admin-form-group select,
+.admin-form-group textarea {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  color: var(--blanc);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.admin-form-group input:focus,
+.admin-form-group select:focus,
+.admin-form-group textarea:focus { border-color: var(--or); }
+.admin-form-group select option { background: #1a1a1a; }
+.admin-form-actions { display: flex; gap: 10px; margin-top: 16px; }
+.btn-save {
+  padding: 10px 24px;
+  background: var(--or);
+  color: var(--noir);
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: none;
+}
+.btn-cancel {
+  padding: 10px 24px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--blanc-dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: border-color 0.3s, color 0.3s;
+}
+.btn-cancel:hover { border-color: var(--blanc-dim); color: var(--blanc); }
+
+.admin-dish-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.admin-dish-item {
+  background: var(--noir);
+  display: grid;
+  grid-template-columns: 60px 1fr auto auto auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  transition: background 0.2s;
+}
+.admin-dish-item:hover { background: var(--noir-soft); }
+.admin-dish-thumb { width: 60px; height: 60px; object-fit: cover; }
+.admin-dish-info strong { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; }
+.admin-dish-info span { font-size: 0.75rem; color: var(--blanc-dim); }
+.admin-dish-cat {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--or);
+  border: 1px solid var(--or-dim);
+  padding: 4px 10px;
+}
+.admin-dish-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--or); white-space: nowrap; }
+.admin-dish-actions { display: flex; gap: 6px; }
+.btn-edit, .btn-delete {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.2s;
+}
+.btn-edit { color: var(--blanc-dim); }
+.btn-edit:hover { border-color: var(--or); color: var(--or); }
+.btn-delete { color: rgba(245,240,232,0.3); }
+.btn-delete:hover { border-color: #e57373; color: #e57373; }
+
+/* Admin Hours */
+.admin-hours-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.admin-hours-row {
+  background: var(--noir);
+  display: grid;
+  grid-template-columns: 140px 1fr 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 20px;
+}
+.admin-hours-row label { font-size: 0.8rem; font-weight: 500; }
+.admin-hours-row input[type="time"] {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  color: var(--blanc);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.3s;
+  width: 130px;
+}
+.admin-hours-row input[type="time"]:focus { border-color: var(--or); }
+.admin-hours-row input[type="time"]:disabled { opacity: 0.3; }
+.toggle-closed { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--blanc-dim); cursor: none; }
+.toggle-closed input[type="checkbox"] { accent-color: var(--or); width: 16px; height: 16px; cursor: none; }
+.admin-save-hours {
+  margin-top: 24px;
+  padding: 14px 32px;
+  background: var(--or);
+  color: var(--noir);
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: opacity 0.3s;
+}
+.admin-save-hours:hover { opacity: 0.85; }
+.admin-save-msg { display: inline-block; margin-left: 16px; font-size: 0.8rem; color: var(--sauge); opacity: 0; transition: opacity 0.3s; }
+
+/* Admin Reservations */
+.res-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.res-item {
+  background: var(--noir);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+  transition: background 0.2s;
+}
+.res-item:hover { background: var(--noir-soft); }
+.res-item-info strong { font-size: 0.95rem; font-weight: 500; display: block; margin-bottom: 6px; }
+.res-item-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+.res-item-meta span { font-size: 0.75rem; color: var(--blanc-dim); }
+.res-item-meta span b { color: var(--blanc); font-weight: 500; }
+.res-item-msg { margin-top: 10px; font-size: 0.8rem; color: var(--blanc-dim); font-style: italic; }
+.res-status {
+  padding: 6px 14px;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid;
+  white-space: nowrap;
+  cursor: none;
+  background: none;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.2s;
+}
+.res-status.pending { border-color: var(--or-dim); color: var(--or); }
+.res-status.accepted { border-color: rgba(138,158,123,0.4); color: var(--sauge); }
+.res-status.refused { border-color: rgba(229,115,115,0.3); color: #e57373; }
+.res-empty { padding: 60px; text-align: center; color: var(--blanc-dim); font-size: 0.85rem; }
+
+/* FORMULES */
+#formules {
+  padding: 0 48px 90px;
+  border-top: none;
+}
+.formules-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+.formule-tab {
+  padding: 12px 28px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--blanc-dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s;
+  margin-bottom: -1px;
+}
+.formule-tab.active { color: var(--or); border-bottom-color: var(--or); }
+.formule-tab:hover:not(.active) { color: var(--blanc); }
+.formules-section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--or);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.formules-section-label::before { content: '◆'; font-size: 0.5rem; }
+.formule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: var(--border);
+}
+.formule-card {
+  background: var(--noir);
+  padding: 36px 32px;
+  position: relative;
+  cursor: none;
+  transition: background 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.formule-card:hover { background: var(--noir-soft); }
+.formule-card.featured {
+  background: var(--or-dim);
+  border: 1px solid rgba(201,168,76,0.2);
+}
+.formule-card.featured:hover { background: rgba(201,168,76,0.1); }
+.formule-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--or);
+  border: 1px solid var(--or-dim);
+  padding: 4px 10px;
+}
+.formule-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+.formule-subtitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blanc-dim);
+  margin-bottom: 20px;
+}
+.formule-desc {
+  font-size: 0.85rem;
+  color: var(--blanc-dim);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  flex: 1;
+}
+.formule-courses {
+  list-style: none;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.formule-courses li {
+  font-size: 0.8rem;
+  color: var(--blanc-dim);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.formule-courses li::before {
+  content: '—';
+  color: var(--or);
+  font-size: 0.6rem;
+}
+.formule-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  margin-top: auto;
+}
+.formule-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--or);
+  font-weight: 700;
+  line-height: 1;
+}
+.formule-price span { font-size: 0.75rem; font-family: 'Outfit', sans-serif; color: var(--blanc-dim); font-weight: 300; display: block; }
+.formule-empty {
+  padding: 60px;
+  text-align: center;
+  color: var(--blanc-dim);
+  font-size: 0.85rem;
+  grid-column: 1/-1;
+  border: 1px dashed var(--border);
+}
+
+/* Admin Formules */
+.admin-subtabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.admin-subtab {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--blanc-dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s;
+  margin-bottom: -1px;
+}
+.admin-subtab.active { color: var(--or); border-bottom-color: var(--or); }
+.admin-subtab:hover:not(.active) { color: var(--blanc); }
+.admin-subsection { display: none; }
+.admin-subsection.active { display: block; }
+
+.admin-formule-form {
+  display: none;
+  border: 1px solid var(--or-dim);
+  padding: 24px;
+  margin-bottom: 24px;
+  background: rgba(201,168,76,0.04);
+}
+.admin-formule-form.active { display: block; }
+.admin-formule-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.admin-formule-item {
+  background: var(--noir);
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 16px;
+  align-items: center;
+  transition: background 0.2s;
+}
+.admin-formule-item:hover { background: var(--noir-soft); }
+.admin-formule-info strong { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 3px; }
+.admin-formule-info span { font-size: 0.75rem; color: var(--blanc-dim); }
+
+/* Reservation edit modal */
+.res-edit-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+.res-edit-modal.active { display: flex; }
+.res-edit-box {
+  background: var(--noir-soft);
+  border: 1px solid var(--border);
+  width: 560px;
+  max-width: 95vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 32px;
+}
+.res-edit-box h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+}
+.res-edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.res-edit-group { display: flex; flex-direction: column; gap: 6px; }
+.res-edit-group.full { grid-column: 1/-1; }
+.res-edit-group label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blanc-dim); }
+.res-edit-group input,
+.res-edit-group select,
+.res-edit-group textarea {
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  color: var(--blanc);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.res-edit-group input:focus,
+.res-edit-group select:focus,
+.res-edit-group textarea:focus { border-color: var(--or); }
+.res-edit-group select option { background: #1a1a1a; }
+.res-edit-actions { display: flex; gap: 10px; margin-top: 20px; }
+.res-item-actions { display: flex; gap: 6px; flex-direction: column; align-items: flex-end; }
+
+/* REVEAL ANIMATIONS */
+.reveal { opacity: 0; transform: translateY(50px); }
+.reveal.visible { animation: revealUp 0.8s var(--transition) forwards; }
+@keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+
+/* MOBILE NAV */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--noir);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  transform: translateX(100%);
+  transition: transform 0.5s var(--transition);
+}
+.mobile-menu.open { transform: translateX(0); }
+.mobile-menu a {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: var(--blanc);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--or); }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--noir); }
+::-webkit-scrollbar-thumb { background: var(--or); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .nav-burger { display: flex; }
+
+  #hero { padding: 0 24px 60px; }
+  .hero-scroll { display: none; }
+
+  #about { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+  .about-visual { height: 400px; }
+
+  #menus { padding: 60px 24px; }
+
+  #reservation { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+  .reservation-form { position: static; }
+
+  #horaires { padding: 60px 24px; }
+  .horaires-content { grid-template-columns: 1fr; gap: 40px; }
+  .admin-hours-row { grid-template-columns: 120px 1fr; flex-wrap: wrap; }
+  .admin-hours-row > *:last-child { grid-column: 2; }
+
+  footer { grid-template-columns: 1fr; padding: 40px 24px; }
+  .footer-bottom { padding: 16px 24px; flex-direction: column; gap: 8px; text-align: center; }
+
+  .form-grid { grid-template-columns: 1fr; }
+  .admin-form-grid { grid-template-columns: 1fr; }
+  .admin-dish-item { grid-template-columns: 48px 1fr; }
+  .admin-dish-cat, .admin-dish-price, .admin-dish-actions { grid-column: 2; }
+  .admin-dish-actions { flex-wrap: wrap; }
+
+  .admin-panel { width: 95vw; max-height: 90vh; }
+  .admin-body { padding: 20px; }
+
+  #formules { padding: 0 24px 60px; }
+  .formule-grid { grid-template-columns: 1fr; }
+  .res-edit-grid { grid-template-columns: 1fr; }
+  .admin-hours-row { grid-template-columns: 1fr; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    Le Jardin des Saveurs
+    <span>Cuisine Moderne & Raffinée</span>
+  </a>
+  <div class="nav-links">
+    <a href="#about">À Propos</a>
+    <a href="#menus">Menus</a>
+    <a href="#horaires">Horaires</a>
+    <a href="#reservation" class="nav-cta">Réserver</a>
+  </div>
+  <button class="nav-burger" id="navBurger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMobileMenu()">À Propos</a>
+  <a href="#menus" onclick="closeMobileMenu()">Menus</a>
+  <a href="#horaires" onclick="closeMobileMenu()">Horaires</a>
+  <a href="#reservation" onclick="closeMobileMenu()">Réserver</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <div class="hero-label">Paris, France · Depuis 2018</div>
+    <h1 class="hero-title">
+      <span class="line"><span>L'Art de la</span></span>
+      <span class="line"><span><em>Table</em> Moderne</span></span>
+    </h1>
+    <p class="hero-sub">Une cuisine d'auteur qui célèbre les produits d'exception — entre tradition française et créativité contemporaine.</p>
+    <div class="hero-actions">
+      <a href="#reservation" class="btn-primary">Réserver une table</a>
+      <a href="#menus" class="btn-secondary">Découvrir les menus</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Défiler</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text">
+    <div class="section-number">01 — Notre Histoire</div>
+    <h2 class="section-title">Un jardin <em>culinaire</em><br>au cœur de Paris</h2>
+    <p>Fondé en 2018 par le chef <strong>Élise Moreau</strong>, Le Jardin des Saveurs est né d'une vision simple : sublimer les produits du terroir français avec une sensibilité contemporaine et une précision technique irréprochable.</p>
+    <p>Chaque assiette raconte une histoire — celle des producteurs que nous choisissons avec soin, des saisons que nous respectons, et d'un <strong>savoir-faire transmis</strong> de génération en génération, réinventé pour aujourd'hui.</p>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-number" data-target="6">0</div>
+        <div class="stat-label">Années d'excellence</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-target="1">0</div>
+        <div class="stat-label">Étoile Michelin</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-target="12">0</div>
+        <div class="stat-label">Producteurs partenaires</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-target="98">0</div>
+        <div class="stat-label">% d'avis positifs</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual">
+    <img class="about-img-main" src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=800&q=80" alt="Chef en cuisine">
+    <img class="about-img-accent" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=80" alt="Plat signature">
+    <div class="about-badge">
+      <strong>★</strong>
+      <span>Michelin</span>
+    </div>
+  </div>
+</section>
+
+<!-- MENUS -->
+<section id="menus">
+  <div class="menus-header">
+    <div>
+      <div class="section-number">02 — Notre Carte</div>
+      <h2 class="section-title">La Carte des <em>Saveurs</em></h2>
+    </div>
+    <div class="menu-filters">
+      <button class="filter-btn active" data-filter="all">Tout</button>
+      <button class="filter-btn" data-filter="entree">Entrées</button>
+      <button class="filter-btn" data-filter="plat">Plats</button>
+      <button class="filter-btn" data-filter="dessert">Desserts</button>
+    </div>
+  </div>
+  <div class="menu-grid" id="menuGrid"></div>
+</section>
+
+<!-- FORMULES -->
+<section id="formules">
+  <div class="menus-header" style="margin-bottom:32px">
+    <div>
+      <div class="section-number">02b — Nos Menus</div>
+      <h2 class="section-title">Nos <em>Formules</em></h2>
+    </div>
+  </div>
+  <div class="formule-grid" id="formuleGrid"></div>
+</section>
+
+<!-- RESERVATION -->
+<section id="reservation">
+  <div class="reservation-info">
+    <div class="section-number">03 — Votre Table</div>
+    <h2 class="section-title">Réserver une <em>expérience</em></h2>
+    <p>Laissez-vous porter par une soirée d'exception. Notre équipe vous accueillera dans un cadre intime et raffiné, pour un moment inoubliable.</p>
+    <div class="reservation-features">
+      <div class="res-feature">
+        <div class="res-feature-icon">◈</div>
+        <div class="res-feature-text">
+          <strong>Confirmation sous 24h</strong>
+          <span>Nous confirmons votre réservation par email ou téléphone</span>
+        </div>
+      </div>
+      <div class="res-feature">
+        <div class="res-feature-icon">◎</div>
+        <div class="res-feature-text">
+          <strong>Allergies & régimes spéciaux</strong>
+          <span>Mentionnez vos contraintes alimentaires dans le message</span>
+        </div>
+      </div>
+      <div class="res-feature">
+        <div class="res-feature-icon">◇</div>
+        <div class="res-feature-text">
+          <strong>Événements privatifs</strong>
+          <span>Contactez-nous pour organiser votre événement en exclusivité</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="reservation-form">
+    <form id="resForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Prénom & Nom *</label>
+          <input type="text" name="nom" required placeholder="Jean Dupont">
+        </div>
+        <div class="form-group">
+          <label>Téléphone *</label>
+          <input type="tel" name="tel" required placeholder="+33 6 00 00 00 00">
+        </div>
+        <div class="form-group full">
+          <label>Email *</label>
+          <input type="email" name="email" required placeholder="jean@exemple.fr">
+        </div>
+        <div class="form-group">
+          <label>Date souhaitée *</label>
+          <input type="date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label>Heure *</label>
+          <select name="heure" required>
+            <option value="">Choisir</option>
+            <option>12:00</option><option>12:30</option><option>13:00</option><option>13:30</option>
+            <option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Nombre de couverts *</label>
+          <select name="personnes" required>
+            <option value="">Choisir</option>
+            <option>1 personne</option><option>2 personnes</option><option>3 personnes</option>
+            <option>4 personnes</option><option>5 personnes</option><option>6 personnes</option>
+            <option>7-10 personnes</option><option>Plus de 10</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Message (optionnel)</label>
+          <textarea name="message" placeholder="Allergies, occasion spéciale, demandes particulières…"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="form-submit">Envoyer la demande de réservation</button>
+      <div class="form-success" id="formSuccess">
+        ✦ Votre demande a bien été reçue.<br>
+        Nous vous confirmerons votre réservation dans les plus brefs délais.
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- HORAIRES -->
+<section id="horaires">
+  <div class="section-number">04 — Nous Trouver</div>
+  <h2 class="section-title">Horaires & <em>Accès</em></h2>
+  <div class="horaires-content">
+    <div>
+      <div class="hours-grid" id="hoursDisplay"></div>
+    </div>
+    <div class="hours-right">
+      <h3 class="hours-tagline">Venez vivre<br>une <em>expérience</em><br>unique</h3>
+      <p>Ouvert du mardi au dimanche, notre restaurant vous accueille le midi et le soir dans un cadre contemporain et intimiste.</p>
+      <div class="hours-address">
+        <strong>Adresse</strong>
+        <p>12 Rue des Jardins<br>75006 Paris, France</p>
+        <br>
+        <strong>Contact</strong>
+        <p>+33 1 42 00 00 00<br>contact@jardindessaveurs.fr</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="#" class="nav-logo">
+      Le Jardin des Saveurs
+      <span>Cuisine Moderne & Raffinée</span>
+    </a>
+    <p>Une cuisine d'exception au cœur de Paris, où chaque assiette est une invitation au voyage.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="#about">Notre histoire</a></li>
+      <li><a href="#menus">La carte</a></li>
+      <li><a href="#reservation">Réservation</a></li>
+      <li><a href="#horaires">Horaires & accès</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Informations</h4>
+    <ul>
+      <li>12 Rue des Jardins, 75006 Paris</li>
+      <li>+33 1 42 00 00 00</li>
+      <li>contact@jardindessaveurs.fr</li>
+      <li style="margin-top:8px;color:var(--or)">Ouvert Mar–Dim</li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2024 Le Jardin des Saveurs — Tous droits réservés</p>
+  <button class="admin-trigger" id="adminTrigger">Espace restaurateur</button>
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="adminOverlay">
+  <!-- Login -->
+  <div class="admin-login" id="adminLogin">
+    <h2>Espace Admin</h2>
+    <p>Accès réservé au restaurateur</p>
+    <input type="password" id="adminPass" placeholder="••••••••••">
+    <button class="admin-login-btn" id="adminLoginBtn">Accéder</button>
+    <div class="admin-error" id="adminError"></div>
+    <button class="admin-close-login" id="adminCloseLogin">Annuler</button>
+  </div>
+
+  <!-- Panel -->
+  <div class="admin-panel" id="adminPanel" style="display:none">
+    <div class="admin-header">
+      <div>
+        <h2>Tableau de bord</h2>
+        <p>Le Jardin des Saveurs — Gestion du restaurant</p>
+      </div>
+      <button class="admin-close" id="adminClosePanel">✕</button>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="menus">Menus</button>
+      <button class="admin-tab" data-tab="horaires">Horaires</button>
+      <button class="admin-tab" data-tab="reservations">Réservations</button>
+    </div>
+    <div class="admin-body">
+
+      <!-- TAB: MENUS -->
+      <div class="admin-section active" id="tab-menus">
+        <div class="admin-subtabs">
+          <button class="admin-subtab active" data-subtab="plats">Plats à la carte</button>
+          <button class="admin-subtab" data-subtab="formules">Formules & Menus</button>
+        </div>
+
+        <!-- SUB: PLATS -->
+        <div class="admin-subsection active" id="subtab-plats">
+          <button class="admin-add-btn" id="showDishForm">+ Ajouter un plat</button>
+          <div class="admin-dish-form" id="dishForm">
+            <div class="admin-form-grid">
+              <div class="admin-form-group">
+                <label>Nom du plat *</label>
+                <input type="text" id="dishName" placeholder="Ex: Filet de bœuf Rossini">
+              </div>
+              <div class="admin-form-group">
+                <label>Prix (€) *</label>
+                <input type="number" id="dishPrice" placeholder="38" step="0.5" min="0">
+              </div>
+              <div class="admin-form-group">
+                <label>Catégorie *</label>
+                <select id="dishCat">
+                  <option value="entree">Entrée</option>
+                  <option value="plat">Plat</option>
+                  <option value="dessert">Dessert</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>URL de la photo</label>
+                <input type="url" id="dishPhoto" placeholder="https://...">
+              </div>
+              <div class="admin-form-group full">
+                <label>Description</label>
+                <textarea id="dishDesc" placeholder="Ingrédients, accompagnements, cuisson…" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button class="btn-save" id="saveDish">Sauvegarder</button>
+              <button class="btn-cancel" id="cancelDish">Annuler</button>
+            </div>
+          </div>
+          <div class="admin-dish-list" id="adminDishList"></div>
+        </div>
+
+        <!-- SUB: FORMULES -->
+        <div class="admin-subsection" id="subtab-formules">
+          <button class="admin-add-btn" id="showFormuleForm">+ Ajouter une formule</button>
+          <div class="admin-formule-form" id="formuleForm">
+            <div class="admin-form-grid">
+              <div class="admin-form-group">
+                <label>Nom de la formule *</label>
+                <input type="text" id="formuleName" placeholder="Ex: Menu Découverte">
+              </div>
+              <div class="admin-form-group">
+                <label>Prix (€) *</label>
+                <input type="number" id="formulePrice" placeholder="45" step="0.5" min="0">
+              </div>
+              <div class="admin-form-group full">
+                <label>Sous-titre</label>
+                <input type="text" id="formuleSubtitle" placeholder="Ex: Déjeuner en semaine">
+              </div>
+              <div class="admin-form-group full">
+                <label>Description</label>
+                <textarea id="formuleDesc" placeholder="Présentation de la formule…" rows="2"></textarea>
+              </div>
+              <div class="admin-form-group full">
+                <label>Plats inclus (un par ligne)</label>
+                <textarea id="formuleCourses" placeholder="Entrée au choix&#10;Plat principal&#10;Dessert du jour" rows="4"></textarea>
+              </div>
+              <div class="admin-form-group">
+                <label>Badge (ex: Populaire, Nouveau…)</label>
+                <input type="text" id="formuleBadge" placeholder="Populaire">
+              </div>
+              <div class="admin-form-group">
+                <label>Mise en avant</label>
+                <select id="formuleFeatured">
+                  <option value="false">Non</option>
+                  <option value="true">Oui (fond doré)</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-actions">
+              <button class="btn-save" id="saveFormule">Sauvegarder</button>
+              <button class="btn-cancel" id="cancelFormule">Annuler</button>
+            </div>
+          </div>
+          <div class="admin-formule-list" id="adminFormuleList"></div>
+        </div>
+      </div>
+
+      <!-- TAB: HORAIRES -->
+      <div class="admin-section" id="tab-horaires">
+        <div class="admin-hours-grid" id="adminHoursGrid"></div>
+        <div style="margin-top:24px;display:flex;align-items:center;">
+          <button class="admin-save-hours" id="saveHoursBtn">Sauvegarder les horaires</button>
+          <span class="admin-save-msg" id="hoursSaveMsg">✓ Horaires sauvegardés</span>
+        </div>
+      </div>
+
+      <!-- TAB: RESERVATIONS -->
+      <div class="admin-section" id="tab-reservations">
+        <div id="resList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- RESERVATION EDIT MODAL -->
+<div class="res-edit-modal" id="resEditModal">
+  <div class="res-edit-box">
+    <h3>Modifier la réservation</h3>
+    <input type="hidden" id="editResId">
+    <div class="res-edit-grid">
+      <div class="res-edit-group">
+        <label>Nom *</label>
+        <input type="text" id="editResNom" required>
+      </div>
+      <div class="res-edit-group">
+        <label>Téléphone</label>
+        <input type="tel" id="editResTel">
+      </div>
+      <div class="res-edit-group full">
+        <label>Email</label>
+        <input type="email" id="editResEmail">
+      </div>
+      <div class="res-edit-group">
+        <label>Date</label>
+        <input type="date" id="editResDate">
+      </div>
+      <div class="res-edit-group">
+        <label>Heure</label>
+        <select id="editResHeure">
+          <option>12:00</option><option>12:30</option><option>13:00</option><option>13:30</option>
+          <option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option>
+        </select>
+      </div>
+      <div class="res-edit-group full">
+        <label>Couverts</label>
+        <select id="editResPersonnes">
+          <option>1 personne</option><option>2 personnes</option><option>3 personnes</option>
+          <option>4 personnes</option><option>5 personnes</option><option>6 personnes</option>
+          <option>7-10 personnes</option><option>Plus de 10</option>
+        </select>
+      </div>
+      <div class="res-edit-group full">
+        <label>Message</label>
+        <textarea id="editResMessage" rows="3"></textarea>
+      </div>
+      <div class="res-edit-group full">
+        <label>Statut</label>
+        <select id="editResStatus">
+          <option value="pending">En attente</option>
+          <option value="accepted">Accepté</option>
+          <option value="refused">Refusé</option>
+        </select>
+      </div>
+    </div>
+    <div class="res-edit-actions">
+      <button class="btn-save" id="saveResEdit">Enregistrer</button>
+      <button class="btn-cancel" id="cancelResEdit">Annuler</button>
+      <button class="btn-delete" id="deleteRes" style="margin-left:auto">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const DEFAULT_MENUS = [
+  { id: 1, name: 'Velouté de châtaignes', desc: 'Crème légère à la truffe noire, chips de jambon ibérique et huile de noisette', price: 18, cat: 'entree', photo: 'images/veloute-chataigne.jpg' },
+  { id: 2, name: 'Tartare de thon rouge', desc: 'Avocat, ponzu maison, roquette sauvage et tuile au parmesan', price: 22, cat: 'entree', photo: 'https://images.unsplash.com/photo-1534482421-64566f976cfa?w=600&q=80' },
+  { id: 3, name: 'Œuf parfait 63°', desc: 'Émulsion de champignons, lardons fumés, pain croustillant au beurre noisette', price: 16, cat: 'entree', photo: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80' },
+  { id: 4, name: 'Filet de bœuf Rossini', desc: 'Foie gras poêlé, sauce périgourdine, gratin dauphinois et légumes de saison', price: 48, cat: 'plat', photo: 'https://images.unsplash.com/photo-1558030006-450675393462?w=600&q=80' },
+  { id: 5, name: 'Saint-Jacques poêlées', desc: 'Purée de céleri-rave, émulsion de beurre blanc, caviar d\'Aquitaine', price: 42, cat: 'plat', photo: 'https://images.unsplash.com/photo-1611599538835-b52a8c2f9751?w=600&q=80' },
+  { id: 6, name: 'Risotto à la truffe noire', desc: 'Riz carnaroli, truffe noire du Périgord, parmesan vieux 36 mois', price: 38, cat: 'plat', photo: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=600&q=80' },
+  { id: 7, name: 'Soufflé au chocolat Guanaja', desc: 'Cœur coulant, glace à la vanille Bourbon, caramel beurre salé', price: 16, cat: 'dessert', photo: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=80' },
+  { id: 8, name: 'Tarte citron revisitée', desc: 'Crème légère au citron yuzu, meringue italienne flambée, zestes confits', price: 14, cat: 'dessert', photo: 'https://images.unsplash.com/photo-1519915028121-7d3463d20b13?w=600&q=80' },
+];
+
+const DAYS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+const DEFAULT_HORAIRES = {
+  Lundi:    { closed: true,  midi: '', soir: '' },
+  Mardi:    { closed: false, midi: '12:00-14:30', soir: '19:00-22:30' },
+  Mercredi: { closed: false, midi: '12:00-14:30', soir: '19:00-22:30' },
+  Jeudi:    { closed: false, midi: '12:00-14:30', soir: '19:00-22:30' },
+  Vendredi: { closed: false, midi: '12:00-14:30', soir: '19:00-22:30' },
+  Samedi:   { closed: false, midi: '12:00-14:30', soir: '19:00-22:30' },
+  Dimanche: { closed: false, midi: '12:00-15:00', soir: '' },
+};
+
+const DEFAULT_FORMULES = [
+  { id: 101, name: 'Menu Midi', subtitle: 'Déjeuner en semaine', price: 32, desc: 'Une pause déjeuner d\'exception, courte et raffinée pour savourer le temps présent.', courses: ['Entrée du marché', 'Plat du jour', 'Café ou mignardises'], badge: '', featured: false },
+  { id: 102, name: 'Découverte', subtitle: '3 plats — Déjeuner & Dîner', price: 55, desc: 'Une initiation en douceur à la cuisine de notre chef, à travers trois étapes soigneusement composées.', courses: ['Entrée au choix', 'Plat principal au choix', 'Dessert signature'], badge: '', featured: false },
+  { id: 103, name: 'Passion', subtitle: '5 plats — Dîner uniquement', price: 85, desc: 'Le voyage gastronomique complet — une succession de tableaux savoureux qui racontent notre territoire.', courses: ['Amuse-bouche', 'Entrée fraîcheur', 'Plat de la mer ou de la terre', 'Pré-dessert', 'Dessert du Jardin'], badge: 'Populaire', featured: true },
+  { id: 104, name: 'Menu Enfant', subtitle: 'Pour les moins de 12 ans', price: 18, desc: 'Une carte pensée pour les petits gourmands, avec des saveurs simples et authentiques qu\'ils adorent.', courses: ['Soupe ou salade', 'Plat au choix (poisson ou viande)', 'Dessert surprise'], badge: '', featured: false },
+];
+
+function loadMenus() {
+  const d = localStorage.getItem('jds_menus');
+  return d ? JSON.parse(d) : [...DEFAULT_MENUS];
+}
+function saveMenus(m) { localStorage.setItem('jds_menus', JSON.stringify(m)); }
+function loadHoraires() {
+  const d = localStorage.getItem('jds_horaires');
+  return d ? JSON.parse(d) : JSON.parse(JSON.stringify(DEFAULT_HORAIRES));
+}
+function saveHoraires(h) { localStorage.setItem('jds_horaires', JSON.stringify(h)); }
+function loadReservations() {
+  const d = localStorage.getItem('jds_reservations');
+  return d ? JSON.parse(d) : [];
+}
+function saveReservations(r) { localStorage.setItem('jds_reservations', JSON.stringify(r)); }
+function loadFormules() {
+  const d = localStorage.getItem('jds_formules');
+  return d ? JSON.parse(d) : [...DEFAULT_FORMULES];
+}
+function saveFormules(f) { localStorage.setItem('jds_formules', JSON.stringify(f)); }
+
+// ── CURSOR ────────────────────────────────────────────────────────────────────
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+(function animRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx+'px'; ring.style.top = ry+'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('a,button,[class*="btn"],[class*="card"],[class*="filter"]').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+  el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+});
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+document.getElementById('navBurger').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// ── GSAP ANIMATIONS ───────────────────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero intro
+const tl = gsap.timeline({ delay: 0.2 });
+tl.to('.hero-title .line span', { y: '0%', duration: 1.1, ease: 'power4.out', stagger: 0.12 })
+  .to('.hero-label', { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.6')
+  .to('.hero-sub', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+  .to('.hero-actions', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+  .to('.hero-scroll', { opacity: 1, duration: 0.5 }, '-=0.2');
+
+// Hero parallax
+gsap.to('#heroBg', {
+  yPercent: 30,
+  ease: 'none',
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+});
+
+// Scroll reveals
+document.querySelectorAll('.about-text, .about-visual, .section-number, .section-title, .reservation-info, .reservation-form, .hours-right, #hoursDisplay, .footer-brand, .footer-col').forEach((el, i) => {
+  gsap.from(el, {
+    opacity: 0, y: 50,
+    duration: 0.9, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+    delay: (i % 3) * 0.1
+  });
+});
+
+// Stat counters
+document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+  const target = +el.dataset.target;
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 85%',
+    once: true,
+    onEnter: () => gsap.to({ val: 0 }, {
+      val: target, duration: 1.5, ease: 'power2.out',
+      onUpdate: function() { el.textContent = Math.round(this.targets()[0].val) + (target === 98 ? '%' : ''); }
+    })
+  });
+});
+
+// Menu cards stagger
+function animateMenuCards() {
+  gsap.from('.menu-card', {
+    opacity: 0, y: 40,
+    duration: 0.7, ease: 'power3.out',
+    stagger: 0.08,
+    scrollTrigger: { trigger: '#menuGrid', start: 'top 85%', toggleActions: 'play none none none' }
+  });
+}
+
+// ── RENDER FORMULES ───────────────────────────────────────────────────────────
+function renderFormules() {
+  const formules = loadFormules();
+  const grid = document.getElementById('formuleGrid');
+  if (!formules.length) {
+    grid.innerHTML = '<div class="formule-empty">Aucune formule disponible pour le moment.</div>';
+    return;
+  }
+  grid.innerHTML = formules.map(f => `
+    <div class="formule-card${f.featured ? ' featured' : ''}">
+      ${f.badge ? `<div class="formule-badge">${f.badge}</div>` : ''}
+      <div class="formule-name">${f.name}</div>
+      ${f.subtitle ? `<div class="formule-subtitle">${f.subtitle}</div>` : ''}
+      ${f.desc ? `<div class="formule-desc">${f.desc}</div>` : ''}
+      ${f.courses && f.courses.length ? `<ul class="formule-courses">${f.courses.map(c => `<li>${c}</li>`).join('')}</ul>` : ''}
+      <div class="formule-footer">
+        <div class="formule-price">${parseFloat(f.price).toFixed(0)}€ <span>par personne</span></div>
+        <a href="#reservation" class="btn-primary" style="padding:10px 20px;font-size:.7rem">Réserver</a>
+      </div>
+    </div>
+  `).join('');
+  // Re-attach cursor to new cards
+  grid.querySelectorAll('.formule-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+  });
+}
+
+// ── RENDER MENUS ─────────────────────────────────────────────────────────────
+let activeFilter = 'all';
+let menus = loadMenus();
+
+const catLabels = { entree: 'Entrée', plat: 'Plat', dessert: 'Dessert' };
+
+function renderMenus() {
+  menus = loadMenus();
+  const grid = document.getElementById('menuGrid');
+  const filtered = activeFilter === 'all' ? menus : menus.filter(m => m.cat === activeFilter);
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="menu-empty">Aucun plat dans cette catégorie.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(m => `
+    <div class="menu-card">
+      <div class="menu-card-img">
+        <img src="${m.photo || 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80'}" alt="${m.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80'">
+        <div class="menu-card-category">${catLabels[m.cat] || m.cat}</div>
+      </div>
+      <div class="menu-card-body">
+        <div class="menu-card-name">${m.name}</div>
+        <div class="menu-card-desc">${m.desc || ''}</div>
+        <div class="menu-card-footer">
+          <div class="menu-card-price">${parseFloat(m.price).toFixed(0)}€ <span>/ pers.</span></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  // Re-add cursor hover
+  grid.querySelectorAll('.menu-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); ring.classList.add('hover'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); ring.classList.remove('hover'); });
+  });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderMenus();
+    gsap.from('.menu-card', { opacity: 0, y: 30, duration: 0.5, ease: 'power2.out', stagger: 0.06 });
+  });
+});
+
+// ── RENDER HOURS ──────────────────────────────────────────────────────────────
+function renderHours() {
+  const horaires = loadHoraires();
+  const todayIndex = new Date().getDay(); // 0=Sun
+  const todayName = DAYS[todayIndex === 0 ? 6 : todayIndex - 1];
+  const el = document.getElementById('hoursDisplay');
+  el.innerHTML = DAYS.map(day => {
+    const h = horaires[day] || { closed: true };
+    const isToday = day === todayName;
+    return `<div class="hours-row${isToday ? ' hours-today' : ''}">
+      <div class="hours-day">${isToday ? '→ ' : ''}${day}</div>
+      <div class="hours-cell ${h.closed ? 'closed' : 'open'}">
+        ${h.closed ? 'Fermé' : (h.midi ? `<div class="hours-label">Midi</div>${h.midi}` : '—')}
+      </div>
+      <div class="hours-cell ${h.closed || !h.soir ? 'closed' : 'open'}">
+        ${h.closed ? '' : (h.soir ? `<div class="hours-label">Soir</div>${h.soir}` : '—')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── RESERVATION ───────────────────────────────────────────────────────────────
+// Set min date to today
+const today = new Date().toISOString().split('T')[0];
+document.querySelector('input[name="date"]').setAttribute('min', today);
+
+document.getElementById('resForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const res = { id: Date.now(), nom: fd.get('nom'), tel: fd.get('tel'), email: fd.get('email'), date: fd.get('date'), heure: fd.get('heure'), personnes: fd.get('personnes'), message: fd.get('message'), status: 'pending', createdAt: new Date().toISOString() };
+  const all = loadReservations();
+  all.unshift(res);
+  saveReservations(all);
+  const success = document.getElementById('formSuccess');
+  success.style.display = 'block';
+  gsap.from(success, { opacity: 0, y: 10, duration: 0.5 });
+  e.target.reset();
+  setTimeout(() => { success.style.display = 'none'; }, 6000);
+});
+
+// ── ADMIN ─────────────────────────────────────────────────────────────────────
+const overlay = document.getElementById('adminOverlay');
+const loginEl = document.getElementById('adminLogin');
+const panelEl = document.getElementById('adminPanel');
+let editingId = null;
+
+document.getElementById('adminTrigger').addEventListener('click', () => {
+  overlay.classList.add('active');
+  loginEl.style.display = 'block';
+  panelEl.style.display = 'none';
+  document.getElementById('adminPass').value = '';
+  document.getElementById('adminError').textContent = '';
+});
+
+document.getElementById('adminCloseLogin').addEventListener('click', closeAdmin);
+document.getElementById('adminClosePanel').addEventListener('click', closeAdmin);
+
+function closeAdmin() {
+  overlay.classList.remove('active');
+  editingId = null;
+  document.getElementById('dishForm').classList.remove('active');
+}
+
+overlay.addEventListener('click', e => { if (e.target === overlay) closeAdmin(); });
+
+document.getElementById('adminLoginBtn').addEventListener('click', () => {
+  const pw = document.getElementById('adminPass').value;
+  if (pw === 'admin123') {
+    loginEl.style.display = 'none';
+    panelEl.style.display = 'flex';
+    panelEl.style.flexDirection = 'column';
+    renderAdminMenus();
+    renderAdminFormules();
+    renderAdminHours();
+    renderAdminReservations();
+  } else {
+    document.getElementById('adminError').textContent = 'Mot de passe incorrect.';
+    gsap.to(loginEl, { x: -8, duration: 0.05, yoyo: true, repeat: 5 });
+  }
+});
+
+document.getElementById('adminPass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('adminLoginBtn').click();
+});
+
+// Tabs
+document.querySelectorAll('.admin-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'reservations') renderAdminReservations();
+  });
+});
+
+// Sub-tabs (Plats / Formules)
+document.querySelectorAll('.admin-subtab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-subtab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.admin-subsection').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('subtab-' + tab.dataset.subtab).classList.add('active');
+  });
+});
+
+// ── ADMIN: MENUS ──────────────────────────────────────────────────────────────
+document.getElementById('showDishForm').addEventListener('click', () => {
+  editingId = null;
+  clearDishForm();
+  document.getElementById('dishForm').classList.add('active');
+  document.getElementById('dishName').focus();
+});
+
+document.getElementById('cancelDish').addEventListener('click', () => {
+  document.getElementById('dishForm').classList.remove('active');
+  editingId = null;
+});
+
+document.getElementById('saveDish').addEventListener('click', () => {
+  const name = document.getElementById('dishName').value.trim();
+  const price = document.getElementById('dishPrice').value;
+  const cat = document.getElementById('dishCat').value;
+  const photo = document.getElementById('dishPhoto').value.trim();
+  const desc = document.getElementById('dishDesc').value.trim();
+  if (!name || !price) { alert('Veuillez renseigner le nom et le prix.'); return; }
+
+  let menus = loadMenus();
+  if (editingId) {
+    menus = menus.map(m => m.id === editingId ? { ...m, name, price, cat, photo, desc } : m);
+  } else {
+    menus.push({ id: Date.now(), name, price: parseFloat(price), cat, photo, desc });
+  }
+  saveMenus(menus);
+  renderAdminMenus();
+  renderMenus();
+  document.getElementById('dishForm').classList.remove('active');
+  editingId = null;
+});
+
+function clearDishForm() {
+  document.getElementById('dishName').value = '';
+  document.getElementById('dishPrice').value = '';
+  document.getElementById('dishCat').value = 'entree';
+  document.getElementById('dishPhoto').value = '';
+  document.getElementById('dishDesc').value = '';
+}
+
+function renderAdminMenus() {
+  const menus = loadMenus();
+  const el = document.getElementById('adminDishList');
+  if (!menus.length) { el.innerHTML = '<div style="padding:40px;text-align:center;color:var(--blanc-dim)">Aucun plat. Ajoutez-en un.</div>'; return; }
+  el.innerHTML = menus.map(m => `
+    <div class="admin-dish-item">
+      <img class="admin-dish-thumb" src="${m.photo || 'https://images.unsplash.com/photo-1547592180-85f173990554?w=120&q=60'}" alt="${m.name}" onerror="this.src='https://images.unsplash.com/photo-1547592180-85f173990554?w=120&q=60'">
+      <div class="admin-dish-info"><strong>${m.name}</strong><span>${m.desc ? m.desc.slice(0,60)+'…' : 'Aucune description'}</span></div>
+      <div class="admin-dish-cat">${catLabels[m.cat] || m.cat}</div>
+      <div class="admin-dish-price">${parseFloat(m.price).toFixed(0)}€</div>
+      <div class="admin-dish-actions">
+        <button class="btn-edit" onclick="editDish(${m.id})">Modifier</button>
+        <button class="btn-delete" onclick="deleteDish(${m.id})">Supprimer</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.editDish = function(id) {
+  const menus = loadMenus();
+  const m = menus.find(x => x.id === id);
+  if (!m) return;
+  editingId = id;
+  document.getElementById('dishName').value = m.name;
+  document.getElementById('dishPrice').value = m.price;
+  document.getElementById('dishCat').value = m.cat;
+  document.getElementById('dishPhoto').value = m.photo || '';
+  document.getElementById('dishDesc').value = m.desc || '';
+  document.getElementById('dishForm').classList.add('active');
+  document.getElementById('dishForm').scrollIntoView({ behavior: 'smooth' });
+};
+
+window.deleteDish = function(id) {
+  if (!confirm('Supprimer ce plat ?')) return;
+  let menus = loadMenus();
+  menus = menus.filter(m => m.id !== id);
+  saveMenus(menus);
+  renderAdminMenus();
+  renderMenus();
+};
+
+// ── ADMIN: FORMULES ───────────────────────────────────────────────────────────
+let editingFormuleId = null;
+
+document.getElementById('showFormuleForm').addEventListener('click', () => {
+  editingFormuleId = null;
+  clearFormuleForm();
+  document.getElementById('formuleForm').classList.add('active');
+  document.getElementById('formuleName').focus();
+});
+document.getElementById('cancelFormule').addEventListener('click', () => {
+  document.getElementById('formuleForm').classList.remove('active');
+  editingFormuleId = null;
+});
+document.getElementById('saveFormule').addEventListener('click', () => {
+  const name = document.getElementById('formuleName').value.trim();
+  const price = document.getElementById('formulePrice').value;
+  const subtitle = document.getElementById('formuleSubtitle').value.trim();
+  const desc = document.getElementById('formuleDesc').value.trim();
+  const coursesRaw = document.getElementById('formuleCourses').value.trim();
+  const badge = document.getElementById('formuleBadge').value.trim();
+  const featured = document.getElementById('formuleFeatured').value === 'true';
+  if (!name || !price) { alert('Veuillez renseigner le nom et le prix.'); return; }
+  const courses = coursesRaw.split('\n').map(s => s.trim()).filter(Boolean);
+  let formules = loadFormules();
+  if (editingFormuleId) {
+    formules = formules.map(f => f.id === editingFormuleId ? { ...f, name, price: parseFloat(price), subtitle, desc, courses, badge, featured } : f);
+  } else {
+    formules.push({ id: Date.now(), name, price: parseFloat(price), subtitle, desc, courses, badge, featured });
+  }
+  saveFormules(formules);
+  renderAdminFormules();
+  renderFormules();
+  document.getElementById('formuleForm').classList.remove('active');
+  editingFormuleId = null;
+});
+
+function clearFormuleForm() {
+  ['formuleName','formulePrice','formuleSubtitle','formuleDesc','formuleCourses','formuleBadge'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('formuleFeatured').value = 'false';
+}
+
+function renderAdminFormules() {
+  const formules = loadFormules();
+  const el = document.getElementById('adminFormuleList');
+  if (!formules.length) { el.innerHTML = '<div style="padding:40px;text-align:center;color:var(--blanc-dim)">Aucune formule. Ajoutez-en une.</div>'; return; }
+  el.innerHTML = formules.map(f => `
+    <div class="admin-formule-item">
+      <div class="admin-formule-info">
+        <strong>${f.name}${f.badge ? ` <span style="font-size:.6rem;color:var(--or);border:1px solid var(--or-dim);padding:2px 8px;margin-left:6px">${f.badge}</span>` : ''}</strong>
+        <span>${f.subtitle || ''} — ${f.courses ? f.courses.length : 0} plats</span>
+      </div>
+      <div class="admin-dish-price">${parseFloat(f.price).toFixed(0)}€</div>
+      <div class="admin-dish-actions">
+        <button class="btn-edit" onclick="editFormule(${f.id})">Modifier</button>
+        <button class="btn-delete" onclick="deleteFormule(${f.id})">Supprimer</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.editFormule = function(id) {
+  const formules = loadFormules();
+  const f = formules.find(x => x.id === id);
+  if (!f) return;
+  editingFormuleId = id;
+  document.getElementById('formuleName').value = f.name;
+  document.getElementById('formulePrice').value = f.price;
+  document.getElementById('formuleSubtitle').value = f.subtitle || '';
+  document.getElementById('formuleDesc').value = f.desc || '';
+  document.getElementById('formuleCourses').value = (f.courses || []).join('\n');
+  document.getElementById('formuleBadge').value = f.badge || '';
+  document.getElementById('formuleFeatured').value = f.featured ? 'true' : 'false';
+  document.getElementById('formuleForm').classList.add('active');
+  document.getElementById('formuleForm').scrollIntoView({ behavior: 'smooth' });
+};
+window.deleteFormule = function(id) {
+  if (!confirm('Supprimer cette formule ?')) return;
+  let formules = loadFormules();
+  formules = formules.filter(f => f.id !== id);
+  saveFormules(formules);
+  renderAdminFormules();
+  renderFormules();
+};
+
+// ── ADMIN: HOURS ──────────────────────────────────────────────────────────────
+function renderAdminHours() {
+  const horaires = loadHoraires();
+  const el = document.getElementById('adminHoursGrid');
+  el.innerHTML = DAYS.map(day => {
+    const h = horaires[day] || { closed: false, midi: '', soir: '' };
+    const [mOpen, mClose] = (h.midi || '').split('-');
+    const [sOpen, sClose] = (h.soir || '').split('-');
+    return `<div class="admin-hours-row" data-day="${day}">
+      <label>${day}</label>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:0.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--or);margin-bottom:2px">Midi</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="time" class="midi-open" value="${mOpen||''}" ${h.closed?'disabled':''}>
+          <span style="color:var(--blanc-dim);font-size:.8rem">→</span>
+          <input type="time" class="midi-close" value="${mClose||''}" ${h.closed?'disabled':''}>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:0.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--or);margin-bottom:2px">Soir</span>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input type="time" class="soir-open" value="${sOpen||''}" ${h.closed?'disabled':''}>
+          <span style="color:var(--blanc-dim);font-size:.8rem">→</span>
+          <input type="time" class="soir-close" value="${sClose||''}" ${h.closed?'disabled':''}>
+        </div>
+      </div>
+      <label class="toggle-closed">
+        <input type="checkbox" class="day-closed" ${h.closed?'checked':''} onchange="toggleDayClosed(this,'${day}')">
+        Fermé
+      </label>
+    </div>`;
+  }).join('');
+}
+
+window.toggleDayClosed = function(cb, day) {
+  const row = cb.closest('.admin-hours-row');
+  row.querySelectorAll('input[type="time"]').forEach(inp => inp.disabled = cb.checked);
+};
+
+document.getElementById('saveHoursBtn').addEventListener('click', () => {
+  const horaires = {};
+  document.querySelectorAll('.admin-hours-row[data-day]').forEach(row => {
+    const day = row.dataset.day;
+    const closed = row.querySelector('.day-closed').checked;
+    const mOpen = row.querySelector('.midi-open').value;
+    const mClose = row.querySelector('.midi-close').value;
+    const sOpen = row.querySelector('.soir-open').value;
+    const sClose = row.querySelector('.soir-close').value;
+    horaires[day] = {
+      closed,
+      midi: (!closed && mOpen && mClose) ? `${mOpen}-${mClose}` : '',
+      soir: (!closed && sOpen && sClose) ? `${sOpen}-${sClose}` : ''
+    };
+  });
+  saveHoraires(horaires);
+  renderHours();
+  const msg = document.getElementById('hoursSaveMsg');
+  msg.style.opacity = '1';
+  setTimeout(() => { msg.style.opacity = '0'; }, 2500);
+});
+
+// ── ADMIN: RESERVATIONS ───────────────────────────────────────────────────────
+function renderAdminReservations() {
+  const reservations = loadReservations();
+  const el = document.getElementById('resList');
+  if (!reservations.length) {
+    el.innerHTML = '<div class="res-empty">Aucune réservation pour le moment.</div>';
+    return;
+  }
+  const statusLabel = { pending: 'En attente', accepted: 'Accepté', refused: 'Refusé' };
+  el.innerHTML = `<div class="res-list">${reservations.map(r => `
+    <div class="res-item">
+      <div>
+        <strong>${r.nom}</strong>
+        <div class="res-item-meta">
+          <span>📅 <b>${r.date}</b> à <b>${r.heure}</b></span>
+          <span>👥 <b>${r.personnes}</b></span>
+          <span>📞 ${r.tel}</span>
+          <span>✉ ${r.email}</span>
+        </div>
+        ${r.message ? `<div class="res-item-msg">"${r.message}"</div>` : ''}
+      </div>
+      <div class="res-item-actions">
+        <button class="res-status ${r.status}" onclick="cycleStatus(${r.id})">${statusLabel[r.status] || r.status}</button>
+        <button class="btn-edit" onclick="openResEdit(${r.id})" style="font-size:.6rem">Modifier</button>
+      </div>
+    </div>
+  `).join('')}</div>`;
+}
+
+window.cycleStatus = function(id) {
+  const cycle = { pending: 'accepted', accepted: 'refused', refused: 'pending' };
+  let reservations = loadReservations();
+  reservations = reservations.map(r => r.id === id ? { ...r, status: cycle[r.status] } : r);
+  saveReservations(reservations);
+  renderAdminReservations();
+};
+
+// ── RESERVATION EDIT MODAL ─────────────────────────────────────────────────
+const resEditModal = document.getElementById('resEditModal');
+
+window.openResEdit = function(id) {
+  const reservations = loadReservations();
+  const r = reservations.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('editResId').value = r.id;
+  document.getElementById('editResNom').value = r.nom || '';
+  document.getElementById('editResTel').value = r.tel || '';
+  document.getElementById('editResEmail').value = r.email || '';
+  document.getElementById('editResDate').value = r.date || '';
+  document.getElementById('editResHeure').value = r.heure || '19:00';
+  document.getElementById('editResPersonnes').value = r.personnes || '2 personnes';
+  document.getElementById('editResMessage').value = r.message || '';
+  document.getElementById('editResStatus').value = r.status || 'pending';
+  resEditModal.classList.add('active');
+};
+
+document.getElementById('cancelResEdit').addEventListener('click', () => resEditModal.classList.remove('active'));
+resEditModal.addEventListener('click', e => { if (e.target === resEditModal) resEditModal.classList.remove('active'); });
+
+document.getElementById('saveResEdit').addEventListener('click', () => {
+  const id = parseInt(document.getElementById('editResId').value);
+  let reservations = loadReservations();
+  reservations = reservations.map(r => r.id === id ? {
+    ...r,
+    nom: document.getElementById('editResNom').value.trim(),
+    tel: document.getElementById('editResTel').value.trim(),
+    email: document.getElementById('editResEmail').value.trim(),
+    date: document.getElementById('editResDate').value,
+    heure: document.getElementById('editResHeure').value,
+    personnes: document.getElementById('editResPersonnes').value,
+    message: document.getElementById('editResMessage').value.trim(),
+    status: document.getElementById('editResStatus').value,
+  } : r);
+  saveReservations(reservations);
+  renderAdminReservations();
+  resEditModal.classList.remove('active');
+});
+
+document.getElementById('deleteRes').addEventListener('click', () => {
+  const id = parseInt(document.getElementById('editResId').value);
+  if (!confirm('Supprimer cette réservation ?')) return;
+  let reservations = loadReservations();
+  reservations = reservations.filter(r => r.id !== id);
+  saveReservations(reservations);
+  renderAdminReservations();
+  resEditModal.classList.remove('active');
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderMenus();
+renderFormules();
+renderHours();
+
+// Observe and trigger menu card animations on scroll
+ScrollTrigger.create({
+  trigger: '#menuGrid',
+  start: 'top 85%',
+  once: true,
+  onEnter: animateMenuCards
+});
+</script>
+</body>
+</html>
