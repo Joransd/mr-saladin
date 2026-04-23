@@ -114,6 +114,7 @@ export function Navbar() {
                 borderRadius: langOpen ? 22 : 9999,
                 borderColor: langOpen ? "rgba(218,119,87,0.5)" : "var(--border)",
               }}
+              whileHover={!langOpen ? { borderColor: "rgba(218,119,87,0.4)" } : undefined}
               transition={{ type: "spring", damping: 22, stiffness: 320 }}
               className="w-12 border bg-background/80 backdrop-blur-md overflow-hidden flex flex-col items-center"
             >
@@ -121,8 +122,7 @@ export function Navbar() {
               <button
                 onClick={() => setLangOpen((o) => !o)}
                 aria-label="Switch language"
-                className="w-12 h-12 flex items-center justify-center font-mono text-[10px] font-bold tracking-wider shrink-0 transition-colors duration-200"
-                style={{ color: langOpen ? "#DA7757" : "var(--foreground)" }}
+                className={`w-12 h-12 flex items-center justify-center font-mono text-[10px] font-bold tracking-wider shrink-0 transition-colors duration-200 ${langOpen ? "text-accent" : "text-foreground hover:text-accent"}`}
               >
                 {lang.toUpperCase()}
               </button>
