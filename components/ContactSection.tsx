@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { useTheme } from "next-themes";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExperienceHeroCanvas = dynamic(
   () =>
@@ -23,6 +24,7 @@ export function ContactSection() {
   const ctaRef = useRef<HTMLButtonElement>(null);
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
   useEffect(() => { setMounted(true); }, []);
   const isDark = !mounted || theme !== "light";
 
@@ -77,7 +79,7 @@ export function ContactSection() {
             <div className="absolute inset-0 bg-[#DA7757] rounded-full animate-ping opacity-40" />
           </div>
           <span className="font-mono text-[11px] font-bold text-muted-foreground tracking-[0.25em] uppercase">
-            Disponible pour missions freelance & équipes produit
+            {t.contact.status}
           </span>
         </div>
 
@@ -86,15 +88,14 @@ export function ContactSection() {
           className="font-sans font-bold uppercase leading-none text-foreground mb-6"
           style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}
         >
-          Parlons de
+          {t.contact.heading1}
           <br />
-          <span className="text-[#DA7757]">votre projet</span>
+          <span className="text-[#DA7757]">{t.contact.heading2}</span>
         </h2>
 
         {/* Description */}
         <p className="font-mono text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-12">
-          Que vous ayez besoin d&apos;un MVP, d&apos;une refonte complète ou d&apos;un design
-          system — discutons de ce que je peux apporter à votre équipe.
+          {t.contact.description}
         </p>
 
         {/* CTAs */}
@@ -106,17 +107,13 @@ export function ContactSection() {
               window.open("mailto:joransaladin@gmail.com", "_blank")
             }
           >
-            Envoyer un message
+            {t.contact.cta}
           </button>
         </div>
 
         {/* Info grid */}
         <div className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-2xl">
-          {[
-            { label: "Disponibilité", value: "Immédiate" },
-            { label: "Type de mission", value: "Freelance / CDI" },
-            { label: "Localisation", value: "Remote / France" },
-          ].map((item) => (
+          {t.contact.infoGrid.map((item) => (
             <div
               key={item.label}
               className="glass-panel p-5 text-center rounded-sm"
@@ -135,7 +132,7 @@ export function ContactSection() {
         <div className="mt-16 flex flex-col items-center gap-2">
           <div className="w-px h-10 bg-gradient-to-b from-foreground/20 to-transparent" />
           <p className="font-mono text-[10px] text-foreground/25 uppercase tracking-widest">
-            © 2025 Joran Saladin — UI/Web Designer Senior
+            {t.contact.footer}
           </p>
         </div>
       </div>

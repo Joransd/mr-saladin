@@ -4,6 +4,7 @@ import "./globals.css";
 import { LenisProvider } from "@/components/LenisProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "next-themes";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import Script from "next/script";
 
 const oswald = Oswald({
@@ -94,8 +95,10 @@ export default function RootLayout({
           })();
         `}</Script>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <LenisProvider>{children}</LenisProvider>
-          <SpeedInsights />
+          <LanguageProvider>
+            <LenisProvider>{children}</LenisProvider>
+            <SpeedInsights />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

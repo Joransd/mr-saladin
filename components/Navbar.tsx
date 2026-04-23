@@ -6,15 +6,7 @@ import { MenuVertical } from "@/components/ui/menu-vertical";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-
-const NAV_ITEMS = [
-  { label: "Accueil", href: "#hero" },
-  { label: "Expérience", href: "#experience" },
-  { label: "Avec l'IA", href: "#ia" },
-  { label: "Compétences", href: "#competences" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Contact", href: "#contact" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -22,6 +14,7 @@ export function Navbar() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { lang, toggle: toggleLang, t } = useLanguage();
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -47,6 +40,15 @@ export function Navbar() {
   const showSidebar = isDesktop && !scrolled;
   const showBurger = !isDesktop || scrolled;
   const isDark = theme === "dark";
+
+  const NAV_ITEMS = [
+    { label: t.nav.home, href: "#hero" },
+    { label: t.nav.experience, href: "#experience" },
+    { label: t.nav.ia, href: "#ia" },
+    { label: t.nav.competences, href: "#competences" },
+    { label: t.nav.portfolio, href: "#portfolio" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
 
   const navItemsWithClose = NAV_ITEMS.map((item) => ({
     ...item,
@@ -74,6 +76,24 @@ export function Navbar() {
               © 2025 Joran Saladin
             </p>
           </motion.nav>
+        )}
+      </AnimatePresence>
+
+      {/* ── LANG TOGGLE — toujours visible ── */}
+      <AnimatePresence>
+        {!menuOpen && mounted && (
+          <motion.button
+            key="lang-toggle"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={toggleLang}
+            aria-label="Switch language"
+            className={`fixed top-4 z-50 w-12 h-12 flex items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur-md text-foreground hover:border-accent hover:text-accent transition-colors duration-300 font-mono text-[10px] font-bold tracking-wider ${showBurger ? "right-32" : "right-[4.5rem]"}`}
+          >
+            {lang === "fr" ? "EN" : "FR"}
+          </motion.button>
         )}
       </AnimatePresence>
 
@@ -144,7 +164,7 @@ export function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-50 bg-[#020202]/97 backdrop-blur-xl flex flex-col items-start justify-center px-10"
+            className="fixed inset-0 z-50 bg-[#020202]/97 backdrop-blur-xl flex flex-col items-end justify-center pr-10"
           >
             {/* Close button */}
             <motion.button
@@ -178,6 +198,7 @@ export function Navbar() {
                 menuItems={navItemsWithClose}
                 color="#DA7757"
                 skew={-5}
+                align="right"
                 textClass="text-white"
               />
             </motion.div>
@@ -187,7 +208,7 @@ export function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.4 }}
-              className="absolute bottom-8 left-10 font-mono text-xs text-[rgba(255,255,255,0.25)]"
+              className="absolute bottom-8 right-10 font-mono text-xs text-[rgba(255,255,255,0.25)]"
             >
               © 2025 Joran Saladin — UI/Web Designer
             </motion.p>

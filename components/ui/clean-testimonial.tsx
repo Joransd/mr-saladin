@@ -4,43 +4,14 @@ import type React from "react"
 import { useState, useCallback, useRef, useEffect } from "react"
 import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion"
 import NextImage from "next/image"
+import { useLanguage } from "@/contexts/LanguageContext"
 
-const testimonials = [
-  {
-    quote: "Joran en partant de \"0\" a su choisir le bon design pour concevoir une interface utilisateur destinée au repricing sur Marketplace et à l'envoi automatisé de commandes logicielles dématérialisées. Il a su être à l'écoute des besoins et a fait preuve d'initiatives pertinentes en matière de graphisme comme le bouton de synchronisation ou les règles de repricing. Il a bien compris les besoins utilisateurs de l'interface et s'est investi à 100%. Je le recommande vivement.",
-    author: "Nicolas Bourdeau",
-    role: "CEO",
-    company: "Wintive",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=NB&backgroundColor=2a2a2a&textColor=DA7757",
-  },
-  {
-    quote: "Fort d'une expérience de 10 ans, d'une grande capacité d'écoute et d'une aptitude à travailler avec tous les corps de métiers, Joran est la personne qu'il vous faut pour travailler sur vos projets digitaux. Il excelle en refonte et création d'interfaces. Il est capable d'encadrer une équipe, de mener un projet en respectant les contraintes (coûts, délais etc.). C'est une personne de grande qualité et de totale confiance.",
-    author: "Loik Rimbault",
-    role: "Manager Salesforce",
-    company: "Edifixio",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=LR&backgroundColor=2a2a2a&textColor=DA7757",
-  },
-  {
-    quote: "Joran s'est montré très réactif et disponible pour arranger ses propositions graphiques et d'intégration web en fonction de nos retours. Travail esthétique et soigné.",
-    author: "Matthieu Tylez",
-    role: "Responsable communication",
-    company: "BTU Protocol",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=MT&backgroundColor=2a2a2a&textColor=DA7757",
-  },
-  {
-    quote: "Excellent webdesigner c'était un plaisir de travailler avec lui, je recommande.",
-    author: "Adrien Lafourcade",
-    role: "PDG",
-    company: "La Suite du Monde",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=AL&backgroundColor=2a2a2a&textColor=DA7757",
-  },
-  {
-    quote: "Joran a réussi à capturer mon univers et à le retranscrire de façon fidèle. Merci encore à lui.",
-    author: "Aline Jaulin",
-    role: "Art-thérapeute",
-    company: "alinejaulin.fr",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=AJ&backgroundColor=2a2a2a&textColor=DA7757",
-  },
+const AVATARS = [
+  "https://api.dicebear.com/7.x/initials/svg?seed=NB&backgroundColor=2a2a2a&textColor=DA7757",
+  "https://api.dicebear.com/7.x/initials/svg?seed=LR&backgroundColor=2a2a2a&textColor=DA7757",
+  "https://api.dicebear.com/7.x/initials/svg?seed=MT&backgroundColor=2a2a2a&textColor=DA7757",
+  "https://api.dicebear.com/7.x/initials/svg?seed=AL&backgroundColor=2a2a2a&textColor=DA7757",
+  "https://api.dicebear.com/7.x/initials/svg?seed=AJ&backgroundColor=2a2a2a&textColor=DA7757",
 ]
 
 function usePreloadImages(images: string[]) {
@@ -78,20 +49,25 @@ function SplitText({ text }: { text: string }) {
 const AUTOPLAY_DELAY = 6000
 
 export function Testimonial() {
+  const { t } = useLanguage()
+  const testimonials = t.testimonials.items.map((item, i) => ({
+    ...item,
+    avatar: AVATARS[i],
+  }))
+
   const [activeIndex, setActiveIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  usePreloadImages(testimonials.map((t) => t.avatar))
+  usePreloadImages(AVATARS)
 
-  // Auto-advance : pause si hover desktop, repart à chaque changement de slide
   useEffect(() => {
     if (isHovered) return
     const timer = setTimeout(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length)
     }, AUTOPLAY_DELAY)
     return () => clearTimeout(timer)
-  }, [activeIndex, isHovered])
+  }, [activeIndex, isHovered, testimonials.length])
 
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -119,7 +95,7 @@ export function Testimonial() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-3xl pt-24 pb-24 px-8"
+      className="relative w-full max-w-5xl pt-24 pb-24 px-8"
       style={{ cursor: "none" }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -151,7 +127,7 @@ export function Testimonial() {
             animate={{ opacity: isHovered ? 1 : 0 }}
             transition={{ delay: 0.1 }}
           >
-            Next
+            {t.testimonials.next}
           </motion.span>
         </motion.div>
       </motion.div>
@@ -276,7 +252,7 @@ export function Testimonial() {
           </div>
         </motion.div>
 
-        {/* Progress bar — timer linéaire, repart à 0 à chaque slide */}
+        {/* Progress bar */}
         <div className="mt-16 h-px bg-border relative overflow-hidden">
           <motion.div
             key={activeIndex}
@@ -296,10 +272,10 @@ export function Testimonial() {
         transition={{ duration: 0.3 }}
       >
         <span className="hidden md:block text-[10px] text-muted-foreground uppercase tracking-widest font-mono">
-          Cliquer pour naviguer
+          {t.testimonials.clickDesktop}
         </span>
         <span className="block md:hidden text-[10px] text-muted-foreground uppercase tracking-widest font-mono">
-          Toucher pour naviguer
+          {t.testimonials.clickMobile}
         </span>
       </motion.div>
     </div>

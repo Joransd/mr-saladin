@@ -6,11 +6,13 @@ import { FallingPattern } from "@/components/ui/falling-pattern";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
+  const { t } = useLanguage();
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -90,7 +92,7 @@ export function HeroSection() {
             <div className="absolute inset-0 bg-[#DA7757] rounded-full animate-ping opacity-40" />
           </div>
           <span className="font-mono text-[11px] font-bold text-muted-foreground tracking-[0.25em] uppercase">
-            UI/Web Designer — Joran Saladin
+            {t.hero.eyebrow}
           </span>
         </div>
 
@@ -100,11 +102,11 @@ export function HeroSection() {
           className="font-sans font-bold uppercase leading-[0.9] tracking-tight text-foreground mb-8"
           style={{ fontSize: "clamp(2.5rem, 7vw, 7.5rem)" }}
         >
-          Concevoir & développer
+          {t.hero.heading1}
           <br />
-          des interfaces web{" "}
-          <span className="text-outline">rapides,</span>
-          <span className="text-[#DA7757]"> claires</span>
+          {t.hero.heading2}{" "}
+          <span className="text-outline">{t.hero.accent1}</span>
+          <span className="text-[#DA7757]"> {t.hero.accent2}</span>
         </h1>
 
         {/* Subtitle */}
@@ -112,8 +114,7 @@ export function HeroSection() {
           data-animate
           className="font-mono text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed mb-12"
         >
-          J&apos;aide les entreprises à transformer leurs idées en interfaces claires,
-          rapides et efficaces — du design jusqu&apos;à l&apos;intégration frontend.
+          {t.hero.subtitle}
         </p>
 
         {/* CTAs */}
@@ -122,7 +123,7 @@ export function HeroSection() {
             href="#portfolio"
             className="group flex items-center gap-3 bg-[#DA7757] text-[#020202] font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:bg-foreground hover:text-background transition-colors duration-300"
           >
-            <span>Voir mes projets</span>
+            <span>{t.hero.cta1}</span>
             <svg
               width="16"
               height="16"
@@ -143,7 +144,7 @@ export function HeroSection() {
             href="#contact"
             className="flex items-center gap-3 border border-border text-foreground font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
           >
-            Me contacter
+            {t.hero.cta2}
           </Link>
         </div>
       </div>
@@ -154,7 +155,7 @@ export function HeroSection() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
       >
         <span className="font-mono text-[10px] text-foreground/25 uppercase tracking-widest">
-          Scroll
+          {t.hero.scroll}
         </span>
         <div className="w-px h-12 bg-gradient-to-b from-foreground/20 to-transparent" />
       </div>

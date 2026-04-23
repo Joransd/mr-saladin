@@ -1,59 +1,56 @@
 "use client";
 
 import { InteractiveTravelCard } from "@/components/ui/3d-card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const PROJECTS = [
+const PROJECTS_STATIC = [
   {
     title: "Le Jardin des Saveurs",
     subtitle: "Design & Prototype IA",
     imageUrl: "/images/restaurant.png",
-    actionText: "Voir le projet",
     href: "/jardin-des-saveurs/index.html",
-    context: "Restaurant — Design & Prototype IA",
   },
   {
     title: "Charpentier Couvreur",
     subtitle: "Design & Prototype IA",
     imageUrl: "/images/charpente.png",
-    actionText: "Voir le projet",
     href: "/charpentier-couvreur/index.html",
-    context: "Artisan — Design & Prototype IA",
   },
   {
     title: "Aline Jaulin",
     subtitle: "Design & WordPress",
     imageUrl: "/images/alinejaulin.png",
-    actionText: "Voir le site",
     href: "https://alinejaulin.fr/",
-    context: "Art-thérapeute — Design & WordPress",
   },
   {
     title: "Teritori",
     subtitle: "UI Design application Web3",
     imageUrl: "/images/teritori.png",
-    actionText: "Voir le projet",
     href: undefined,
-    context: "Web3 — UI Design application",
   },
   {
     title: "Wintive",
     subtitle: "Landing page",
     imageUrl: "/images/wintive.png",
-    actionText: "Voir le site",
     href: "https://www.wintive.com/",
-    context: "SaaS — Landing page",
   },
   {
     title: "With Exxa",
     subtitle: "Landing page",
     imageUrl: "/images/withexxa.png",
-    actionText: "Voir le projet",
     href: undefined,
-    context: "Startup — Landing page",
   },
 ];
 
 export function PortfolioSection() {
+  const { t } = useLanguage();
+
+  const projects = PROJECTS_STATIC.map((p, i) => ({
+    ...p,
+    actionText: t.portfolio.projects[i].actionText,
+    context: t.portfolio.projects[i].context,
+  }));
+
   return (
     <section id="portfolio" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6">
@@ -61,20 +58,19 @@ export function PortfolioSection() {
         <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <span className="font-mono text-[11px] text-[#DA7757] uppercase tracking-[0.25em] mb-3 block">
-              Projets sélectionnés
+              {t.portfolio.label}
             </span>
             <h2
               className="font-sans font-bold uppercase leading-none text-foreground"
               style={{ fontSize: "clamp(2.5rem, 6vw, 6rem)" }}
             >
-              Mes travaux
+              {t.portfolio.heading1}
               <br />
-              <span className="text-outline">récents</span>
+              <span className="text-outline">{t.portfolio.heading2}</span>
             </h2>
           </div>
           <p className="font-mono text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Une sélection de projets récents, du design à l&apos;intégration, avec
-            une attention particulière portée à la clarté et à l&apos;efficacité.
+            {t.portfolio.description}
           </p>
         </div>
 
@@ -83,7 +79,7 @@ export function PortfolioSection() {
           style={{ perspective: "1200px" }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
         >
-          {PROJECTS.map((project) => (
+          {projects.map((project) => (
             <div
               key={project.title}
               className="w-full flex flex-col items-center gap-3"
@@ -112,13 +108,13 @@ export function PortfolioSection() {
         {/* CTA */}
         <div className="text-center mt-16">
           <p className="font-mono text-sm text-muted-foreground mb-6">
-            Vous avez un projet en tête ?
+            {t.portfolio.cta}
           </p>
           <a
             href="#contact"
             className="inline-flex items-center gap-3 border border-border text-foreground font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
           >
-            Parlons-en
+            {t.portfolio.ctaButton}
           </a>
         </div>
       </div>

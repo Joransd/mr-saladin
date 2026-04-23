@@ -3,33 +3,16 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { LogoCloud } from "@/components/ui/logo-cloud-2";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const KPI_DATA = [
-  {
-    value: 230,
-    prefix: "+",
-    label: "Sites conçus & réalisés",
-    description: "De la landing page au design system complet",
-    index: "001",
-  },
-  {
-    value: 16,
-    prefix: "",
-    suffix: " ans",
-    label: "D'expérience en design web",
-    description: "Depuis les débuts du web responsive jusqu'à l'IA",
-    index: "002",
-  },
-  {
-    value: null,
-    text: "0 → prod",
-    label: "En quelques jours",
-    description: "Du brief initial à la mise en ligne opérationnelle",
-    index: "003",
-  },
+const KPI_STATIC = [
+  { value: 230, prefix: "+", suffix: "", text: null, index: "001" },
+  { value: 16, prefix: "", suffix: " ans", text: null, index: "002" },
+  { value: null, prefix: "", suffix: "", text: "0 → prod", index: "003" },
 ];
 
 export function ExperienceSection() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const countersRef = useRef<(HTMLSpanElement | null)[]>([]);
   const animatedRef = useRef(false);
@@ -43,7 +26,7 @@ export function ExperienceSection() {
             animatedRef.current = true;
             counters.forEach((el, i) => {
               if (!el) return;
-              const kpi = KPI_DATA[i];
+              const kpi = KPI_STATIC[i];
               if (kpi.value === null) return;
               gsap.fromTo(
                 el,
@@ -66,6 +49,8 @@ export function ExperienceSection() {
     return () => observer.disconnect();
   }, []);
 
+  const kpis = KPI_STATIC.map((item, i) => ({ ...item, ...t.experience.kpi[i] }));
+
   return (
     <section
       id="experience"
@@ -77,23 +62,22 @@ export function ExperienceSection() {
         <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
             <span className="font-mono text-[11px] text-[#DA7757] uppercase tracking-[0.25em] mb-3 block">
-              En chiffres
+              {t.experience.label}
             </span>
             <h2 className="font-sans font-bold text-5xl md:text-6xl text-foreground uppercase leading-none">
-              Mon
+              {t.experience.heading1}
               <br />
-              <span className="text-outline">expérience</span>
+              <span className="text-outline">{t.experience.heading2}</span>
             </h2>
           </div>
           <p className="font-mono text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Une approche pragmatique du design : aller à l&apos;essentiel,
-            livrer vite, et produire des interfaces utiles.
+            {t.experience.description}
           </p>
         </div>
 
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-20">
-          {KPI_DATA.map((kpi, i) => (
+          {kpis.map((kpi, i) => (
             <div
               key={kpi.index}
               className="group relative border border-foreground/[0.08] bg-foreground/[0.02] p-8 rounded-sm hover:border-[rgba(218,119,87,0.3)] hover:bg-[rgba(218,119,87,0.03)] transition-all duration-500"
@@ -130,7 +114,7 @@ export function ExperienceSection() {
         {/* Logo Cloud */}
         <div>
           <p className="font-mono text-xs text-foreground/25 uppercase tracking-[0.2em] text-center mb-8">
-            Outils & environnements maîtrisés
+            {t.experience.toolsLabel}
           </p>
           <LogoCloud />
         </div>

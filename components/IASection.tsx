@@ -1,37 +1,11 @@
 "use client";
 
 import BentoCards from "@/components/ui/ruixen-bento-cards";
-import type { BentoCardContent } from "@/components/ui/ruixen-bento-cards";
-
-const IA_CARDS: BentoCardContent[] = [
-  {
-    title: "Prototypage rapide d'interfaces",
-    description:
-      "Je génère des maquettes fonctionnelles en quelques heures au lieu de jours, et itère à une vitesse impossible sans IA.",
-  },
-  {
-    title: "Génération de code frontend",
-    description:
-      "Composants React, animations GSAP, intégrations complexes — structurés et produits avec l'IA comme copilote.",
-  },
-  {
-    title: "Réduction du time-to-market",
-    description:
-      "Du brief à la mise en ligne en quelques jours plutôt que semaines.",
-  },
-  {
-    title: "Itérations continues",
-    description:
-      "Plus de cycles de feedback, plus de variantes testées, interfaces plus abouties.",
-  },
-  {
-    title: "Exploration de concepts UI plus rapidement",
-    description:
-      "L'IA me permet d'explorer 10x plus de directions créatives avant de converger vers la meilleure solution pour votre produit. Moins de temps à tâtonner, plus de temps à concevoir.",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function IASection() {
+  const { t } = useLanguage();
+
   return (
     <section id="ia" className="py-24 bg-background overflow-hidden">
       {/* Header */}
@@ -39,42 +13,37 @@ export function IASection() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           <div>
             <span className="font-mono text-[11px] text-[#DA7757] uppercase tracking-[0.25em] mb-3 block">
-              Différenciation
+              {t.ia.label}
             </span>
             <h2 className="font-sans font-bold uppercase leading-none text-foreground" style={{ fontSize: "clamp(2.5rem, 6vw, 6rem)" }}>
-              J&apos;intègre l&apos;IA
+              {t.ia.heading1}
               <br />
-              pour concevoir
+              {t.ia.heading2}
               <br />
-              <span className="text-[#DA7757]">plus vite et mieux</span>
+              <span className="text-[#DA7757]">{t.ia.heading3}</span>
             </h2>
           </div>
           <p className="font-mono text-sm text-muted-foreground max-w-sm leading-relaxed md:pb-2">
-            J&apos;utilise des outils comme Claude et Antigravity pour accélérer les
-            phases de conception, de prototypage et de développement frontend.
-            Résultat : des cycles de production plus courts, plus d&apos;itérations,
-            et des interfaces plus abouties.
+            {t.ia.description}
           </p>
         </div>
       </div>
 
       {/* Bento Grid */}
-      <BentoCards cards={IA_CARDS} />
+      <BentoCards cards={[...t.ia.cards]} />
 
       {/* Punchline */}
       <div className="max-w-5xl mx-auto px-6 mt-4">
         <div className="border-t border-foreground/[0.06] pt-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <p className="font-sans font-bold text-2xl md:text-3xl text-foreground max-w-lg leading-tight">
-            &ldquo;L&apos;IA ne remplace pas le design —{" "}
             <span className="text-[#DA7757]">
-              elle amplifie ma capacité à produire des solutions efficaces.
+              {t.ia.punchline}
             </span>
-            &rdquo;
           </p>
           <div className="flex items-center gap-3 shrink-0">
             <div className="w-2 h-2 rounded-full bg-[#DA7757]" />
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-              Approche IA-first
+              {t.ia.punchlineLabel}
             </span>
           </div>
         </div>
