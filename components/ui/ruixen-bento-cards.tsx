@@ -40,17 +40,17 @@ export const PlusCard: React.FC<{
   return (
     <div
       className={cn(
-        "relative border border-dashed border-[rgba(218,119,87,0.2)] rounded-lg p-6 bg-[rgba(255,255,255,0.03)] min-h-[200px]",
+        "relative border border-dashed border-[rgba(218,119,87,0.2)] rounded-lg p-6 bg-foreground/[0.03] min-h-[200px]",
         "flex flex-col justify-between group hover:border-[rgba(218,119,87,0.5)] hover:bg-[rgba(218,119,87,0.05)] transition-all duration-300",
         className
       )}
     >
       <CornerPlusIcons />
       <div className="relative z-10 space-y-2">
-        <h3 className="text-xl font-sans font-bold text-white group-hover:text-[#DA7757] transition-colors duration-300">
+        <h3 className="text-xl font-sans font-bold text-foreground group-hover:text-[#DA7757] transition-colors duration-300">
           {title}
         </h3>
-        <p className="font-mono text-sm text-[rgba(255,255,255,0.5)] group-hover:text-[rgba(255,255,255,0.7)] transition-colors duration-300">
+        <p className="font-mono text-sm text-muted-foreground group-hover:text-foreground/70 transition-colors duration-300">
           {description}
         </p>
       </div>

@@ -15,6 +15,7 @@ interface MenuVerticalProps {
   color?: string;
   skew?: number;
   align?: "left" | "right";
+  textClass?: string;
 }
 
 const MotionLink = motion.create(Link);
@@ -24,6 +25,7 @@ export const MenuVertical = ({
   color = "var(--accent)",
   skew = 0,
   align = "left",
+  textClass = "text-foreground",
 }: MenuVerticalProps) => {
   const isRight = align === "right";
 
@@ -32,7 +34,7 @@ export const MenuVertical = ({
       {menuItems.map((item, index) => (
         <motion.div
           key={`${item.href}-${index}`}
-          className={`group/nav flex items-center gap-2 cursor-pointer text-white ${isRight ? "flex-row-reverse" : ""}`}
+          className={`group/nav flex items-center gap-2 cursor-pointer ${textClass} ${isRight ? "flex-row-reverse" : ""}`}
           initial="initial"
           whileHover="hover"
           onClick={item.onClick}

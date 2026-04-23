@@ -30,7 +30,7 @@ export const CategoryList = ({
   const [hoveredItem, setHoveredItem] = useState<string | number | null>(null);
 
   return (
-    <div className={cn("w-full text-white p-8", className)}>
+    <div className={cn("w-full text-foreground p-8", className)}>
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12 md:mb-16">
           {headerIcon && (
@@ -38,11 +38,11 @@ export const CategoryList = ({
               {headerIcon}
             </div>
           )}
-          <h1 className="text-4xl md:text-5xl font-sans font-bold mb-2 tracking-tight text-white">
+          <h1 className="text-4xl md:text-5xl font-sans font-bold mb-2 tracking-tight text-foreground">
             {title}
           </h1>
           {subtitle && (
-            <h2 className="text-4xl md:text-5xl font-sans font-bold text-[rgba(255,255,255,0.3)]">
+            <h2 className="text-4xl md:text-5xl font-sans font-bold text-muted-foreground">
               {subtitle}
             </h2>
           )}
@@ -62,10 +62,10 @@ export const CategoryList = ({
             >
               <div
                 className={cn(
-                  "relative overflow-hidden border bg-[rgba(255,255,255,0.02)] transition-all duration-300 ease-in-out cursor-pointer",
+                  "relative overflow-hidden border bg-foreground/[0.02] transition-all duration-300 ease-in-out cursor-pointer",
                   hoveredItem === category.id
                     ? "min-h-[7rem] py-5 border-[#DA7757] shadow-lg shadow-[rgba(218,119,87,0.2)] bg-[rgba(218,119,87,0.05)]"
-                    : "min-h-[5rem] py-4 border-[rgba(255,255,255,0.1)] hover:border-[rgba(218,119,87,0.4)]"
+                    : "min-h-[5rem] py-4 border-border hover:border-[rgba(218,119,87,0.4)]"
                 )}
               >
                 {hoveredItem === category.id && (
@@ -91,7 +91,7 @@ export const CategoryList = ({
                           : "text-xl md:text-2xl",
                         hoveredItem === category.id
                           ? "text-[#DA7757]"
-                          : "text-white"
+                          : "text-foreground"
                       )}
                     >
                       {category.title}
@@ -101,8 +101,8 @@ export const CategoryList = ({
                         className={cn(
                           "mt-1 transition-colors duration-300 text-sm md:text-base font-mono",
                           hoveredItem === category.id
-                            ? "text-[rgba(255,255,255,0.8)]"
-                            : "text-[rgba(255,255,255,0.4)]"
+                            ? "text-foreground/80"
+                            : "text-muted-foreground"
                         )}
                       >
                         {category.subtitle}

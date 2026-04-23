@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
+import { useTheme } from "next-themes";
 
 const ExperienceHeroCanvas = dynamic(
   () =>
@@ -20,6 +21,10 @@ const ExperienceHeroCanvas = dynamic(
 export function ContactSection() {
   const containerRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const isDark = !mounted || theme !== "light";
 
   useEffect(() => {
     if (!ctaRef.current) return;
@@ -56,29 +61,29 @@ export function ContactSection() {
     <section
       id="contact"
       ref={containerRef}
-      className="relative min-h-screen w-full overflow-hidden bg-[#020202]"
+      className="relative min-h-screen w-full overflow-hidden bg-background"
     >
       {/* Three.js Canvas Background */}
-      <ExperienceHeroCanvas />
+      <ExperienceHeroCanvas isLight={!isDark} />
 
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 z-[1] bg-[#020202]/50" />
+      {/* Dark overlay for readability — dark mode only */}
+      {isDark && <div className="absolute inset-0 z-[1] bg-background/50" />}
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 pt-16 text-center">
         {/* Status badge */}
         <div className="flex items-center gap-3 mb-10">
           <div className="relative w-2 h-2 bg-[#DA7757] rounded-full">
             <div className="absolute inset-0 bg-[#DA7757] rounded-full animate-ping opacity-40" />
           </div>
-          <span className="font-mono text-[11px] font-bold text-[rgba(255,255,255,0.5)] tracking-[0.25em] uppercase">
+          <span className="font-mono text-[11px] font-bold text-muted-foreground tracking-[0.25em] uppercase">
             Disponible pour missions freelance & équipes produit
           </span>
         </div>
 
         {/* Heading */}
         <h2
-          className="font-sans font-bold uppercase leading-none text-white mb-6"
+          className="font-sans font-bold uppercase leading-none text-foreground mb-6"
           style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}
         >
           Parlons de
@@ -87,7 +92,7 @@ export function ContactSection() {
         </h2>
 
         {/* Description */}
-        <p className="font-mono text-base md:text-lg text-[rgba(255,255,255,0.45)] max-w-xl leading-relaxed mb-12">
+        <p className="font-mono text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-12">
           Que vous ayez besoin d&apos;un MVP, d&apos;une refonte complète ou d&apos;un design
           system — discutons de ce que je peux apporter à votre équipe.
         </p>
@@ -96,7 +101,7 @@ export function ContactSection() {
         <div className="flex flex-wrap items-center justify-center gap-4">
           <button
             ref={ctaRef}
-            className="flex items-center gap-3 border border-[rgba(255,255,255,0.2)] text-white font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
+            className="flex items-center gap-3 border border-border text-foreground font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
             onClick={() =>
               window.open("mailto:joransaladin@gmail.com", "_blank")
             }
@@ -116,10 +121,10 @@ export function ContactSection() {
               key={item.label}
               className="glass-panel p-5 text-center rounded-sm"
             >
-              <span className="font-mono text-[9px] text-[rgba(255,255,255,0.25)] uppercase tracking-widest block mb-2">
+              <span className="font-mono text-[9px] text-foreground/25 uppercase tracking-widest block mb-2">
                 {item.label}
               </span>
-              <span className="font-sans font-semibold text-white text-sm">
+              <span className="font-sans font-semibold text-foreground text-sm">
                 {item.value}
               </span>
             </div>
@@ -128,8 +133,8 @@ export function ContactSection() {
 
         {/* Footer */}
         <div className="mt-16 flex flex-col items-center gap-2">
-          <div className="w-px h-10 bg-gradient-to-b from-[rgba(255,255,255,0.2)] to-transparent" />
-          <p className="font-mono text-[10px] text-[rgba(255,255,255,0.2)] uppercase tracking-widest">
+          <div className="w-px h-10 bg-gradient-to-b from-foreground/20 to-transparent" />
+          <p className="font-mono text-[10px] text-foreground/25 uppercase tracking-widest">
             © 2025 Joran Saladin — UI/Web Designer Senior
           </p>
         </div>

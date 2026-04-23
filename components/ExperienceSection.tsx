@@ -70,7 +70,7 @@ export function ExperienceSection() {
     <section
       id="experience"
       ref={sectionRef}
-      className="py-24 px-6 bg-[#020202]"
+      className="py-24 px-6 bg-background"
     >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -79,13 +79,13 @@ export function ExperienceSection() {
             <span className="font-mono text-[11px] text-[#DA7757] uppercase tracking-[0.25em] mb-3 block">
               En chiffres
             </span>
-            <h2 className="font-sans font-bold text-5xl md:text-6xl text-white uppercase leading-none">
+            <h2 className="font-sans font-bold text-5xl md:text-6xl text-foreground uppercase leading-none">
               Mon
               <br />
               <span className="text-outline">expérience</span>
             </h2>
           </div>
-          <p className="font-mono text-sm text-[rgba(255,255,255,0.4)] max-w-sm leading-relaxed">
+          <p className="font-mono text-sm text-muted-foreground max-w-sm leading-relaxed">
             Une approche pragmatique du design : aller à l&apos;essentiel,
             livrer vite, et produire des interfaces utiles.
           </p>
@@ -96,15 +96,15 @@ export function ExperienceSection() {
           {KPI_DATA.map((kpi, i) => (
             <div
               key={kpi.index}
-              className="group relative border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-8 rounded-sm hover:border-[rgba(218,119,87,0.3)] hover:bg-[rgba(218,119,87,0.03)] transition-all duration-500"
+              className="group relative border border-foreground/[0.08] bg-foreground/[0.02] p-8 rounded-sm hover:border-[rgba(218,119,87,0.3)] hover:bg-[rgba(218,119,87,0.03)] transition-all duration-500"
             >
-              <span className="font-mono text-[9px] text-[rgba(255,255,255,0.2)] uppercase tracking-widest block mb-6">
+              <span className="font-mono text-[9px] text-foreground/25 uppercase tracking-widest block mb-6">
                 {kpi.index} {"//"} {kpi.label}
               </span>
 
               <div className="mb-4">
                 {kpi.value !== null ? (
-                  <div className="font-sans font-bold text-white leading-none" style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}>
+                  <div className="font-sans font-bold text-foreground leading-none" style={{ fontSize: "clamp(3rem, 6vw, 5rem)" }}>
                     {kpi.prefix}
                     <span ref={(el) => { countersRef.current[i] = el; }}>
                       {kpi.value}
@@ -118,7 +118,7 @@ export function ExperienceSection() {
                 )}
               </div>
 
-              <p className="font-mono text-xs text-[rgba(255,255,255,0.35)] leading-relaxed">
+              <p className="font-mono text-xs text-muted-foreground leading-relaxed">
                 {kpi.description}
               </p>
 
@@ -129,7 +129,7 @@ export function ExperienceSection() {
 
         {/* Logo Cloud */}
         <div>
-          <p className="font-mono text-xs text-[rgba(255,255,255,0.25)] uppercase tracking-[0.2em] text-center mb-8">
+          <p className="font-mono text-xs text-foreground/25 uppercase tracking-[0.2em] text-center mb-8">
             Outils & environnements maîtrisés
           </p>
           <LogoCloud />

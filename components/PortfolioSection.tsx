@@ -55,7 +55,7 @@ const PROJECTS = [
 
 export function PortfolioSection() {
   return (
-    <section id="portfolio" className="py-24 bg-[#020202]">
+    <section id="portfolio" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -64,7 +64,7 @@ export function PortfolioSection() {
               Projets sélectionnés
             </span>
             <h2
-              className="font-sans font-bold uppercase leading-none text-white"
+              className="font-sans font-bold uppercase leading-none text-foreground"
               style={{ fontSize: "clamp(2.5rem, 6vw, 6rem)" }}
             >
               Mes travaux
@@ -72,7 +72,7 @@ export function PortfolioSection() {
               <span className="text-outline">récents</span>
             </h2>
           </div>
-          <p className="font-mono text-sm text-[rgba(255,255,255,0.4)] max-w-sm leading-relaxed">
+          <p className="font-mono text-sm text-muted-foreground max-w-sm leading-relaxed">
             Une sélection de projets récents, du design à l&apos;intégration, avec
             une attention particulière portée à la clarté et à l&apos;efficacité.
           </p>
@@ -96,7 +96,7 @@ export function PortfolioSection() {
                 href={project.href}
               />
               <div className="w-80 flex justify-between">
-                <span className="font-mono text-[10px] text-[rgba(255,255,255,0.3)] uppercase tracking-wider">
+                <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
                   {project.context}
                 </span>
                 {project.href && (
@@ -111,12 +111,12 @@ export function PortfolioSection() {
 
         {/* CTA */}
         <div className="text-center mt-16">
-          <p className="font-mono text-sm text-[rgba(255,255,255,0.3)] mb-6">
+          <p className="font-mono text-sm text-muted-foreground mb-6">
             Vous avez un projet en tête ?
           </p>
           <a
             href="#contact"
-            className="inline-flex items-center gap-3 border border-[rgba(255,255,255,0.15)] text-white font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
+            className="inline-flex items-center gap-3 border border-border text-foreground font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
           >
             Parlons-en
           </a>

@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { FallingPattern } from "@/components/ui/falling-pattern";
 import Link from "next/link";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const { theme } = useTheme();
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!heroRef.current) return;
@@ -25,22 +30,39 @@ export function HeroSection() {
     return () => ctx.revert();
   }, []);
 
+  const isDark = !mounted || theme === "dark";
+  const bgColor = isDark ? "#020202" : "#f5f3ef";
+  const maskColor = isDark ? "#020202" : "#f5f3ef";
+
   return (
     <section
       id="hero"
       className="relative h-screen overflow-hidden flex items-center"
     >
       {/* Background */}
-      <FallingPattern
-        className="absolute inset-0 [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,transparent_20%,#020202_100%)]"
-        color="#DA7757"
-        backgroundColor="#020202"
-        duration={120}
-        blurIntensity="0.8em"
-      />
+      <div
+        className="absolute inset-0"
+        style={{
+          maskImage: `radial-gradient(ellipse 80% 80% at 50% 50%, transparent 20%, ${maskColor} 100%)`,
+          WebkitMaskImage: `radial-gradient(ellipse 80% 80% at 50% 50%, transparent 20%, ${maskColor} 100%)`,
+        }}
+      >
+        <FallingPattern
+          className="absolute inset-0"
+          color="#DA7757"
+          backgroundColor={bgColor}
+          duration={120}
+          blurIntensity="0.8em"
+        />
+      </div>
 
       {/* Subtle radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_50%,rgba(218,119,87,0.07),transparent)]" />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 60% 50% at 30% 50%, rgba(218,119,87,${isDark ? "0.07" : "0.12"}), transparent)`,
+        }}
+      />
 
       {/* Logo — haut gauche, aligné avec le burger */}
       <div
@@ -52,7 +74,7 @@ export function HeroSection() {
           alt="Joran Saladin"
           width={44}
           height={22}
-          className="brightness-0 invert opacity-70"
+          className={isDark ? "brightness-0 invert opacity-70" : "brightness-0 opacity-70"}
           priority
         />
       </div>
@@ -67,7 +89,7 @@ export function HeroSection() {
           <div className="relative w-2 h-2 bg-[#DA7757] rounded-full">
             <div className="absolute inset-0 bg-[#DA7757] rounded-full animate-ping opacity-40" />
           </div>
-          <span className="font-mono text-[11px] font-bold text-[rgba(255,255,255,0.5)] tracking-[0.25em] uppercase">
+          <span className="font-mono text-[11px] font-bold text-muted-foreground tracking-[0.25em] uppercase">
             UI/Web Designer — Joran Saladin
           </span>
         </div>
@@ -75,7 +97,7 @@ export function HeroSection() {
         {/* Main heading */}
         <h1
           data-animate
-          className="font-sans font-bold uppercase leading-[0.9] tracking-tight text-white mb-8"
+          className="font-sans font-bold uppercase leading-[0.9] tracking-tight text-foreground mb-8"
           style={{ fontSize: "clamp(2.5rem, 7vw, 7.5rem)" }}
         >
           Concevoir & développer
@@ -88,7 +110,7 @@ export function HeroSection() {
         {/* Subtitle */}
         <p
           data-animate
-          className="font-mono text-base md:text-lg text-[rgba(255,255,255,0.45)] max-w-2xl leading-relaxed mb-12"
+          className="font-mono text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed mb-12"
         >
           J&apos;aide les entreprises à transformer leurs idées en interfaces claires,
           rapides et efficaces — du design jusqu&apos;à l&apos;intégration frontend.
@@ -98,7 +120,7 @@ export function HeroSection() {
         <div data-animate className="flex flex-wrap items-center justify-start gap-4">
           <Link
             href="#portfolio"
-            className="group flex items-center gap-3 bg-[#DA7757] text-[#020202] font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:bg-white transition-colors duration-300"
+            className="group flex items-center gap-3 bg-[#DA7757] text-[#020202] font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:bg-foreground hover:text-background transition-colors duration-300"
           >
             <span>Voir mes projets</span>
             <svg
@@ -119,22 +141,22 @@ export function HeroSection() {
           </Link>
           <Link
             href="#contact"
-            className="flex items-center gap-3 border border-[rgba(255,255,255,0.2)] text-white font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
+            className="flex items-center gap-3 border border-border text-foreground font-sans font-bold text-sm uppercase tracking-wider px-8 py-4 rounded-full hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
           >
             Me contacter
           </Link>
         </div>
       </div>
 
-      {/* Scroll indicator — centré en bas */}
+      {/* Scroll indicator */}
       <div
         data-animate
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
       >
-        <span className="font-mono text-[10px] text-[rgba(255,255,255,0.25)] uppercase tracking-widest">
+        <span className="font-mono text-[10px] text-foreground/25 uppercase tracking-widest">
           Scroll
         </span>
-        <div className="w-px h-12 bg-gradient-to-b from-[rgba(255,255,255,0.2)] to-transparent" />
+        <div className="w-px h-12 bg-gradient-to-b from-foreground/20 to-transparent" />
       </div>
     </section>
   );

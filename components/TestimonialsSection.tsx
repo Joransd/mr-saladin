@@ -4,7 +4,7 @@ import { Testimonial } from "@/components/ui/clean-testimonial";
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="py-24 bg-[#020202]">
+    <section id="testimonials" className="py-24 bg-background">
       <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
         <div className="mb-4">
@@ -12,7 +12,7 @@ export function TestimonialsSection() {
             Ce qu&apos;ils disent
           </span>
           <h2
-            className="font-sans font-bold uppercase leading-none text-white"
+            className="font-sans font-bold uppercase leading-none text-foreground"
             style={{ fontSize: "clamp(2.5rem, 6vw, 6rem)" }}
           >
             Ils m&apos;ont fait

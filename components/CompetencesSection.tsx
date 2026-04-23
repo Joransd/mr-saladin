@@ -45,7 +45,7 @@ const COMPETENCES: Category[] = [
 
 export function CompetencesSection() {
   return (
-    <section id="competences" className="py-24 bg-[#020202]">
+    <section id="competences" className="py-24 bg-background">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="px-6 mb-4 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -53,13 +53,13 @@ export function CompetencesSection() {
             <span className="font-mono text-[11px] text-[#DA7757] uppercase tracking-[0.25em] mb-3 block">
               Expertise
             </span>
-            <h2 className="font-sans font-bold text-5xl md:text-6xl text-white uppercase leading-none">
+            <h2 className="font-sans font-bold text-5xl md:text-6xl text-foreground uppercase leading-none">
               Mes
               <br />
               <span className="text-outline">compétences</span>
             </h2>
           </div>
-          <p className="font-mono text-sm text-[rgba(255,255,255,0.4)] max-w-sm leading-relaxed">
+          <p className="font-mono text-sm text-muted-foreground max-w-sm leading-relaxed">
             Capable de concevoir, prototyper et intégrer — sans dépendre d&apos;une
             chaîne de production complexe.
           </p>

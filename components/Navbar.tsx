@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MenuVertical } from "@/components/ui/menu-vertical";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const NAV_ITEMS = [
   { label: "Accueil", href: "#hero" },
@@ -19,6 +20,10 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -41,11 +46,14 @@ export function Navbar() {
 
   const showSidebar = isDesktop && !scrolled;
   const showBurger = !isDesktop || scrolled;
+  const isDark = theme === "dark";
 
   const navItemsWithClose = NAV_ITEMS.map((item) => ({
     ...item,
     onClick: () => setMenuOpen(false),
   }));
+
+  const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
   return (
     <>
@@ -62,14 +70,54 @@ export function Navbar() {
           >
             <div />
             <MenuVertical menuItems={navItemsWithClose} color="#DA7757" skew={-3} align="right" />
-            <p className="font-mono text-xs text-[rgba(255,255,255,0.3)]">
+            <p className="font-mono text-xs text-muted-foreground">
               © 2025 Joran Saladin
             </p>
           </motion.nav>
         )}
       </AnimatePresence>
 
-      {/* ── BURGER BUTTON ── */}
+      {/* ── THEME TOGGLE — toujours visible ── */}
+      <AnimatePresence>
+        {!menuOpen && mounted && (
+          <motion.button
+            key="theme-toggle"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={toggleTheme}
+            aria-label="Changer de thème"
+            className={`fixed top-4 z-50 w-12 h-12 flex items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur-md text-foreground hover:border-accent hover:text-accent transition-colors duration-300 ${showBurger ? "right-[4.5rem]" : "right-4"}`}
+          >
+            <AnimatePresence mode="wait">
+              {isDark ? (
+                <motion.span
+                  key="sun"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Sun className="w-4 h-4" />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="moon"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Moon className="w-4 h-4" />
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* ── BURGER — visible quand sidebar masquée ── */}
       <AnimatePresence>
         {showBurger && !menuOpen && (
           <motion.button
@@ -80,14 +128,14 @@ export function Navbar() {
             transition={{ duration: 0.25 }}
             onClick={() => setMenuOpen(true)}
             aria-label="Ouvrir le menu"
-            className="fixed top-4 right-4 z-50 w-12 h-12 flex items-center justify-center rounded-full border border-[rgba(255,255,255,0.15)] bg-[#020202]/80 backdrop-blur-md text-white hover:border-[#DA7757] hover:text-[#DA7757] transition-colors duration-300"
+            className="fixed top-4 right-4 z-50 w-12 h-12 flex items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur-md text-foreground hover:border-accent hover:text-accent transition-colors duration-300"
           >
             <Menu className="w-5 h-5" />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {/* ── FULL SCREEN OVERLAY ── */}
+      {/* ── FULL SCREEN OVERLAY (toujours dark) ── */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -130,6 +178,7 @@ export function Navbar() {
                 menuItems={navItemsWithClose}
                 color="#DA7757"
                 skew={-5}
+                textClass="text-white"
               />
             </motion.div>
 

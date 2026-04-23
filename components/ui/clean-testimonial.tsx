@@ -194,7 +194,7 @@ export function Testimonial() {
               filter: i === activeIndex ? "grayscale(0)" : "grayscale(1)",
               boxShadow: i === activeIndex
                 ? "0 0 0 2px #DA7757, 0 0 8px rgba(218,119,87,0.4)"
-                : "0 0 0 2px #020202",
+                : "0 0 0 2px var(--background)",
             }}
             whileHover={{
               opacity: i === activeIndex ? 1 : 0.7,
