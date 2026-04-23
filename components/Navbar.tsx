@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { MenuVertical } from "@/components/ui/menu-vertical";
 import { Menu, X, Sun, Moon } from "lucide-react";
@@ -17,6 +18,8 @@ export function Navbar() {
   const langRef = useRef<HTMLDivElement>(null);
   const { theme, setTheme } = useTheme();
   const { lang, toggle: toggleLang, t } = useLanguage();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -54,13 +57,14 @@ export function Navbar() {
   const showBurger = !isDesktop || scrolled;
   const isDark = theme === "dark";
 
+  const prefix = isHome ? "" : "/";
   const NAV_ITEMS = [
-    { label: t.nav.home, href: "#hero" },
-    { label: t.nav.experience, href: "#experience" },
-    { label: t.nav.ia, href: "#ia" },
-    { label: t.nav.competences, href: "#competences" },
-    { label: t.nav.portfolio, href: "#portfolio" },
-    { label: t.nav.contact, href: "#contact" },
+    { label: t.nav.home, href: `${prefix}#hero` },
+    { label: t.nav.experience, href: `${prefix}#experience` },
+    { label: t.nav.ia, href: `${prefix}#ia` },
+    { label: t.nav.competences, href: `${prefix}#competences` },
+    { label: t.nav.portfolio, href: `${prefix}#portfolio` },
+    { label: t.nav.contact, href: `${prefix}#contact` },
   ];
 
   const navItemsWithClose = NAV_ITEMS.map((item) => ({
