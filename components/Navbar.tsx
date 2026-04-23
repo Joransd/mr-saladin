@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { MenuVertical } from "@/components/ui/menu-vertical";
 import { Menu, X, Sun, Moon } from "lucide-react";
@@ -13,6 +13,8 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
   const { theme, setTheme } = useTheme();
   const { lang, toggle: toggleLang, t } = useLanguage();
 
@@ -36,6 +38,17 @@ export function Navbar() {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
+
+  useEffect(() => {
+    if (!langOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [langOpen]);
 
   const showSidebar = isDesktop && !scrolled;
   const showBurger = !isDesktop || scrolled;
@@ -82,18 +95,56 @@ export function Navbar() {
       {/* ── LANG TOGGLE — toujours visible ── */}
       <AnimatePresence>
         {!menuOpen && mounted && (
-          <motion.button
+          <motion.div
+            ref={langRef}
             key="lang-toggle"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            onClick={toggleLang}
-            aria-label="Switch language"
-            className={`fixed top-4 z-50 w-12 h-12 flex items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur-md text-foreground hover:border-accent hover:text-accent transition-colors duration-300 font-mono text-[10px] font-bold tracking-wider ${showBurger ? "right-32" : "right-[4.5rem]"}`}
+            className={`fixed top-4 z-50 ${showBurger ? "right-32" : "right-[4.5rem]"}`}
           >
-            {lang === "fr" ? "EN" : "FR"}
-          </motion.button>
+            <motion.div
+              animate={{
+                height: langOpen ? 88 : 48,
+                borderRadius: langOpen ? 22 : 9999,
+                borderColor: langOpen ? "rgba(218,119,87,0.5)" : "var(--border)",
+              }}
+              transition={{ type: "spring", damping: 22, stiffness: 320 }}
+              className="w-12 border bg-background/80 backdrop-blur-md overflow-hidden flex flex-col items-center"
+            >
+              {/* Langue active — toujours visible */}
+              <button
+                onClick={() => setLangOpen((o) => !o)}
+                aria-label="Switch language"
+                className="w-12 h-12 flex items-center justify-center font-mono text-[10px] font-bold tracking-wider shrink-0 transition-colors duration-200"
+                style={{ color: langOpen ? "#DA7757" : "var(--foreground)" }}
+              >
+                {lang.toUpperCase()}
+              </button>
+
+              {/* Autre langue — révélée à l'ouverture */}
+              <AnimatePresence>
+                {langOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.15, delay: 0.04 }}
+                    className="flex flex-col items-center w-full"
+                  >
+                    <div className="w-5 h-px bg-[#DA7757]/40 mb-0.5" />
+                    <button
+                      onClick={() => { toggleLang(); setLangOpen(false); }}
+                      className="w-12 h-9 flex items-center justify-center font-mono text-[10px] font-bold tracking-wider text-muted-foreground hover:text-accent transition-colors duration-150"
+                    >
+                      {lang === "fr" ? "EN" : "FR"}
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 

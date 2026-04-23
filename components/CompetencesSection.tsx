@@ -14,6 +14,13 @@ const CATEGORY_ICONS = [
 
 const CATEGORY_IDS = [1, 2, 3, 4, 5];
 const CATEGORY_FEATURED = [true, false, false, false, false];
+const CATEGORY_HREFS: (string | undefined)[] = [
+  undefined,
+  undefined,
+  undefined,
+  "/design-system",
+  undefined,
+];
 
 export function CompetencesSection() {
   const { t } = useLanguage();
@@ -24,6 +31,7 @@ export function CompetencesSection() {
     subtitle: cat.subtitle,
     icon: CATEGORY_ICONS[i],
     featured: CATEGORY_FEATURED[i],
+    href: CATEGORY_HREFS[i],
   }));
 
   return (
