@@ -3,6 +3,8 @@ import { Oswald, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { LenisProvider } from "@/components/LenisProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ThemeProvider } from "next-themes";
+import Script from "next/script";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -75,11 +77,26 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`dark ${oswald.variable} ${jetbrains.variable}`}
+      className={`${oswald.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
     >
-      <body className="bg-[#020202] text-white antialiased">
-        <LenisProvider>{children}</LenisProvider>
-        <SpeedInsights />
+      <body className="bg-background text-foreground antialiased">
+        <Script id="suppress-extension-errors" strategy="beforeInteractive">{`
+          (function(){
+            window.addEventListener('unhandledrejection', function(e) {
+              var s = (e.reason && e.reason.stack) || '';
+              var m = (e.reason && e.reason.message) || '';
+              if (s.indexOf('chrome-extension://') !== -1 || m.toLowerCase().indexOf('metamask') !== -1 || m.toLowerCase().indexOf('failed to connect') !== -1) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+              }
+            }, true);
+          })();
+        `}</Script>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <LenisProvider>{children}</LenisProvider>
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   );

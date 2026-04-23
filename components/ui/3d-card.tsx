@@ -49,7 +49,7 @@ export const InteractiveTravelCard = React.forwardRef<
         onMouseLeave={handleMouseLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
         className={cn(
-          "relative h-[26rem] w-80 rounded-2xl bg-transparent shadow-2xl border border-[rgba(255,255,255,0.1)]",
+          "relative h-[26rem] w-80 rounded-2xl bg-transparent shadow-2xl border border-border",
           className
         )}
       >
@@ -62,7 +62,7 @@ export const InteractiveTravelCard = React.forwardRef<
             src={imageUrl}
             alt={`${title}, ${subtitle}`}
             fill
-            sizes="(max-width: 640px) 100vw, 640px"
+            sizes="(max-width: 640px) 100vw, 320px"
             className="rounded-xl object-cover"
             priority={false}
           />
