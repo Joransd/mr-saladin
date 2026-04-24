@@ -353,13 +353,15 @@ export function DesignSystemPage() {
             <div className="space-y-3">
               {SPACING.map((s, i) => (
                 <FadeUp key={s.label} delay={i * 0.04}>
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-4">
                     <span className="font-mono text-[10px] text-muted-foreground/50 w-6 text-right shrink-0">{s.label}</span>
-                    <div className="h-7 bg-accent/20 border border-accent/30 shrink-0 flex items-center justify-center"
-                      style={{ width: `${(s.px / 128) * 100}%`, minWidth: "4px", maxWidth: "100%" }}>
-                      <span className={cn("font-mono text-[9px] text-accent/70 px-1", s.px < 24 ? "hidden" : "")}>{s.px}px</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="h-7 bg-accent/20 border border-accent/30 flex items-center justify-center"
+                        style={{ width: `${(s.px / 128) * 100}%`, minWidth: "4px", maxWidth: "100%" }}>
+                        <span className={cn("font-mono text-[9px] text-accent/70 px-1", s.px < 24 ? "hidden" : "")}>{s.px}px</span>
+                      </div>
                     </div>
-                    <div className="flex gap-4 shrink-0">
+                    <div className="flex gap-3 shrink-0">
                       <span className="font-mono text-[10px] text-muted-foreground">{s.rem}</span>
                       <span className="font-mono text-[10px] text-muted-foreground/40">{s.px}px</span>
                     </div>
